@@ -1,0 +1,37 @@
+.instagram {
+  padding: 24px 0 48px;
+}
+
+.instagram ul {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 4px;
+}
+
+.instagram img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+@media (max-width: 1100px) {
+  .instagram ul {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .instagram {
+    padding: 16px 0 32px;
+  }
+
+  .instagram ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .instagram ul {
+    gap: 2px;
+  }
+}

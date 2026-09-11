@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Account — CORAL</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header class="header" id="top">
+      <div class="container header__top">
+        <p class="logo"><a href="index.html">CORAL</a></p>
+      </div>
+    </header>
+    <main class="container page">
+      <h1>Account</h1>
+      <section aria-labelledby="signin-title">
+        <h2 id="signin-title">Sign in</h2>
+        <form action="#" method="post">
+          <p>
+            <label for="login-email">Email</label>
+            <input id="login-email" type="email" name="email" autocomplete="email" required />
+          </p>
+          <p>
+            <label for="login-password">Password</label>
+            <input
+              id="login-password"
+              type="password"
+              name="password"
+              autocomplete="current-password"
+              required
+            />
+          </p>
+          <button class="btn" type="submit">Sign in</button>
+        </form>
+      </section>
+      <section aria-labelledby="register-title">
+        <h2 id="register-title">Create account</h2>
+        <form action="#" method="post">
+          <p>
+            <label for="reg-name">Name</label>
+            <input id="reg-name" type="text" name="name" autocomplete="name" required />
+          </p>
+          <p>
+            <label for="reg-email">Email</label>
+            <input id="reg-email" type="email" name="email" autocomplete="email" required />
+          </p>
+          <p>
+            <label for="reg-password">Password</label>
+            <input
+              id="reg-password"
+              type="password"
+              name="password"
+              autocomplete="new-password"
+              required
+            />
+          </p>
+          <p>
+            <label for="reg-password-repeat">Repeat password</label>
+            <input
+              id="reg-password-repeat"
+              type="password"
+              name="password_repeat"
+              autocomplete="new-password"
+              required
+            />
+          </p>
+          <button class="btn" type="submit">Create account</button>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

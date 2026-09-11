@@ -1,0 +1,28 @@
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 24px;
+}
+
+.tabs a {
+  font-size: 14px;
+  color: var(--color-black-50);
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+}
+
+.tabs a.tabs__link_active {
+  color: var(--color-black);
+  border-bottom-color: var(--color-black);
+}
+
+@media (max-width: 480px) {
+  .tabs {
+    gap: 8px 16px;
+  }
+
+  .tabs a {
+    font-size: 13px;
+  }
+}

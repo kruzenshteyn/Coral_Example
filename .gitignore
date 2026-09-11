@@ -1,0 +1,15 @@
+design/schema.bin
+design/message.bin
+design/preview/
+design/_copy_preview.py
+design/_prepare_assets.py
+__pycache__/
+*.pyc
+.DS_Store
+node_modules/
+venv/
+.env
+stage-06-server/**/data/store.json
+stage-06-server/django/db.sqlite3
+**/coral.db
+**/node_modules/

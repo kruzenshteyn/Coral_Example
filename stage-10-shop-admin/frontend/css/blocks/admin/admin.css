@@ -1,0 +1,19 @@
+.admin-form {
+  max-width: 560px;
+}
+
+.admin-form .form__row {
+  margin-bottom: 14px;
+}
+
+.admin-form input,
+.admin-form textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--color-stroke);
+  font: inherit;
+}
+
+.admin-status {
+  margin-top: 16px;
+}

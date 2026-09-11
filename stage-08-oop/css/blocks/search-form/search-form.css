@@ -1,0 +1,31 @@
+.search-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.search-form input {
+  width: min(220px, 28vw);
+  border: 0;
+  border-bottom: 1px solid var(--color-stroke);
+  padding: 6px 0;
+  background: transparent;
+}
+
+.search-form button {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: var(--color-black);
+  padding: 6px;
+}
+
+@media (max-width: 768px) {
+  .search-form input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+  }
+}

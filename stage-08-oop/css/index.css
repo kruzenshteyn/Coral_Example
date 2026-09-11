@@ -1,0 +1,31 @@
+/* Этап 7: точка сборки. Сборщик не нужен — браузер сам подтянет @import. */
+
+@import url("common/variables.css");
+@import url("common/reset.css");
+@import url("common/typography.css");
+@import url("common/container.css");
+
+@import url("blocks/btn/btn.css");
+@import url("blocks/header/header.css");
+@import url("blocks/search-form/search-form.css");
+@import url("blocks/logo/logo.css");
+@import url("blocks/user-nav/user-nav.css");
+@import url("blocks/burger/burger.css");
+@import url("blocks/menu/menu.css");
+@import url("blocks/hero/hero.css");
+@import url("blocks/brands/brands.css");
+@import url("blocks/categories/categories.css");
+@import url("blocks/products/products.css");
+@import url("blocks/product-card/product-card.css");
+@import url("blocks/banner/banner.css");
+@import url("blocks/bestsellers/bestsellers.css");
+@import url("blocks/tabs/tabs.css");
+@import url("blocks/instagram/instagram.css");
+@import url("blocks/newsletter/newsletter.css");
+@import url("blocks/footer/footer.css");
+@import url("blocks/social/social.css");
+@import url("blocks/page/page.css");
+@import url("blocks/product-page/product-page.css");
+@import url("blocks/modal/modal.css");
+@import url("blocks/modal-tabs/modal-tabs.css");
+@import url("blocks/form/form.css");

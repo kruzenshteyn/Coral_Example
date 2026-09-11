@@ -1,0 +1,19 @@
+:root {
+  --color-primary: #9e5cf2;
+  --color-primary-75: #b184f5;
+  --color-black: #1e2832;
+  --color-black-50: #8f9499;
+  --color-white: #ffffff;
+  --color-dark: #000000;
+  --color-stroke: #e3e3e3;
+  --color-page: #ffffff;
+  --font-head: "Roboto", sans-serif;
+  --font-body: "Open Sans", sans-serif;
+  --container: 1320px;
+  --gap: 24px;
+  --header-h: 72px;
+  --shadow: 0 8px 24px rgba(30, 40, 50, 0.08);
+  --bp-tablet: 1100px;
+  --bp-mobile: 768px;
+  --bp-phone: 480px;
+}

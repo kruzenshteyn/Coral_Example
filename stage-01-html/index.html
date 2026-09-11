@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CORAL — Collections</title>
+  </head>
+  <body>
+    <!-- Шапка: поиск, логотип, вход и корзина. Человек всегда видит, где он. -->
+    <header class="header">
+      <div class="header-top">
+        <form class="search-form" action="#" method="get" role="search">
+          <label for="site-search">Search</label>
+          <input
+            id="site-search"
+            type="search"
+            name="q"
+            placeholder="Search"
+            autocomplete="off"
+          />
+          <button type="submit">Search</button>
+        </form>
+
+        <p class="logo">
+          <a href="index.html">CORAL</a>
+        </p>
+
+        <ul class="user-nav">
+          <li>
+            <a href="login.html">Account</a>
+          </li>
+          <li>
+            <a href="#cart">Shopping</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Меню отделов магазина. Это навигация, не просто список слов. -->
+      <nav class="menu" aria-label="Catalog">
+        <ul>
+          <li><a href="#products">Jewelry &amp; Accessories</a></li>
+          <li><a href="#products">Clothing &amp; Shoes</a></li>
+          <li><a href="#products">Home &amp; Living</a></li>
+          <li><a href="#products">Wedding &amp; Party</a></li>
+          <li><a href="#products">Toys &amp; Entertainment</a></li>
+          <li><a href="#products">Art &amp; Collectibles</a></li>
+          <li><a href="#products">Craft Supplies &amp; Tools</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Герой: первый экран. Один главный заголовок и ссылка к товарам. -->
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-gallery">
+          <img
+            src="images/hero-left.jpg"
+            width="640"
+            height="800"
+            alt="Woman in a brown wrap dress walking in the city"
+          />
+          <img
+            src="images/hero-right.jpg"
+            width="640"
+            height="800"
+            alt="Woman jumping in a striped skirt and leather jacket"
+          />
+        </div>
+        <div class="hero-content">
+          <h1 id="hero-title">Collections</h1>
+          <p>
+            you can explore ans shop many differnt collection from various
+            barands here.
+          </p>
+          <a class="btn" href="#products">Shop now</a>
+        </div>
+      </section>
+
+      <!-- Ряд брендов: «здесь продают известные марки». -->
+      <section class="brands" aria-label="Brands">
+        <ul>
+          <li>Brand 1</li>
+          <li>Brand 2</li>
+          <li>Brand 3</li>
+          <li>Brand 4</li>
+          <li>Brand 5</li>
+        </ul>
+      </section>
+
+      <!-- Крупные плитки отделов (пальто, брюки…). Не одна модель, а вход в категорию. -->
+      <section class="categories" aria-labelledby="categories-title">
+        <h2 id="categories-title">Explore new and popular styles</h2>
+        <ul>
+          <li>
+            <a href="#products">
+              <img
+                src="images/category-manto.jpg"
+                width="400"
+                height="500"
+                alt="Manto collection look"
+              />
+              <span>Manto</span>
+              <span>86 product</span>
+            </a>
+          </li>
+          <li>
+            <a href="#products">
+              <img
+                src="images/category-pants.jpg"
+                width="400"
+                height="500"
+                alt="Pink joggers"
+              />
+              <span>Pants</span>
+              <span>200 product</span>
+            </a>
+          </li>
+          <li>
+            <a href="#products">
+              <img
+                src="images/category-coat.jpg"
+                width="400"
+                height="500"
+                alt="Camel coat"
+              />
+              <span>Coat</span>
+              <span>520 product</span>
+            </a>
+          </li>
+          <li>
+            <a href="#products">
+              <img
+                src="images/category-shirt.jpg"
+                width="400"
+                height="500"
+                alt="Black cardigan"
+              />
+              <span>Shirt</span>
+              <span>320 product</span>
+            </a>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Сетка товаров: одна карточка = один артикул (фото, имя, цена). -->
+      <section class="products" id="products" aria-labelledby="products-title">
+        <h2 id="products-title">Products</h2>
+        <ul class="product-list">
+          <li>
+            <article class="product-card">
+              <a href="product.html">
+                <img
+                  src="images/category-pants.jpg"
+                  width="400"
+                  height="500"
+                  alt="Adicolor Classics Joggers"
+                />
+                <h3>Adicolor Classics Joggers</h3>
+              </a>
+              <p>Dress</p>
+              <p><data value="63.85">$63.85</data></p>
+              <a href="product.html">View product</a>
+            </article>
+          </li>
+          <li>
+            <article class="product-card">
+              <a href="product.html">
+                <img
+                  src="images/product-nike-bag.jpg"
+                  width="400"
+                  height="500"
+                  alt="Nike Sportswear Futura Luxe backpack"
+                />
+                <h3>Nike Sportswear Futura Luxe</h3>
+              </a>
+              <p>Bag</p>
+              <p><data value="130.00">$130.00</data></p>
+              <a href="product.html">View product</a>
+            </article>
+          </li>
+          <li>
+            <article class="product-card">
+              <a href="product.html">
+                <img
+                  src="images/product-scarf.jpg"
+                  width="400"
+                  height="500"
+                  alt="Geometric print scarf"
+                />
+                <h3>Geometric print Scarf</h3>
+              </a>
+              <p>Scarf</p>
+              <p><data value="53.00">$53.00</data></p>
+              <a href="product.html">View product</a>
+            </article>
+          </li>
+          <li>
+            <article class="product-card">
+              <p>Sale</p>
+              <a href="product.html">
+                <img
+                  src="images/category-manto.jpg"
+                  width="400"
+                  height="500"
+                  alt="Yellow Reserved Hoodie"
+                />
+                <h3>Yellow Reserved Hoodie</h3>
+              </a>
+              <p>Dress</p>
+              <p>
+                <s><data value="364.00">$364.00</data></s>
+                <data value="155.00">$155.00</data>
+              </p>
+              <a href="product.html">View product</a>
+            </article>
+          </li>
+          <li>
+            <article class="product-card">
+              <a href="product.html">
+                <img
+                  src="images/product-green-dress.jpg"
+                  width="400"
+                  height="500"
+                  alt="Basic Dress Green"
+                />
+                <h3>Basic Dress Green</h3>
+              </a>
+              <p>Dress</p>
+              <p><data value="236.00">$236.00</data></p>
+              <a href="product.html">View product</a>
+            </article>
+          </li>
+          <li>
+            <article class="product-card">
+              <p>Hot</p>
+              <a href="product.html">
+                <img
+                  src="images/hero-right.jpg"
+                  width="400"
+                  height="500"
+                  alt="Nike Air Zoom Pegasus sneakers"
+                />
+                <h3>Nike Air Zoom Pegasus</h3>
+              </a>
+              <p>Shoe</p>
+              <p><data value="198.00">$198.00</data></p>
+              <a href="product.html">View product</a>
+            </article>
+          </li>
+          <li>
+            <article class="product-card">
+              <a href="product.html">
+                <img
+                  src="images/product-floral-dress.jpg"
+                  width="400"
+                  height="500"
+                  alt="Nike Repel Miler"
+                />
+                <h3>Nike Repel Miler</h3>
+              </a>
+              <p>Dress</p>
+              <p><data value="120.50">$120.50</data></p>
+              <a href="product.html">View product</a>
+            </article>
+          </li>
+          <li>
+            <article class="product-card">
+              <a href="product.html">
+                <img
+                  src="images/product-jacket.jpg"
+                  width="400"
+                  height="500"
+                  alt="Sunglasses and black jacket"
+                />
+                <h3>Glasses</h3>
+              </a>
+              <p>Glasses</p>
+              <p><data value="160.00">$160.00</data></p>
+              <a href="product.html">View product</a>
+            </article>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Рекламный баннер коллекции, не карточка товара. -->
+      <section class="banner" aria-labelledby="banner-title">
+        <img
+          src="images/banner-zara.jpg"
+          width="960"
+          height="720"
+          alt="Model in a red evening dress"
+        />
+        <div>
+          <img src="images/logo-zara.png" width="200" height="80" alt="Zara" />
+          <p>70%</p>
+          <h2 id="banner-title">
+            Lustrous yet understated. The new evening wear collection
+            exclusively offered at the reopened Giorgio Armani boutique in Los
+            Angeles.
+          </h2>
+          <a class="btn" href="#products">See collection</a>
+        </div>
+      </section>
+
+      <!-- Хиты продаж. Табы ниже — фильтр этого списка, не новые страницы. -->
+      <section class="bestsellers" aria-labelledby="bestsellers-title">
+        <h2 id="bestsellers-title">Best sellers</h2>
+        <ul class="tabs" role="list">
+          <li><a href="#products">All products</a></li>
+          <li><a href="#products">Dress</a></li>
+          <li><a href="#products">Bag</a></li>
+          <li><a href="#products">Shoe</a></li>
+        </ul>
+        <p><a href="#products">Show all</a></p>
+        <ul class="product-list">
+          <li>
+            <article class="product-card">
+              <a href="product.html">
+                <img
+                  src="images/product-green-dress.jpg"
+                  width="400"
+                  height="500"
+                  alt="Basic Dress Green"
+                />
+                <h3>Basic Dress Green</h3>
+              </a>
+              <p>Dress</p>
+              <p><data value="236.00">$236.00</data></p>
+            </article>
+          </li>
+          <li>
+            <article class="product-card">
+              <a href="product.html">
+                <img
+                  src="images/category-manto.jpg"
+                  width="400"
+                  height="500"
+                  alt="Yellow Reserved Hoodie"
+                />
+                <h3>Yellow Reserved Hoodie</h3>
+              </a>
+              <p>Dress</p>
+              <p><data value="155.00">$155.00</data></p>
+            </article>
+          </li>
+          <li>
+            <article class="product-card">
+              <a href="product.html">
+                <img
+                  src="images/hero-right.jpg"
+                  width="400"
+                  height="500"
+                  alt="Nike Air Zoom Pegasus"
+                />
+                <h3>Nike Air Zoom Pegasus</h3>
+              </a>
+              <p>Shoe</p>
+              <p><data value="198.00">$198.00</data></p>
+            </article>
+          </li>
+          <li>
+            <article class="product-card">
+              <a href="product.html">
+                <img
+                  src="images/product-nike-bag.jpg"
+                  width="400"
+                  height="500"
+                  alt="Nike Sportswear Futura Luxe"
+                />
+                <h3>Nike Sportswear Futura Luxe</h3>
+              </a>
+              <p>Bag</p>
+              <p><data value="130.00">$130.00</data></p>
+            </article>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Живые фото «как носят». Для учёбы это просто ряд картинок. -->
+      <section class="instagram" aria-labelledby="instagram-title">
+        <h2 id="instagram-title">
+          Follow products and discounts on Instagram
+        </h2>
+        <ul>
+          <li>
+            <img
+              src="images/instagram-beach.jpg"
+              width="300"
+              height="300"
+              alt="Look from Instagram"
+            />
+          </li>
+          <li>
+            <img
+              src="images/product-wrap-dress.jpg"
+              width="300"
+              height="300"
+              alt="Floral wrap dress"
+            />
+          </li>
+          <li>
+            <img
+              src="images/product-leather-bag.jpg"
+              width="300"
+              height="300"
+              alt="Leather bag on the beach"
+            />
+          </li>
+          <li>
+            <img
+              src="images/instagram-watch.jpg"
+              width="300"
+              height="300"
+              alt="Watch and bracelet"
+            />
+          </li>
+          <li>
+            <img
+              src="images/hero-right.jpg"
+              width="300"
+              height="300"
+              alt="Street style look"
+            />
+          </li>
+          <li>
+            <img
+              src="images/product-watch.jpg"
+              width="300"
+              height="300"
+              alt="Gold watch"
+            />
+          </li>
+        </ul>
+      </section>
+
+      <!-- Форма почты: магазин просит email. Нужны label и кнопка submit. -->
+      <section class="newsletter" aria-labelledby="newsletter-title">
+        <h2 id="newsletter-title">Or subscribe to the newsletter</h2>
+        <form action="#" method="post">
+          <label for="newsletter-email">Email address</label>
+          <input
+            id="newsletter-email"
+            type="email"
+            name="email"
+            placeholder="Email address..."
+            autocomplete="email"
+            required
+          />
+          <button type="submit">Submit</button>
+        </form>
+      </section>
+    </main>
+
+    <!-- Подвал: служебные ссылки и копирайт. -->
+    <footer class="footer">
+      <section class="footer-about">
+        <p class="logo"><a href="index.html">CORAL</a></p>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua
+        </p>
+        <ul class="social">
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">Instagram</a></li>
+        </ul>
+      </section>
+
+      <nav aria-labelledby="footer-catalog">
+        <h2 id="footer-catalog">Catalog</h2>
+        <ul>
+          <li><a href="#products">Necklaces</a></li>
+          <li><a href="#products">Hoodies</a></li>
+          <li><a href="#products">Jewelry Box</a></li>
+          <li><a href="#products">T-shirt</a></li>
+        </ul>
+      </nav>
+
+      <nav aria-labelledby="footer-about">
+        <h2 id="footer-about">About us</h2>
+        <ul>
+          <li><a href="#">Our Producers</a></li>
+          <li><a href="#">Sitemap</a></li>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Terms &amp; Conditions</a></li>
+        </ul>
+      </nav>
+
+      <nav aria-labelledby="footer-service">
+        <h2 id="footer-service">Customer services</h2>
+        <ul>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Track Your Order</a></li>
+          <li><a href="#">Product Care &amp; Repair</a></li>
+          <li><a href="#">Book an Appointment</a></li>
+          <li><a href="#">Shipping &amp; Returns</a></li>
+        </ul>
+      </nav>
+
+      <p>© 2022 Coral , Inc.</p>
+      <p><a href="#top">Scroll to top</a></p>
+    </footer>
+
+    <!-- Окно входа: в макете отдельного экрана нет, рисуем сами. Скрыто без JS. -->
+    <div
+      class="modal"
+      id="modal-auth"
+      hidden
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="auth-title"
+    >
+      <div class="modal-dialog">
+        <h2 id="auth-title">Account</h2>
+        <form action="#" method="post">
+          <p>
+            <label for="auth-email">Email</label>
+            <input
+              id="auth-email"
+              type="email"
+              name="email"
+              autocomplete="email"
+              required
+            />
+          </p>
+          <p>
+            <label for="auth-password">Password</label>
+            <input
+              id="auth-password"
+              type="password"
+              name="password"
+              autocomplete="current-password"
+              required
+            />
+          </p>
+          <button type="submit">Sign in</button>
+        </form>
+        <p><a href="login.html">Create account</a></p>
+        <button type="button">Close</button>
+      </div>
+    </div>
+
+    <!-- Окно товара: крупное фото и цена, чтобы не уходить на другую страницу. -->
+    <div
+      class="modal"
+      id="modal-product"
+      hidden
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="product-modal-title"
+    >
+      <div class="modal-dialog">
+        <img
+          src="images/product-green-dress.jpg"
+          width="400"
+          height="500"
+          alt="Basic Dress Green"
+        />
+        <h2 id="product-modal-title">Basic Dress Green</h2>
+        <p>Dress</p>
+        <p><data value="236.00">$236.00</data></p>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        </p>
+        <button type="button">Select product</button>
+        <button type="button">Close</button>
+      </div>
+    </div>
+  </body>
+</html>

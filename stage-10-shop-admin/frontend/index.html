@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CORAL — Collections</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="css/index.css" />
+  </head>
+  <body>
+    <header class="header" id="top">
+      <div class="container header__top">
+        <form class="search-form" action="#" method="get" role="search">
+          <label class="visually-hidden" for="site-search">Search</label>
+          <input
+            id="site-search"
+            type="search"
+            name="q"
+            placeholder="Search"
+            autocomplete="off"
+          />
+          <button type="submit" aria-label="Search">
+            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+          </button>
+        </form>
+
+        <p class="logo"><a href="index.html">CORAL</a></p>
+
+        <div class="header__actions">
+          <ul class="user-nav">
+            <li>
+              <a href="#modal-auth">
+                <i class="fa-regular fa-user" aria-hidden="true"></i>
+                <span data-account-label>Account</span>
+              </a>
+            </li>
+            <li>
+              <button class="logout-btn" type="button" data-logout hidden>Log out</button>
+            </li>
+            <li>
+              <a href="purchases.html">Orders</a>
+            </li>
+            <li data-admin-link hidden>
+              <a href="admin.html">Admin</a>
+            </li>
+            <li>
+              <a href="cart.html">
+                <i class="fa-solid fa-bag-shopping" aria-hidden="true"></i>
+                <span>Cart</span>
+                <span class="cart-count" data-cart-count hidden>0</span>
+              </a>
+            </li>
+          </ul>
+          <button class="burger" type="button" aria-label="Open menu">
+            <i class="fa-solid fa-bars" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+
+      <nav class="menu" aria-label="Catalog">
+        <ul class="container">
+          <li><a href="#products">Jewelry &amp; Accessories</a></li>
+          <li><a href="#products">Clothing &amp; Shoes</a></li>
+          <li><a href="#products">Home &amp; Living</a></li>
+          <li><a href="#products">Wedding &amp; Party</a></li>
+          <li><a href="#products">Toys &amp; Entertainment</a></li>
+          <li><a href="#products">Art &amp; Collectibles</a></li>
+          <li><a href="#products">Craft Supplies &amp; Tools</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero container" aria-labelledby="hero-title">
+        <div class="hero__gallery">
+          <img
+            src="/assets/images/hero-left.jpg"
+            width="640"
+            height="800"
+            alt="Woman in a brown wrap dress walking in the city"
+          />
+          <img
+            src="/assets/images/hero-right.jpg"
+            width="640"
+            height="800"
+            alt="Woman jumping in a striped skirt and leather jacket"
+          />
+        </div>
+        <div class="hero__content">
+          <h1 id="hero-title">Collections</h1>
+          <p>
+            you can explore ans shop many differnt collection from various
+            barands here.
+          </p>
+          <a class="btn" href="#products">Shop now</a>
+        </div>
+      </section>
+
+      <section class="brands" aria-label="Brands">
+        <ul class="container">
+          <li>
+            <img src="/assets/images/brand-salva.png" alt="S. Salva" />
+          </li>
+          <li>
+            <img src="/assets/images/brand-graphic.png" alt="Graphic Studio" />
+          </li>
+          <li>
+            <img src="/assets/images/brand-golden.png" alt="Golden Studio" />
+          </li>
+          <li>
+            <img src="/assets/images/brand-4.png" alt="Brand" />
+          </li>
+          <li>
+            <img src="/assets/images/brand-5.png" alt="Brand" />
+          </li>
+        </ul>
+      </section>
+
+      <section class="categories container" aria-labelledby="categories-title">
+        <h2 id="categories-title">Explore new and popular styles</h2>
+        <ul>
+          <li>
+            <a href="#products">
+              <img
+                src="/assets/images/category-manto.jpg"
+                width="640"
+                height="800"
+                alt="Manto collection look"
+              />
+              <span>Manto</span>
+              <span>86 product</span>
+            </a>
+          </li>
+          <li>
+            <a href="#products">
+              <img
+                src="/assets/images/category-pants.jpg"
+                width="400"
+                height="500"
+                alt="Pink joggers"
+              />
+              <span>Pants</span>
+              <span>200 product</span>
+            </a>
+          </li>
+          <li>
+            <a href="#products">
+              <img
+                src="/assets/images/category-coat.jpg"
+                width="400"
+                height="500"
+                alt="Camel coat"
+              />
+              <span>Coat</span>
+              <span>520 product</span>
+            </a>
+          </li>
+          <li>
+            <a href="#products">
+              <img
+                src="/assets/images/category-shirt.jpg"
+                width="400"
+                height="500"
+                alt="Black cardigan"
+              />
+              <span>Shirt</span>
+              <span>320 product</span>
+            </a>
+          </li>
+        </ul>
+      </section>
+
+      <section class="products container" id="products" aria-labelledby="products-title">
+        <h2 id="products-title">Products</h2>
+        <ul class="products__list" data-catalog>
+          <li class="products__status">Loading products…</li>
+        </ul>
+      </section>
+
+      <section class="banner" aria-labelledby="banner-title">
+        <img
+          src="/assets/images/banner-zara.jpg"
+          width="960"
+          height="720"
+          alt="Model in a red evening dress"
+        />
+        <div class="banner__content">
+          <p class="banner__percent" aria-hidden="true">70%</p>
+          <img
+            class="banner__brand"
+            src="/assets/images/logo-zara.png"
+            width="200"
+            height="80"
+            alt="Zara"
+          />
+          <h2 id="banner-title">
+            Lustrous yet understated. The new evening wear collection
+            exclusively offered at the reopened Giorgio Armani boutique in Los
+            Angeles.
+          </h2>
+          <a class="btn" href="#products">See collection</a>
+        </div>
+      </section>
+
+      <section class="bestsellers container" aria-labelledby="bestsellers-title">
+        <div class="bestsellers__head">
+          <h2 id="bestsellers-title">Best sellers</h2>
+          <ul class="tabs">
+            <li><a class="tabs__link_active" href="#products">All products</a></li>
+            <li><a href="#products">Dress</a></li>
+            <li><a href="#products">Bag</a></li>
+            <li><a href="#products">Shoe</a></li>
+          </ul>
+        </div>
+        <p class="bestsellers__more"><a href="#products">Show all</a></p>
+        <ul class="products__list" data-bestsellers>
+          <li class="products__status">Loading products…</li>
+        </ul>
+      </section>
+
+      <section class="instagram" aria-labelledby="instagram-title">
+        <h2 id="instagram-title">Follow products and discounts on Instagram</h2>
+        <ul>
+          <li>
+            <img
+              src="/assets/images/instagram-beach.jpg"
+              width="300"
+              height="300"
+              alt="Look from Instagram"
+            />
+          </li>
+          <li>
+            <img
+              src="/assets/images/product-wrap-dress.jpg"
+              width="300"
+              height="300"
+              alt="Floral wrap dress"
+            />
+          </li>
+          <li>
+            <img
+              src="/assets/images/product-leather-bag.jpg"
+              width="300"
+              height="300"
+              alt="Leather bag on the beach"
+            />
+          </li>
+          <li>
+            <img
+              src="/assets/images/instagram-watch.jpg"
+              width="300"
+              height="300"
+              alt="Watch and bracelet"
+            />
+          </li>
+          <li>
+            <img
+              src="/assets/images/hero-right.jpg"
+              width="300"
+              height="300"
+              alt="Street style look"
+            />
+          </li>
+          <li>
+            <img
+              src="/assets/images/product-watch.jpg"
+              width="300"
+              height="300"
+              alt="Gold watch"
+            />
+          </li>
+        </ul>
+      </section>
+
+      <section class="newsletter container" aria-labelledby="newsletter-title">
+        <h2 id="newsletter-title">Or subscribe to the newsletter</h2>
+        <form action="#" method="post">
+          <label class="visually-hidden" for="newsletter-email">Email address</label>
+          <input
+            id="newsletter-email"
+            type="email"
+            name="email"
+            placeholder="Email address..."
+            autocomplete="email"
+            required
+          />
+          <button type="submit">Submit</button>
+        </form>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer__grid">
+        <section class="footer__about">
+          <p class="logo"><a href="index.html">CORAL</a></p>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua
+          </p>
+          <ul class="social">
+            <li>
+              <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            </li>
+            <li>
+              <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+            </li>
+            <li>
+              <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+            </li>
+            <li>
+              <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            </li>
+          </ul>
+        </section>
+
+        <nav aria-labelledby="footer-catalog">
+          <h2 id="footer-catalog">Catalog</h2>
+          <ul>
+            <li><a href="#products">Necklaces</a></li>
+            <li><a href="#products">Hoodies</a></li>
+            <li><a href="#products">Jewelry Box</a></li>
+            <li><a href="#products">T-shirt</a></li>
+          </ul>
+        </nav>
+
+        <nav aria-labelledby="footer__about">
+          <h2 id="footer__about">About us</h2>
+          <ul>
+            <li><a href="#">Our Producers</a></li>
+            <li><a href="#">Sitemap</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Terms &amp; Conditions</a></li>
+          </ul>
+        </nav>
+
+        <nav aria-labelledby="footer-service">
+          <h2 id="footer-service">Customer services</h2>
+          <ul>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Track Your Order</a></li>
+            <li><a href="#">Product Care &amp; Repair</a></li>
+            <li><a href="#">Book an Appointment</a></li>
+            <li><a href="#">Shipping &amp; Returns</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="container footer__bar">
+        <p>© 2022 Coral , Inc.</p>
+        <p><a href="#top">Scroll to top</a></p>
+      </div>
+    </footer>
+
+    <div
+      class="modal modal_type_auth"
+      id="modal-auth"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="auth-title"
+    >
+      <a class="modal__overlay" href="#" aria-label="Close"></a>
+      <div class="modal__dialog">
+        <a class="modal__close" href="#" aria-label="Close">&times;</a>
+        <h2 class="modal__title" id="auth-title">Account</h2>
+        <div class="modal-tabs" role="tablist">
+          <button class="modal-tabs__btn modal-tabs__btn_active" type="button" data-tab="signin">
+            Sign in
+          </button>
+          <button class="modal-tabs__btn" type="button" data-tab="register">
+            Create account
+          </button>
+        </div>
+        <form class="form" id="form-signin" action="login.html" method="get">
+          <p class="form__row">
+            <label for="auth-email">Email</label>
+            <input id="auth-email" type="email" name="email" autocomplete="email" required />
+            <span class="form__error">Enter a valid email</span>
+          </p>
+          <p class="form__row">
+            <label for="auth-password">Password</label>
+            <input
+              id="auth-password"
+              type="password"
+              name="password"
+              autocomplete="current-password"
+              required
+            />
+            <span class="form__error">Password must be at least 6 characters</span>
+          </p>
+          <button class="btn" type="submit">Sign in</button>
+          <p class="form__status">Signed in</p>
+        </form>
+        <form class="form form_hidden" id="form-register" action="login.html" method="get">
+          <p class="form__row">
+            <label for="reg-name">Name</label>
+            <input id="reg-name" type="text" name="name" autocomplete="name" required />
+            <span class="form__error">Enter your name</span>
+          </p>
+          <p class="form__row">
+            <label for="reg-email">Email</label>
+            <input id="reg-email" type="email" name="email" autocomplete="email" required />
+            <span class="form__error">Enter a valid email</span>
+          </p>
+          <p class="form__row">
+            <label for="reg-password">Password</label>
+            <input
+              id="reg-password"
+              type="password"
+              name="password"
+              autocomplete="new-password"
+              required
+            />
+            <span class="form__error">Password must be at least 6 characters</span>
+          </p>
+          <p class="form__row">
+            <label for="reg-password-repeat">Repeat password</label>
+            <input
+              id="reg-password-repeat"
+              type="password"
+              name="password_repeat"
+              autocomplete="new-password"
+              required
+            />
+            <span class="form__error">Passwords do not match</span>
+          </p>
+          <button class="btn" type="submit">Create account</button>
+          <p class="form__status">Account created</p>
+        </form>
+      </div>
+    </div>
+
+    <div
+      class="modal modal_type_product"
+      id="modal-product"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="product-modal-title"
+    >
+      <a class="modal__overlay" href="#" aria-label="Close"></a>
+      <div class="modal__dialog">
+        <a class="modal__close" href="#" aria-label="Close">&times;</a>
+        <div class="modal__media">
+          <img
+            id="product-modal-image"
+            src="/assets/images/product-green-dress.jpg"
+            width="400"
+            height="500"
+            alt="Basic Dress Green"
+          />
+        </div>
+        <div class="modal__body">
+          <h2 class="modal__title" id="product-modal-title">Basic Dress Green</h2>
+          <p class="modal__category" id="product-modal-category">Dress</p>
+          <p class="modal__price" id="product-modal-price"><data value="236.00">$236.00</data></p>
+          <p class="modal__text">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </p>
+          <button class="btn" type="button" data-select-product>Add to cart</button>
+          <p><a href="product.html">Open product page</a></p>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="js/App.js"></script>
+  </body>
+</html>
+

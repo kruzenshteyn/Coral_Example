@@ -1,0 +1,14 @@
+.burger {
+  display: none;
+  border: 0;
+  background: transparent;
+  font-size: 22px;
+  cursor: pointer;
+  padding: 6px;
+}
+
+@media (max-width: 768px) {
+  .burger {
+    display: block;
+  }
+}

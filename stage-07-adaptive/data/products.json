@@ -1,0 +1,83 @@
+[
+  {
+    "id": "joggers",
+    "title": "Adicolor Classics Joggers",
+    "category": "Dress",
+    "price": 63.85,
+    "image": "../assets/images/category-pants.jpg",
+    "badge": null,
+    "bestseller": false,
+    "description": "Classic joggers with a relaxed fit. Cotton blend, side pockets."
+  },
+  {
+    "id": "nike-bag",
+    "title": "Nike Sportswear Futura Luxe",
+    "category": "Bag",
+    "price": 130,
+    "image": "../assets/images/product-nike-bag.jpg",
+    "badge": null,
+    "bestseller": true,
+    "description": "Everyday backpack with a drawcord overlay and padded straps."
+  },
+  {
+    "id": "scarf",
+    "title": "Geometric print Scarf",
+    "category": "Scarf",
+    "price": 53,
+    "image": "../assets/images/product-scarf.jpg",
+    "badge": null,
+    "bestseller": false,
+    "description": "Lightweight scarf with a geometric print. Silk-feel finish."
+  },
+  {
+    "id": "hoodie",
+    "title": "Yellow Reserved Hoodie",
+    "category": "Dress",
+    "price": 155,
+    "oldPrice": 364,
+    "image": "../assets/images/category-manto.jpg",
+    "badge": "sale",
+    "bestseller": true,
+    "description": "Oversized hoodie on sale. Soft fleece, dropped shoulders."
+  },
+  {
+    "id": "green-dress",
+    "title": "Basic Dress Green",
+    "category": "Dress",
+    "price": 236,
+    "image": "../assets/images/product-green-dress.jpg",
+    "badge": null,
+    "bestseller": true,
+    "description": "Midi dress with a V-neck and tie waist. Viscose blend."
+  },
+  {
+    "id": "pegasus",
+    "title": "Nike Air Zoom Pegasus",
+    "category": "Shoe",
+    "price": 198,
+    "image": "../assets/images/hero-right.jpg",
+    "badge": "hot",
+    "bestseller": true,
+    "description": "Road-running shoes with Zoom Air cushioning."
+  },
+  {
+    "id": "miler",
+    "title": "Nike Repel Miler",
+    "category": "Dress",
+    "price": 120.5,
+    "image": "../assets/images/product-floral-dress.jpg",
+    "badge": null,
+    "bestseller": false,
+    "description": "Water-repellent layer for cooler weather runs and city walks."
+  },
+  {
+    "id": "glasses",
+    "title": "Glasses",
+    "category": "Glasses",
+    "price": 160,
+    "image": "../assets/images/product-jacket.jpg",
+    "badge": null,
+    "bestseller": false,
+    "description": "Acetate frame sunglasses with UV protection."
+  }
+]

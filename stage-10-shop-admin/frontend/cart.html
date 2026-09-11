@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cart — CORAL</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/index.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="container header__top">
+        <p class="logo"><a href="index.html">CORAL</a></p>
+        <ul class="user-nav">
+          <li><a href="index.html">Shop</a></li>
+          <li><a href="purchases.html">Orders</a></li>
+        </ul>
+      </div>
+    </header>
+    <main class="container page">
+      <h1>Cart</h1>
+      <ul data-cart-list></ul>
+      <p class="cart-total">Total <span data-cart-total>$0.00</span></p>
+      <button class="btn" type="button" data-checkout>Checkout</button>
+      <p data-cart-status></p>
+    </main>
+    <script type="module" src="js/CartPage.js"></script>
+  </body>
+</html>

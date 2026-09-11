@@ -1,0 +1,21 @@
+.modal-tabs {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.modal-tabs__btn {
+  border: 0;
+  background: transparent;
+  padding: 0 0 6px;
+  cursor: pointer;
+  color: var(--color-black-50);
+  border-bottom: 2px solid transparent;
+  font-family: var(--font-head);
+  font-size: 16px;
+}
+
+.modal-tabs__btn_active {
+  color: var(--color-black);
+  border-bottom-color: var(--color-black);
+}

@@ -1,0 +1,29 @@
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-head);
+  font-weight: 500;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.section-title,
+.products h2,
+.bestsellers h2,
+.instagram h2,
+.newsletter h2 {
+  text-align: center;
+  font-size: clamp(24px, 3vw, 37px);
+  margin-bottom: 28px;
+}
+
+@media (max-width: 768px) {
+  .section-title,
+  .products h2,
+  .bestsellers h2,
+  .instagram h2,
+  .newsletter h2 {
+    margin-bottom: 20px;
+  }
+}

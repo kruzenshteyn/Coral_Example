@@ -1,0 +1,16 @@
+.container {
+  width: min(var(--container), calc(100% - 40px));
+  margin-inline: auto;
+}
+
+@media (max-width: 768px) {
+  .container {
+    width: min(var(--container), calc(100% - 32px));
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    width: min(var(--container), calc(100% - 24px));
+  }
+}

@@ -1,0 +1,29 @@
+.logo {
+  margin: 0;
+}
+
+.logo a {
+  font-family: var(--font-head);
+  font-size: 28px;
+  font-weight: 400;
+  letter-spacing: 0.38em;
+  color: var(--color-black);
+}
+
+.logo a:hover {
+  color: var(--color-primary);
+}
+
+@media (max-width: 768px) {
+  .logo a {
+    font-size: 22px;
+    letter-spacing: 0.28em;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo a {
+    font-size: 18px;
+    letter-spacing: 0.16em;
+  }
+}

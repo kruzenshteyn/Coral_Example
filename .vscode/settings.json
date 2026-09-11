@@ -1,0 +1,14 @@
+{
+  "files.encoding": "utf8",
+  "[markdown]": {
+    "editor.wordWrap": "on",
+    "editor.quickSuggestions": {
+      "other": true,
+      "comments": true,
+      "strings": true
+    }
+  },
+  "markdown.preview.typographer": true,
+  "markdown.preview.fontSize": 16,
+  "markdown.preview.openMarkdownLinks": "inPreview"
+}

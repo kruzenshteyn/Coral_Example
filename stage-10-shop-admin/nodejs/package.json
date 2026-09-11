@@ -1,0 +1,12 @@
+{
+  "name": "coral-server",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "express-session": "^1.18.1"
+  }
+}
