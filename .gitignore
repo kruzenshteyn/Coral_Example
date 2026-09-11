@@ -13,3 +13,6 @@ stage-06-server/**/data/store.json
 stage-06-server/django/db.sqlite3
 **/coral.db
 **/node_modules/
+.vscode/
+design/
+**/tests/
