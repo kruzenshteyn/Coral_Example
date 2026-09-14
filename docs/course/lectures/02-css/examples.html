@@ -719,11 +719,14 @@
 
           <div class="grid-2">
             <div class="panel">
-              <h3>flex-direction</h3>
-              <div class="btn-row" style="margin-bottom: 12px">
-                <button class="btn" type="button" id="flex-toggle">Ряд / колонка</button>
+              <h3>flex-direction: row</h3>
+              <div class="flex-demo">
+                <span>Search</span>
+                <span>CORAL</span>
+                <span>Account</span>
               </div>
-              <div class="flex-demo" id="flex-demo">
+              <h3 style="margin-top: 16px">flex-direction: column</h3>
+              <div class="flex-demo is-column">
                 <span>Search</span>
                 <span>CORAL</span>
                 <span>Account</span>
@@ -816,14 +819,10 @@
             </div>
             <div class="panel">
               <h3>--accent в :root</h3>
-              <div class="token-swatch">
-                <div class="swatch" id="swatch"></div>
-                <div>
-                  <p><code>background: var(--accent)</code></p>
-                  <div class="btn-row">
-                    <button class="btn" type="button" id="token-toggle">Сменить токен</button>
-                  </div>
-                </div>
+              <p><code>background: var(--accent)</code> — кнопка и бейдж из одного токена.</p>
+              <div class="btn-row">
+                <span class="btn" style="background: #9e5cf2">accent #9e5cf2</span>
+                <span class="btn" style="background: #1e2832">сменили токен — тот же класс</span>
               </div>
               <p class="note">
                 Не <code>$accent</code> (это SCSS). Контейнер лекции:
@@ -946,22 +945,5 @@ button:focus-visible {
       </div>
     </footer>
 
-    <script>
-      const flexDemo = document.getElementById("flex-demo");
-      document.getElementById("flex-toggle").addEventListener("click", () => {
-        flexDemo.classList.toggle("is-column");
-      });
-
-      const root = document.documentElement;
-      document.getElementById("token-toggle").addEventListener("click", () => {
-        const current = getComputedStyle(root).getPropertyValue("--accent").trim();
-        root.style.setProperty(
-          "--accent",
-          current === "#9e5cf2" || current === "rgb(158, 92, 242)"
-            ? "#1e2832"
-            : "#9e5cf2"
-        );
-      });
-    </script>
   </body>
 </html>

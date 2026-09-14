@@ -660,9 +660,9 @@
           <p class="q">Вопросы 5, 16, 26, 7</p>
           <h2>Шаг 8px, gap, padding, Auto Layout</h2>
           <p>
-            Размеры кратны 4/8/16/24. Между карточками — <code>gap</code>.
-            Внутри блока — <code>padding</code>. Auto Layout в Figma ≈ flex +
-            gap: направление и отступы живут при смене текста.
+            Размеры кратны 4/8/16/24. Между карточками — зазор (spacing between
+            items). Внутри блока — внутренний отступ. Auto Layout в Figma
+            держит направление (ряд / колонка) и зазор, когда текст меняется.
           </p>
 
           <div class="grid-2">
@@ -770,7 +770,7 @@
 
           <div class="grid-2" style="margin-top: 24px">
             <div class="panel">
-              <h3>Один --radius: 8px</h3>
+              <h3>Один токен скругления 8px</h3>
               <div class="radius-row">
                 <button type="button" class="btn">Shop now</button>
                 <input type="email" placeholder="email" aria-label="email" />
@@ -853,23 +853,39 @@
             <h3>Варианты кнопки (компонент)</h3>
             <div class="btn-row">
               <button class="btn" type="button">Default / hover меня</button>
-              <button class="btn" type="button" disabled>Disabled · оформить</button>
+              <button class="btn" type="button" disabled>Disabled</button>
               <a class="btn" href="#grid">Ссылка Shop now</a>
             </div>
             <p class="note" style="margin-top: 12px">
-              Слева и справа выглядят одинаково. Слева — действие
-              (<code>&lt;button&gt;</code>), справа — переход
-              (<code>&lt;a href&gt;</code>). Disabled показывает, что заказать
-              сейчас нельзя, но кнопка остаётся в разметке.
+              Слева и справа выглядят одинаково. Слева — действие на странице,
+              справа — переход. Disabled показывает, что действие сейчас нельзя,
+              но кнопка в макете остаётся.
             </p>
           </div>
 
           <div class="panel" style="margin-top: 24px">
-            <h3>Hidden / off-canvas</h3>
-            <p>Нажмите бургер — это состояние навигации, которого нет на статичном PNG.</p>
-            <button class="burger" type="button" id="open-menu" aria-expanded="false" aria-controls="drawer" aria-label="Открыть меню">
-              <i></i><i></i><i></i>
-            </button>
+            <h3>Hidden / off-canvas — отдельный кадр макета</h3>
+            <div class="grid-2">
+              <div>
+                <p class="note">Desktop: меню видно в шапке</p>
+                <div class="al-row">
+                  <span class="chip">Jewelry</span>
+                  <span class="chip">Clothing</span>
+                  <span class="chip">Home</span>
+                </div>
+              </div>
+              <div>
+                <p class="note">Mobile: меню спрятано, его надо заложить</p>
+                <div class="al-row">
+                  <span class="chip">☰</span>
+                  <span class="chip">CORAL</span>
+                </div>
+              </div>
+            </div>
+            <p class="note" style="margin-top: 12px">
+              На статичном PNG этого состояния нет. Как именно открывать меню —
+              на этапах вёрстки и скриптов, сейчас важно увидеть кадр в макете.
+            </p>
           </div>
         </div>
       </section>
@@ -923,39 +939,5 @@
       </div>
     </footer>
 
-    <div class="drawer" id="drawer" hidden>
-      <strong>Каталог</strong>
-      <ul>
-        <li><a href="#grid">Jewelry &amp; Accessories</a></li>
-        <li><a href="#grid">Clothing &amp; Shoes</a></li>
-        <li><a href="#space">Home &amp; Living</a></li>
-      </ul>
-      <button class="btn" type="button" id="close-menu" style="margin-top: 16px">Закрыть</button>
-    </div>
-    <button class="scrim" id="scrim" type="button" aria-label="Закрыть меню" hidden></button>
-
-    <script>
-      const drawer = document.getElementById("drawer");
-      const scrim = document.getElementById("scrim");
-      const openBtn = document.getElementById("open-menu");
-      const closeBtn = document.getElementById("close-menu");
-
-      function setOpen(open) {
-        drawer.hidden = !open;
-        scrim.hidden = !open;
-        drawer.classList.toggle("open", open);
-        scrim.classList.toggle("open", open);
-        openBtn.setAttribute("aria-expanded", String(open));
-        if (open) closeBtn.focus();
-        else openBtn.focus();
-      }
-
-      openBtn.addEventListener("click", () => setOpen(true));
-      closeBtn.addEventListener("click", () => setOpen(false));
-      scrim.addEventListener("click", () => setOpen(false));
-      document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape" && !drawer.hidden) setOpen(false);
-      });
-    </script>
   </body>
 </html>

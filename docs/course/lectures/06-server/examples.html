@@ -519,7 +519,7 @@ DELETE /api/orders/12   ← второй раз: ресурс уже нет, э�
             </button>
             <button class="code-card c4" type="button" data-code="403">
               <strong>403</strong>
-              вошёл, нет прав<br />покупатель ≠ админ
+              вошёл, нет прав<br />чужой ресурс
             </button>
             <button class="code-card c4" type="button" data-code="404">
               <strong>404</strong>
@@ -629,7 +629,7 @@ GET  /api/products?q=hat</pre>
             <div class="panel">
               <h3>Таймаут и healthcheck</h3>
               <pre>GET /health  →  200 { "ok": true }
-// лёгкий GET: процесс жив, не «удали БД»
+// лёгкий GET: процесс жив, не логин и не список товаров
 
 const ctrl = new AbortController();
 setTimeout(() => ctrl.abort(), 8000);
@@ -754,7 +754,7 @@ fetch("/api/me", { credentials: "include" })</pre>
           403: {
             http: "HTTP/1.1 403 Forbidden",
             body: '{ "ok": false, "error": "Forbidden" }',
-            note: "Вошёл, но нет прав (покупатель просит админский путь). Не то же, что 401.",
+            note: "Вошёл, но нет прав на этот ресурс. Не то же, что 401.",
           },
           404: {
             http: "HTTP/1.1 404 Not Found",

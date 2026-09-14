@@ -414,6 +414,28 @@
       .ghost-close::after {
         content: "×";
       }
+
+      .sheet-preview {
+        height: 88px;
+        border: 1px solid var(--color-stroke);
+        border-radius: var(--radius);
+        background: #efe8f8;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .sheet-preview__bar {
+        position: absolute;
+        left: 12px;
+        right: 12px;
+        bottom: 0;
+        padding: 12px;
+        background: var(--color-white);
+        border: 1px solid var(--color-stroke);
+        border-radius: 12px 12px 0 0;
+        font-size: 13px;
+        text-align: center;
+      }
     </style>
   </head>
   <body>
@@ -434,9 +456,9 @@
         <p class="kicker">Этап 4 · диалог как слой</p>
         <h1>Живые примеры к лекции про модалки</h1>
         <p class="lead">
-          Account Coral: оверлей, Escape, клик снаружи, фокус на крестик.
-          Рядом — открытие по hash без JS. Текст лекции —
-          <a href="lecture.md">lecture.md</a>.
+          На этом этапе диалог открывают ссылкой с hash, без скрипта. Оверлей,
+          слои и форма — HTML и CSS. Фокус и Escape — на этапе JavaScript.
+          Текст лекции — <a href="lecture.md">lecture.md</a>.
         </p>
       </div>
     </div>
@@ -455,16 +477,14 @@
 
           <div class="grid-2">
             <div class="panel">
-              <h3>Открыть Account</h3>
-              <div class="btn-row">
-                <button class="btn" type="button" id="open-auth">Account</button>
-                <button class="btn" type="button" id="try-alert">Сравнить с alert()</button>
-              </div>
-              <p class="note">
-                JS-версия: фокус на крестик, Escape, клик по оверлею, скролл
-                body выключен. <code>alert()</code> не покрасить в primary.
+              <h3>Свой диалог, не alert()</h3>
+              <p>
+                <a class="btn" href="#target-auth">Открыть Account по hash</a>
               </p>
-              <p class="log" id="auth-log"></p>
+              <p class="note">
+                <code>alert()</code> не покрасить в primary, блокирует страницу
+                и плохо настраивается для скринридера. Свой слой — цвета Coral.
+              </p>
             </div>
             <div class="panel">
               <h3>Слои z-index</h3>
@@ -524,8 +544,8 @@
                 <span class="note" style="margin: 0">только ::after, без имени — нельзя</span>
               </div>
               <p class="note">
-                Не <code>&lt;meta&gt;</code> и не фон оверлея без hit-area.
-                Ловушка фокуса: Tab с последнего поля вернётся на крестик.
+                Не голая иконка без имени. Ловушку фокуса (Tab циклится внутри)
+                и Escape подключат скриптом на этапе 5.
               </p>
             </div>
           </div>
@@ -545,25 +565,24 @@
           <div class="grid-2">
             <div class="panel">
               <h3>Клик оверлея не всегда</h3>
-              <div class="btn-row">
-                <button class="btn" type="button" id="open-confirm">Удалить товар</button>
-              </div>
-              <p class="note">
-                Критичная форма: оверлей не закрывает, только Escape и кнопки.
-                <code>pointer-events: none</code> на скрытой модалке — клики
-                идут в каталог.
+              <p>
+                Закрыть кликом по затемнению — обычный UX для Account. Для
+                «удалить безвозвратно» оставляют только кнопки в панели: случайный
+                клик мимо не должен закрыть.
               </p>
-              <p class="log" id="confirm-log"></p>
+              <p class="note">
+                Escape, возврат фокуса и ловушку Tab подключат на этапе 5.
+                Сейчас закрытие — ссылка на <code>#</code>.
+              </p>
             </div>
             <div class="panel">
               <h3>Bottom sheet и скролл панели</h3>
-              <div class="btn-row">
-                <button class="btn" type="button" id="open-sheet">Карточка снизу</button>
+              <div class="sheet-preview" aria-hidden="true">
+                <div class="sheet-preview__bar">карточка у нижнего края</div>
               </div>
               <p class="note">
                 Bottom sheet — диалог, прижатый к низу экрана. Длинный текст —
-                <code>overflow: auto</code> на <code>.modal__dialog</code>, не
-                новая страница.
+                <code>overflow: auto</code> на панели, не новая страница.
               </p>
             </div>
           </div>
@@ -600,28 +619,25 @@
               </div>
               <p class="note">
                 В Coral: Account → <code>href="#modal-auth"</code>, закрытие →
-                <code>href="#"</code>. Класс <code>modal_open</code> понадобится
-                на этапе 5.
+                <code>href="#"</code>. Класс для скрипта появится на этапе 5.
               </p>
             </div>
             <div class="panel">
               <h3>type="button" в форме</h3>
-              <form id="trap-form" action="#target" method="get">
+              <form action="#target" method="get">
                 <p class="form__row">
                   <label for="demo-email">Email</label>
                   <input id="demo-email" type="email" name="email" value="demo@coral.test" />
                 </p>
                 <div class="btn-row">
                   <button type="submit">Sign in</button>
-                  <button type="button" id="form-close">Close без type=button сломал бы submit</button>
+                  <button type="button">Close</button>
                 </div>
               </form>
-              <p class="log" id="form-log"></p>
               <p class="note">
-                Форма в диалоге валидна. Скрытый в DOM проще для
-                <code>aria-labelledby</code>, чем удалять узел. Два окна —
-                стек, не два trap. Кастом лучше <code>confirm()</code>, когда
-                нужны брендинг и a11y.
+                Крестик и Close — <code>type="button"</code>, иначе форма уйдёт.
+                Форма в диалоге валидна. Диалог лучше оставить в HTML со
+                <code>hidden</code> / не :target, чем рисовать картинкой.
               </p>
             </div>
           </div>
@@ -637,225 +653,5 @@
         <a href="../../../../stage-04-modals/index.html">эталон модалок</a>
       </div>
     </footer>
-
-    <!-- JS Account modal: overlay, Esc, focus trap, restore focus -->
-    <div
-      class="modal"
-      id="modal-auth"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="auth-title"
-    >
-      <button
-        class="modal__overlay"
-        type="button"
-        data-close
-        aria-label="Close"
-        tabindex="-1"
-      ></button>
-      <div class="modal__dialog">
-        <button class="modal__close" type="button" data-close aria-label="Close">
-          &times;
-        </button>
-        <h2 class="modal__title" id="auth-title" tabindex="-1">Account</h2>
-        <form class="form" id="form-signin" action="#essence" method="get">
-          <p class="form__row">
-            <label for="auth-email">Email</label>
-            <input
-              id="auth-email"
-              type="email"
-              name="email"
-              autocomplete="email"
-              required
-            />
-          </p>
-          <p class="form__row">
-            <label for="auth-password">Password</label>
-            <input
-              id="auth-password"
-              type="password"
-              name="password"
-              autocomplete="current-password"
-              required
-            />
-          </p>
-          <button class="btn" type="submit">Sign in</button>
-        </form>
-      </div>
-    </div>
-
-    <!-- Critical confirm: overlay does not close -->
-    <div
-      class="modal"
-      id="modal-confirm"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="confirm-title"
-    >
-      <div class="modal__overlay" style="cursor: default"></div>
-      <div class="modal__dialog">
-        <h2 class="modal__title" id="confirm-title" tabindex="-1">Удалить товар?</h2>
-        <p>Basic Dress Green исчезнет из выбора. Случайный клик мимо не должен закрыть.</p>
-        <div class="btn-row">
-          <button class="btn" type="button" id="confirm-yes">Удалить</button>
-          <button class="btn" type="button" data-close>Отмена</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Bottom sheet + long content -->
-    <div
-      class="modal modal_sheet"
-      id="modal-sheet"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="sheet-title"
-    >
-      <button
-        class="modal__overlay"
-        type="button"
-        data-close
-        aria-label="Close"
-        tabindex="-1"
-      ></button>
-      <div class="modal__dialog">
-        <button class="modal__close" type="button" data-close aria-label="Close">
-          &times;
-        </button>
-        <h2 class="modal__title" id="sheet-title" tabindex="-1">Basic Dress Green</h2>
-        <p>Dress · $236.00</p>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur.
-        </p>
-        <p>
-          Ещё абзац, чтобы панель получила внутренний скролл на низкой высоте
-          окна: <code>overflow: auto</code> на диалоге, не на <code>html</code>.
-        </p>
-        <button class="btn" type="button" data-close>Select product</button>
-      </div>
-    </div>
-
-    <script>
-      const pageMain = document.getElementById("page-main");
-      const authLog = document.getElementById("auth-log");
-      const confirmLog = document.getElementById("confirm-log");
-      let lastOpener = null;
-      let activeModal = null;
-
-      function focusables(root) {
-        return [...root.querySelectorAll(
-          'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'
-        )].filter((el) => el.tabIndex >= 0);
-      }
-
-      function openModal(modal, opener) {
-        lastOpener = opener || document.activeElement;
-        activeModal = modal;
-        modal.classList.add("modal_open");
-        document.body.classList.add("modal-open");
-        pageMain.setAttribute("inert", "");
-        const closeBtn = modal.querySelector(".modal__close");
-        const title = modal.querySelector(".modal__title");
-        (closeBtn || title || modal).focus();
-        if (authLog && modal.id === "modal-auth") {
-          authLog.textContent = "Фокус внутри. Tab циклится. Escape закроет.";
-        }
-      }
-
-      function closeModal(modal) {
-        if (!modal || !modal.classList.contains("modal_open")) return;
-        modal.classList.remove("modal_open");
-        if (!document.querySelector(".modal.modal_open")) {
-          document.body.classList.remove("modal-open");
-          pageMain.removeAttribute("inert");
-          activeModal = null;
-          if (lastOpener && typeof lastOpener.focus === "function") {
-            lastOpener.focus();
-          }
-        }
-      }
-
-      document.getElementById("open-auth").addEventListener("click", (event) => {
-        openModal(document.getElementById("modal-auth"), event.currentTarget);
-      });
-
-      document.getElementById("open-confirm").addEventListener("click", (event) => {
-        openModal(document.getElementById("modal-confirm"), event.currentTarget);
-      });
-
-      document.getElementById("open-sheet").addEventListener("click", (event) => {
-        openModal(document.getElementById("modal-sheet"), event.currentTarget);
-      });
-
-      document.getElementById("try-alert").addEventListener("click", () => {
-        window.alert("Не стилизуется, блокирует поток, слабая a11y.");
-      });
-
-      document.getElementById("confirm-yes").addEventListener("click", () => {
-        confirmLog.textContent = "Товар удалён. Фокус вернулся на кнопку «Удалить товар».";
-        closeModal(document.getElementById("modal-confirm"));
-      });
-
-      document.querySelectorAll(".modal").forEach((modal) => {
-        modal.addEventListener("click", (event) => {
-          const closer = event.target.closest("[data-close]");
-          if (!closer) return;
-          event.preventDefault();
-          closeModal(modal);
-          if (authLog && modal.id === "modal-auth") {
-            authLog.textContent = "Закрыто. Фокус вернулся на Account.";
-          }
-        });
-      });
-
-      document.addEventListener("keydown", (event) => {
-        if (!activeModal) return;
-        if (event.key === "Escape") {
-          event.preventDefault();
-          const id = activeModal.id;
-          closeModal(activeModal);
-          if (authLog && id === "modal-auth") {
-            authLog.textContent = "Escape. Фокус на Account.";
-          }
-          return;
-        }
-        if (event.key !== "Tab") return;
-        const nodes = focusables(activeModal);
-        if (!nodes.length) return;
-        const first = nodes[0];
-        const last = nodes[nodes.length - 1];
-        if (event.shiftKey && document.activeElement === first) {
-          event.preventDefault();
-          last.focus();
-        } else if (!event.shiftKey && document.activeElement === last) {
-          event.preventDefault();
-          first.focus();
-        }
-      });
-
-      const trapForm = document.getElementById("trap-form");
-      const formLog = document.getElementById("form-log");
-      trapForm.addEventListener("submit", (event) => {
-        event.preventDefault();
-        formLog.textContent =
-          "Ушла как submit. Нажал: " +
-          (event.submitter ? event.submitter.textContent.trim() : "неизвестно");
-      });
-      document.getElementById("form-close").addEventListener("click", () => {
-        formLog.textContent =
-          "Close с type=button: форма не ушла. Без type внутри form это был бы submit.";
-      });
-
-      document.getElementById("form-signin").addEventListener("submit", (event) => {
-        event.preventDefault();
-        authLog.textContent = "Форма в диалоге валидна — Sign in сработал, окно можно закрыть.";
-        closeModal(document.getElementById("modal-auth"));
-      });
-    </script>
   </body>
 </html>

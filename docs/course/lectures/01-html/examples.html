@@ -591,7 +591,7 @@
             </div>
             <div class="panel">
               <h3>Ловушка: button без type</h3>
-              <form id="trap-form">
+              <form action="#links" method="get">
                 <p>
                   <label for="trap-q">Поиск</label>
                   <input id="trap-q" name="q" value="joggers" />
@@ -601,8 +601,10 @@
                   <button type="submit">Искать</button>
                 </div>
               </form>
-              <p class="log" id="trap-log"></p>
-              <p class="note">Нажмите «Закрыть» — форма всё равно уйдёт как submit.</p>
+              <p class="note">
+                Нажмите «Закрыть» — в адресе появится <code>?q=joggers</code>:
+                кнопка без <code>type</code> внутри формы ведёт себя как submit.
+              </p>
             </div>
           </div>
 
@@ -622,17 +624,23 @@
             </div>
             <div class="panel">
               <h3>Без оформления страница всё ещё читается</h3>
-              <p>
-                <button class="btn" type="button" id="bare-toggle">Снять CSS с карточки</button>
-              </p>
-              <div id="bare-host">
+              <div class="grid-2">
                 <article class="mini-card">
                   <img alt="Nike Sportswear Futura Luxe backpack" width="200" height="120" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120'%3E%3Crect fill='%231e2832' width='200' height='120'/%3E%3Ctext x='20' y='68' fill='white' font-size='16' font-family='sans-serif'%3EBag%3C/text%3E%3C/svg%3E" />
                   <h3>Nike Sportswear Futura Luxe</h3>
                   <p>Bag · $130.00</p>
                   <a class="btn" href="../../../../stage-01-html/product.html">View product</a>
                 </article>
+                <div class="bare">
+                  <article class="mini-card">
+                    <img alt="Nike Sportswear Futura Luxe backpack" width="200" height="120" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120'%3E%3Crect fill='%231e2832' width='200' height='120'/%3E%3Ctext x='20' y='68' fill='white' font-size='16' font-family='sans-serif'%3EBag%3C/text%3E%3C/svg%3E" />
+                    <h3>Nike Sportswear Futura Luxe</h3>
+                    <p>Bag · $130.00</p>
+                    <a class="btn" href="../../../../stage-01-html/product.html">View product</a>
+                  </article>
+                </div>
               </div>
+              <p class="note">Слева — со стилями страницы, справа — как без CSS: заголовок, цена, ссылка на месте.</p>
             </div>
           </div>
         </div>
@@ -645,7 +653,7 @@
           <p>
             Обычно один <code>h1</code>, дальше по уровням. <code>strong</code> —
             важность, <code>b</code> — вид. <code>id</code> на странице не
-            повторяют: якорь, <code>for</code>, <code>aria-labelledby</code>.
+            повторяют: якорь и связь <code>for</code> у подписи.
           </p>
 
           <div class="grid-2">
@@ -747,19 +755,21 @@
                 сказать «пустое поле». Нужен label или aria-label.
               </p>
               <h3 style="margin-top: 16px">disabled не в submit</h3>
-              <form id="order-form">
+              <form action="#forms" method="get">
                 <p>
                   <label for="promo">Промокод</label>
                   <input id="promo" name="promo" value="SALE70" disabled />
                 </p>
                 <p>
-                  <label>
-                    <input type="checkbox" id="agree" /> Корзина не пуста
-                  </label>
+                  <label for="note">Комментарий</label>
+                  <input id="note" name="note" value="ok" />
                 </p>
-                <button class="btn" type="submit" id="order-btn" disabled>Оформить заказ</button>
+                <button class="btn" type="submit">Отправить</button>
               </form>
-              <p class="log" id="order-log"></p>
+              <p class="note">
+                Нажмите «Отправить»: в адресе будет <code>note=ok</code>, поля
+                <code>promo</code> нет — disabled не уходит в submit.
+              </p>
             </div>
           </div>
         </div>
@@ -777,16 +787,14 @@
 
           <div class="grid-2">
             <div class="panel">
-              <h3>Модалка с hidden</h3>
-              <p>
-                <button class="btn" type="button" id="open-dialog">Открыть Account</button>
+              <h3>Атрибут hidden</h3>
+              <p>Этот абзац без <code>hidden</code> — его видно.</p>
+              <p hidden>Этот абзац с hidden: на экране его нет, скринридер тоже молчит.</p>
+              <pre>&lt;p hidden&gt;…&lt;/p&gt;</pre>
+              <p class="note">
+                Скрытый блок остаётся в HTML, его не рисуют. Не путать с
+                <code>alt=""</code> у картинки.
               </p>
-              <div class="dialog-demo" id="auth-dialog" hidden>
-                <h3 id="auth-title">Account</h3>
-                <p>Это не картинка диалога, а HTML с <code>hidden</code>.</p>
-                <button class="btn" type="button" id="close-dialog">Close</button>
-              </div>
-              <p class="note">Пока hidden есть — блока нет ни на экране, ни у скринридера.</p>
             </div>
             <div class="panel">
               <h3>Таблица данных</h3>
@@ -808,7 +816,7 @@
                   </tr>
                 </tbody>
               </table>
-              <p class="note">Каталог карточек — список article, не таблица. Состав заказа — таблица.</p>
+              <p class="note">Каталог карточек — список article, не таблица. Сравнение цен — таблица.</p>
             </div>
           </div>
 
@@ -851,51 +859,5 @@
       </div>
     </footer>
 
-    <script>
-      const trapForm = document.getElementById("trap-form");
-      const trapLog = document.getElementById("trap-log");
-      trapForm.addEventListener("submit", (event) => {
-        event.preventDefault();
-        const submitter = event.submitter;
-        trapLog.textContent =
-          "Ушла как submit. Нажал: " +
-          (submitter ? submitter.textContent.trim() : "неизвестно") +
-          (submitter && !submitter.hasAttribute("type")
-            ? " — у кнопки не было type"
-            : "");
-      });
-
-      const bareToggle = document.getElementById("bare-toggle");
-      const bareHost = document.getElementById("bare-host");
-      bareToggle.addEventListener("click", () => {
-        const on = bareHost.classList.toggle("bare");
-        bareToggle.textContent = on
-          ? "Вернуть оформление"
-          : "Снять CSS с карточки";
-      });
-
-      const agree = document.getElementById("agree");
-      const orderBtn = document.getElementById("order-btn");
-      const orderForm = document.getElementById("order-form");
-      const orderLog = document.getElementById("order-log");
-      agree.addEventListener("change", () => {
-        orderBtn.disabled = !agree.checked;
-      });
-      orderForm.addEventListener("submit", (event) => {
-        event.preventDefault();
-        const data = new FormData(orderForm);
-        const sent = [...data.keys()].join(", ") || "(пусто)";
-        orderLog.textContent =
-          "В submit ушло: " + sent + ". Поле promo disabled — его нет.";
-      });
-
-      const dialog = document.getElementById("auth-dialog");
-      document.getElementById("open-dialog").addEventListener("click", () => {
-        dialog.hidden = false;
-      });
-      document.getElementById("close-dialog").addEventListener("click", () => {
-        dialog.hidden = true;
-      });
-    </script>
   </body>
 </html>

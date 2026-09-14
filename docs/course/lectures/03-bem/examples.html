@@ -561,7 +561,7 @@
               <h3>.product-card__link</h3>
               <p>
                 <a class="product-card__link" href="#independent">View product</a>
-                — работает в карточке, в футере и в модалке.
+                — работает в карточке, в подвале и в другой секции.
               </p>
               <p class="note">
                 Не пишите <code>div.product-card</code>: карточка Coral —
@@ -569,12 +569,14 @@
                 = один класс.
               </p>
               <h3 style="margin-top: 16px">Карточка в «чужом» месте</h3>
-              <div class="footer-slot" id="footer-slot">
-                <p style="margin-bottom: 12px">Это футер, не секция products.</p>
+              <div class="footer-slot">
+                <p style="margin-bottom: 12px">Это подвал, не секция products.</p>
+                <article class="product-card">
+                  <h3 class="product-card__title">Тот же блок</h3>
+                  <p class="product-card__price">$63.85</p>
+                </article>
               </div>
-              <p>
-                <button class="btn" type="button" id="move-card">Вставить карточку в футер</button>
-              </p>
+              <p class="note">Стили карточки не ждут родителя <code>.products</code>.</p>
             </div>
           </div>
         </div>
@@ -641,8 +643,8 @@
             Цель — предсказуемые имена и меньше конфликтов.
           </p>
 
-          <div class="cards-row" id="card-home" style="margin-bottom: 24px">
-            <article class="product-card" id="live-card">
+          <div class="grid-2" style="margin-bottom: 24px">
+            <article class="product-card">
               <p class="product-card__badge product-card__badge_type_sale">Sale</p>
               <a class="product-card__media" href="#practice">
                 <img
@@ -652,22 +654,31 @@
                   src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='160'%3E%3Crect fill='%239e5cf2' width='240' height='160'/%3E%3Ctext x='20' y='88' fill='white' font-size='18' font-family='sans-serif'%3EJoggers%3C/text%3E%3C/svg%3E"
                 />
               </a>
-              <h3 class="product-card__title">Adicolor Classics Joggers</h3>
-              <p class="product-card__category">Dress</p>
+              <h3 class="product-card__title">Default</h3>
+              <p class="product-card__price"><data value="63.85">$63.85</data></p>
+            </article>
+            <article class="product-card product-card_selected">
+              <p class="product-card__badge product-card__badge_type_hot">Hot</p>
+              <a class="product-card__media" href="#practice">
+                <img
+                  alt="Adicolor Classics Joggers selected"
+                  width="240"
+                  height="160"
+                  src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='160'%3E%3Crect fill='%231e2832' width='240' height='160'/%3E%3Ctext x='20' y='88' fill='white' font-size='18' font-family='sans-serif'%3EJoggers%3C/text%3E%3C/svg%3E"
+                />
+              </a>
+              <h3 class="product-card__title">_selected + бейдж Hot</h3>
               <p class="product-card__price"><data value="63.85">$63.85</data></p>
             </article>
           </div>
 
           <div class="grid-2">
             <div class="panel">
-              <h3>Живые модификаторы</h3>
-              <div class="btn-row">
-                <button class="btn" type="button" id="toggle-selected">_selected</button>
-                <button class="btn" type="button" id="toggle-badge">бейдж Sale / Hot</button>
-              </div>
-              <p class="note" id="mod-log">
-                Классы карточки: <code>product-card</code>
-              </p>
+              <h3>Модификаторы — отдельные классы</h3>
+              <pre>product-card
+product-card product-card_selected
+product-card__badge_type_sale
+product-card__badge_type_hot</pre>
               <p class="note">
                 Включили <code>product-card_selected</code> —
                 <code>product-card__media</code> не переименовали.
@@ -687,16 +698,13 @@
           <div class="grid-2" style="margin-top: 24px">
             <div class="panel">
               <h3>menu_open vs .is-open</h3>
-              <nav class="menu" id="menu-demo" aria-label="Catalog">
+              <p><code>menu menu_open</code> — состояние блока:</p>
+              <nav class="menu menu_open" aria-label="Catalog">
                 <ul>
                   <li class="menu__item"><a href="#practice">Jewelry</a></li>
                   <li class="menu__item"><a href="#practice">Clothing</a></li>
                 </ul>
               </nav>
-              <div class="btn-row" style="margin-top: 12px">
-                <button class="btn" type="button" id="toggle-menu">menu_open</button>
-                <button class="btn" type="button" id="toggle-is-open">.is-open утилита</button>
-              </div>
               <p class="note">
                 В строгом БЭМ состояние блока — <code>menu_open</code>.
                 <code>.is-open</code> без пространства имён — утилита, легко
@@ -729,52 +737,5 @@
       </div>
     </footer>
 
-    <script>
-      const card = document.getElementById("live-card");
-      const modLog = document.getElementById("mod-log");
-      const badge = card.querySelector(".product-card__badge");
-
-      function logClasses() {
-        modLog.innerHTML =
-          "Классы карточки: <code>" +
-          card.className +
-          "</code>";
-      }
-
-      document.getElementById("toggle-selected").addEventListener("click", () => {
-        card.classList.toggle("product-card_selected");
-        logClasses();
-      });
-
-      document.getElementById("toggle-badge").addEventListener("click", () => {
-        const sale = badge.classList.contains("product-card__badge_type_sale");
-        badge.classList.toggle("product-card__badge_type_sale", !sale);
-        badge.classList.toggle("product-card__badge_type_hot", sale);
-        badge.textContent = sale ? "Hot" : "Sale";
-      });
-
-      const home = document.getElementById("card-home");
-      const footerSlot = document.getElementById("footer-slot");
-      document.getElementById("move-card").addEventListener("click", (event) => {
-        const inFooter = card.parentElement === footerSlot;
-        if (inFooter) {
-          home.prepend(card);
-          event.currentTarget.textContent = "Вставить карточку в футер";
-        } else {
-          footerSlot.append(card);
-          event.currentTarget.textContent = "Вернуть в каталог";
-        }
-      });
-
-      const menu = document.getElementById("menu-demo");
-      document.getElementById("toggle-menu").addEventListener("click", () => {
-        menu.classList.toggle("menu_open");
-      });
-      document.getElementById("toggle-is-open").addEventListener("click", () => {
-        menu.classList.toggle("is-open");
-      });
-
-      logClasses();
-    </script>
   </body>
 </html>
