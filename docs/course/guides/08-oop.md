@@ -11,6 +11,8 @@
 `stage-08-oop/`  
 Точка входа: `js/App.js`
 
+Вводная лекция (разбор теста с примерами): [../lectures/08-oop/lecture.md](../lectures/08-oop/lecture.md), [живые примеры](../lectures/08-oop/examples.html).
+
 ## Теория
 
 - [Классы](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Classes)

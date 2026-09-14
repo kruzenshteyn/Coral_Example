@@ -8,6 +8,8 @@
 
 `stage-07-adaptive/`
 
+Вводная лекция (разбор теста с примерами): [../lectures/07-adaptive/lecture.md](../lectures/07-adaptive/lecture.md), [живые примеры](../lectures/07-adaptive/examples.html).
+
 ## Теория
 
 - [Адаптивный дизайн](https://developer.mozilla.org/ru/docs/Learn_web_development/Core/CSS_layout/Responsive_Design)

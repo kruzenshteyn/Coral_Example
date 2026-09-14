@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Примеры к лекции. CSS: каскад, коробка, раскладка</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --color-primary: #9e5cf2;
+        --color-black: #1e2832;
+        --color-black-50: #8f9499;
+        --color-white: #ffffff;
+        --color-stroke: #e3e3e3;
+        --color-page: #f6f4f8;
+        --font-head: "Roboto", system-ui, sans-serif;
+        --font-body: "Open Sans", system-ui, sans-serif;
+        --radius: 8px;
+        --gap: 24px;
+        --shadow: 0 8px 24px rgba(30, 40, 50, 0.08);
+        --container: 1100px;
+        --accent: #9e5cf2;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: var(--font-body);
+        font-size: 16px;
+        line-height: 1.5;
+        color: var(--color-black);
+        background: var(--color-page);
+      }
+
+      h1,
+      h2,
+      h3 {
+        font-family: var(--font-head);
+        font-weight: 500;
+        line-height: 1.2;
+        margin: 0 0 0.5em;
+      }
+
+      p {
+        margin: 0 0 0.75em;
+      }
+
+      a {
+        color: var(--color-primary);
+      }
+
+      code,
+      pre {
+        font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+        font-size: 0.85em;
+      }
+
+      code {
+        background: #efe8f8;
+        padding: 0.1em 0.35em;
+        border-radius: 4px;
+      }
+
+      pre {
+        margin: 0;
+        background: #1e2832;
+        color: #f6f4f8;
+        padding: 16px;
+        border-radius: var(--radius);
+        overflow: auto;
+        line-height: 1.45;
+      }
+
+      .wrap {
+        width: min(var(--container), calc(100% - 32px));
+        margin-inline: auto;
+      }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: var(--color-white);
+        border-bottom: 1px solid var(--color-stroke);
+      }
+
+      .site-header .wrap {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        min-height: 64px;
+        padding-block: 8px;
+      }
+
+      .brand {
+        font-family: var(--font-head);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--color-black);
+        text-decoration: none;
+        font-size: 18px;
+      }
+
+      .toc {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 16px;
+        font-size: 14px;
+      }
+
+      .toc a {
+        color: var(--color-black);
+        text-decoration: none;
+      }
+
+      .toc a:hover,
+      .toc a:focus-visible {
+        color: var(--color-primary);
+      }
+
+      .hero {
+        background: var(--color-white);
+        border-bottom: 1px solid var(--color-stroke);
+        padding: 40px 0 32px;
+      }
+
+      .kicker {
+        color: var(--color-primary);
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        font-size: 12px;
+        margin-bottom: 8px;
+      }
+
+      .lead {
+        max-width: 62ch;
+        color: var(--color-black-50);
+      }
+
+      .section {
+        padding: 40px 0;
+      }
+
+      .section + .section {
+        border-top: 1px solid var(--color-stroke);
+      }
+
+      .q {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--color-primary);
+        background: #efe8f8;
+        border-radius: 999px;
+        padding: 4px 10px;
+        margin-bottom: 8px;
+      }
+
+      .panel {
+        background: var(--color-white);
+        border: 1px solid var(--color-stroke);
+        border-radius: var(--radius);
+        padding: 20px;
+        box-shadow: var(--shadow);
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--gap);
+      }
+
+      @media (max-width: 768px) {
+        .grid-2 {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .note {
+        font-size: 14px;
+        color: var(--color-black-50);
+        margin: 8px 0 0;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 24px;
+        background: var(--color-black);
+        color: var(--color-white);
+        font-family: var(--font-head);
+        font-size: 16px;
+        border: 0;
+        border-radius: var(--radius);
+        cursor: pointer;
+        text-decoration: none;
+      }
+
+      .btn:hover {
+        background: var(--color-primary);
+        color: var(--color-white);
+      }
+
+      .btn:focus-visible {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 3px;
+      }
+
+      .btn:disabled {
+        background: #c5c8cb;
+        color: #6b7075;
+        cursor: not-allowed;
+      }
+
+      .btn-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+      }
+
+      footer.page-foot {
+        padding: 24px 0 40px;
+        color: var(--color-black-50);
+        font-size: 14px;
+      }
+
+      /* Cascade demo */
+      .cascade-box {
+        padding: 12px 16px;
+        border-radius: var(--radius);
+        color: #fff;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .cascade-box {
+        background: #8f9499;
+      }
+
+      #winner {
+        background: #1e2832;
+      }
+
+      .a .b {
+        background: #9e5cf2;
+      }
+
+      .b {
+        background: #1e2832;
+      }
+
+      .spec-row .b {
+        padding: 12px 16px;
+        border-radius: var(--radius);
+        color: #fff;
+        font-weight: 600;
+      }
+
+      /* Box model */
+      .box-demo {
+        width: 200px;
+        padding: 20px;
+        border: 4px solid var(--color-primary);
+        background: #efe8f8;
+        margin-bottom: 8px;
+      }
+
+      .box-content {
+        box-sizing: content-box;
+      }
+
+      .box-border {
+        box-sizing: border-box;
+      }
+
+      .box-inner {
+        background: var(--color-white);
+        padding: 8px;
+        font-size: 13px;
+      }
+
+      .collapse-a,
+      .collapse-b {
+        background: #efe8f8;
+        padding: 8px 12px;
+        border: 1px dashed var(--color-stroke);
+      }
+
+      .collapse-a {
+        margin-bottom: 24px;
+      }
+
+      .collapse-b {
+        margin-top: 24px;
+      }
+
+      .minw-row {
+        display: flex;
+        gap: 8px;
+        border: 1px dashed var(--color-stroke);
+        padding: 8px;
+        max-width: 280px;
+      }
+
+      .minw-item {
+        flex: 1;
+        min-width: 120px;
+        background: #efe8f8;
+        padding: 8px;
+        text-align: center;
+        font-size: 13px;
+      }
+
+      /* Flex / grid */
+      .flex-demo {
+        display: flex;
+        gap: 8px;
+        background: #efe8f8;
+        padding: 8px;
+        min-height: 88px;
+      }
+
+      .flex-demo.is-column {
+        flex-direction: column;
+      }
+
+      .flex-demo > span {
+        background: var(--color-black);
+        color: #fff;
+        padding: 10px 12px;
+        border-radius: 4px;
+        font-size: 13px;
+      }
+
+      .flex-grow-demo {
+        display: flex;
+        gap: 8px;
+      }
+
+      .flex-grow-demo span:first-child {
+        background: var(--color-black);
+        color: #fff;
+        padding: 10px 12px;
+      }
+
+      .flex-grow-demo span:last-child {
+        flex: 1;
+        background: var(--color-primary);
+        color: #fff;
+        padding: 10px 12px;
+      }
+
+      .fr-grid {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 12px;
+      }
+
+      .fr-grid > div {
+        padding: 16px;
+        color: #fff;
+        font-weight: 600;
+      }
+
+      .fr-grid > div:first-child {
+        background: var(--color-black);
+      }
+
+      .fr-grid > div:last-child {
+        background: var(--color-primary);
+      }
+
+      .gap-flex {
+        display: flex;
+        gap: 24px;
+        background: #efe8f8;
+        padding: 12px;
+      }
+
+      .gap-flex span {
+        background: #fff;
+        border: 1px solid var(--color-stroke);
+        padding: 8px 12px;
+      }
+
+      /* Position */
+      .pos-stage {
+        position: relative;
+        height: 140px;
+        background: #efe8f8;
+        border: 1px solid var(--color-stroke);
+        border-radius: var(--radius);
+      }
+
+      .pos-card {
+        position: relative;
+        width: 120px;
+        height: 100px;
+        margin: 16px;
+        background: var(--color-white);
+        border: 1px solid var(--color-stroke);
+      }
+
+      .pos-badge {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        z-index: 1;
+        background: var(--color-primary);
+        color: #fff;
+        font-size: 12px;
+        padding: 2px 8px;
+      }
+
+      .pos-fixed-note {
+        position: absolute;
+        right: 12px;
+        top: 12px;
+        font-size: 12px;
+        color: var(--color-black-50);
+        max-width: 12ch;
+      }
+
+      .overflow-box {
+        width: 180px;
+        height: 72px;
+        overflow: hidden;
+        border: 1px solid var(--color-stroke);
+        background: #fff;
+      }
+
+      .overflow-box p {
+        margin: 0;
+        padding: 8px;
+        white-space: nowrap;
+      }
+
+      /* Units / tokens */
+      .token-swatch {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .swatch {
+        width: 48px;
+        height: 48px;
+        border-radius: var(--radius);
+        background: var(--accent);
+        border: 1px solid var(--color-stroke);
+      }
+
+      .em-demo {
+        font-size: 16px;
+      }
+
+      .em-demo .child {
+        font-size: 1.25em;
+      }
+
+      .em-demo .grand {
+        font-size: 1.25em;
+        background: #efe8f8;
+        padding: 0.5em;
+      }
+
+      .rem-demo {
+        font-size: 1.25rem;
+        background: #efe8f8;
+        padding: 0.5rem;
+      }
+
+      /* States */
+      .hover-target {
+        display: inline-flex;
+        padding: 12px 24px;
+        background: var(--color-black);
+        color: #fff;
+        border-radius: var(--radius);
+        cursor: pointer;
+      }
+
+      .hover-target:hover {
+        background: var(--color-primary);
+      }
+
+      .hover-target:focus-visible {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 3px;
+      }
+
+      .shop-now::after {
+        content: " →";
+      }
+
+      /* Media / images */
+      .fit-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      .fit-frame {
+        width: 100%;
+        height: 140px;
+        background: #1e2832;
+        overflow: hidden;
+      }
+
+      .fit-frame img {
+        width: 100%;
+        height: 140px;
+      }
+
+      .fit-cover img {
+        object-fit: cover;
+      }
+
+      .fit-contain img {
+        object-fit: contain;
+      }
+
+      .media-flag {
+        display: none;
+        margin-top: 8px;
+        font-weight: 600;
+        color: var(--color-primary);
+      }
+
+      @media (max-width: 768px) {
+        .media-flag {
+          display: block;
+        }
+
+        .fit-row {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .ghost-row {
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+      }
+
+      .ghost {
+        width: 80px;
+        height: 80px;
+        background: var(--color-primary);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        text-align: center;
+      }
+
+      .ghost-opacity {
+        opacity: 0;
+      }
+
+      .ghost-none {
+        display: none;
+      }
+
+      .inherit-demo {
+        color: var(--color-primary);
+        font-family: var(--font-head);
+      }
+
+      .inherit-demo p {
+        margin: 0;
+      }
+
+      .inherit-demo .no-margin {
+        margin-top: 16px;
+        padding: 8px;
+        border: 1px dashed var(--color-stroke);
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="#top">Coral · лекция 2</a>
+        <nav class="toc" aria-label="Темы примеров">
+          <a href="#cascade">Каскад</a>
+          <a href="#box">Коробка</a>
+          <a href="#layout">Flex/Grid</a>
+          <a href="#position">Позиция</a>
+          <a href="#units">Единицы</a>
+          <a href="#states">Состояния</a>
+          <a href="#media">Медиа</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="hero" id="top">
+      <div class="wrap">
+        <p class="kicker">Этап 2 · CSS как раскладка</p>
+        <h1>Живые примеры к лекции CSS</h1>
+        <p class="lead">
+          Каскад, коробка, Flex/Grid, слой, токены. Смотрите, что меняется при
+          наведении, Tab и сужении окна. Текст лекции —
+          <a href="lecture.md">lecture.md</a>.
+        </p>
+      </div>
+    </div>
+
+    <main>
+      <section class="section" id="cascade">
+        <div class="wrap">
+          <p class="q">Вопросы 1, 2, 18, 19, 30</p>
+          <h2>Каскад и специфичность</h2>
+          <p>
+            Конфликтующие правила перекрывают друг друга по весу селектора и
+            порядку в файле. <code>#id</code> тяжелее класса.
+            <code>.a .b</code> тяжелее одиночного <code>.b</code>. Равный вес —
+            побеждает нижнее правило.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel">
+              <h3>Равная специфичность — нижнее</h3>
+              <div class="cascade-box">.cascade-box серый (первое правило)</div>
+              <div class="cascade-box" id="winner">#winner чёрный: id сильнее</div>
+              <p class="note">
+                Два <code>.cascade-box</code> — цвет нижнего правила. Id
+                <code>#winner</code> перебивает класс. <code>!important</code>
+                здесь не нужен.
+              </p>
+            </div>
+            <div class="panel">
+              <h3>.a .b vs .b</h3>
+              <div class="spec-row a">
+                <div class="b">внутри .a — фиолетовый (два класса)</div>
+              </div>
+              <div class="spec-row" style="margin-top: 8px">
+                <div class="b">только .b — чёрный (один класс)</div>
+              </div>
+              <pre style="margin-top: 12px">.b { background: #1e2832; }
+.a .b { background: #9e5cf2; }</pre>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="box">
+        <div class="wrap">
+          <p class="q">Вопросы 3, 4, 25, 26</p>
+          <h2>Блочная модель</h2>
+          <p>
+            У обеих коробок <code>width: 200px</code>, padding 20 и border 4.
+            Без <code>border-box</code> width — только content, визуально шире.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel">
+              <h3>content-box vs border-box</h3>
+              <div class="box-demo box-content">
+                <div class="box-inner">content-box: 200 + 40 + 8 = 248px</div>
+              </div>
+              <div class="box-demo box-border">
+                <div class="box-inner">border-box: всё внутри 200px</div>
+              </div>
+              <p class="note">Margin в width не входит ни в одной модели.</p>
+            </div>
+            <div class="panel">
+              <h3>Вертикальный collapsing</h3>
+              <div class="collapse-a">margin-bottom: 24px</div>
+              <div class="collapse-b">margin-top: 24px</div>
+              <p class="note">
+                Между блоками 24px, не 48. Padding и gap так не схлопываются.
+              </p>
+              <h3 style="margin-top: 16px">min-width — порог</h3>
+              <div class="minw-row">
+                <div class="minw-item">min 120</div>
+                <div class="minw-item">min 120</div>
+              </div>
+              <p class="note">
+                Ряд 280px, два flex:1, но <code>min-width: 120px</code> не даёт
+                сжать карточку в ноль — вторая может вылезти.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="layout">
+        <div class="wrap">
+          <p class="q">Вопросы 5, 6, 21, 22, 27</p>
+          <h2>Flex и Grid</h2>
+          <p>
+            Шапка Coral — flex в ряд. Каталог — grid на 4 колонки и
+            <code>gap: 24px</code>. <code>1fr 2fr</code> делит свободное место,
+            не пиксели.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel">
+              <h3>flex-direction</h3>
+              <div class="btn-row" style="margin-bottom: 12px">
+                <button class="btn" type="button" id="flex-toggle">Ряд / колонка</button>
+              </div>
+              <div class="flex-demo" id="flex-demo">
+                <span>Search</span>
+                <span>CORAL</span>
+                <span>Account</span>
+              </div>
+              <p class="note">Как <code>.header-top</code>: три зоны по <code>flex-direction</code>.</p>
+              <h3 style="margin-top: 16px">flex: 1 — свободное место</h3>
+              <div class="flex-grow-demo">
+                <span>лого</span>
+                <span>flex: 1</span>
+              </div>
+            </div>
+            <div class="panel">
+              <h3>grid 1fr 2fr + gap</h3>
+              <div class="fr-grid">
+                <div>1fr фото</div>
+                <div>2fr текст Zara</div>
+              </div>
+              <p class="note"><code>gap</code> — зазор между ячейками, не цвет линии.</p>
+              <h3 style="margin-top: 16px">gap в flex</h3>
+              <div class="gap-flex">
+                <span>Account</span>
+                <span>Shopping</span>
+              </div>
+              <p class="note">Современные браузеры: <code>gap</code> у flex, без margin на детях.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="position">
+        <div class="wrap">
+          <p class="q">Вопросы 7, 15, 16</p>
+          <h2>Позиция и слой</h2>
+          <p>
+            <code>absolute</code> от ближайшего positioned-предка. Для
+            <code>z-index</code> нужен position не static (или flex/grid-item).
+            <code>overflow: hidden</code> обрезает, DOM не удаляет.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel">
+              <h3>absolute внутри relative</h3>
+              <div class="pos-stage">
+                <div class="pos-card">
+                  <span class="pos-badge">Sale</span>
+                </div>
+                <p class="pos-fixed-note">бейдж не от окна, от карточки</p>
+              </div>
+              <p class="note">
+                <code>.product-card { position: relative }</code> —
+                containing block для бейджа.
+              </p>
+            </div>
+            <div class="panel">
+              <h3>overflow: hidden</h3>
+              <div class="overflow-box">
+                <p>Adicolor Classics Joggers — длинное название не вылезает за бокс карточки</p>
+              </div>
+              <p class="note">
+                Текст обрезан. Узел в DOM остался. Sticky-шапка Coral:
+                <code>position: sticky; z-index: 20</code>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="units">
+        <div class="wrap">
+          <p class="q">Вопросы 8, 9, 10, 11, 24</p>
+          <h2>Единицы и токены</h2>
+          <p>
+            <code>em</code> от шрифта элемента, <code>rem</code> от
+            <code>html</code>. Переменные задают <code>--accent</code> в
+            <code>:root</code>, читают <code>var(--accent)</code>.
+            <code>calc(100% - 40px)</code> — валидная ширина контейнера.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel">
+              <h3>em множится, rem — от корня</h3>
+              <div class="em-demo">
+                16px
+                <div class="child">
+                  1.25em = 20px
+                  <div class="grand">ещё 1.25em = 25px (от родителя)</div>
+                </div>
+              </div>
+              <div class="rem-demo" style="margin-top: 12px">1.25rem = 20px от html, не от соседа</div>
+            </div>
+            <div class="panel">
+              <h3>--accent в :root</h3>
+              <div class="token-swatch">
+                <div class="swatch" id="swatch"></div>
+                <div>
+                  <p><code>background: var(--accent)</code></p>
+                  <div class="btn-row">
+                    <button class="btn" type="button" id="token-toggle">Сменить токен</button>
+                  </div>
+                </div>
+              </div>
+              <p class="note">
+                Не <code>$accent</code> (это SCSS). Контейнер лекции:
+                <code>width: min(1100px, calc(100% - 32px))</code>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="states">
+        <div class="wrap">
+          <p class="q">Вопросы 12, 13, 14</p>
+          <h2>Состояния и декор</h2>
+          <p>
+            <code>:hover</code> — наведение. <code>:focus-visible</code> —
+            кольцо в основном с клавиатуры. <code>::after</code> — виртуальный
+            ребёнок, стрелка «Shop now» без лишнего HTML.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel">
+              <h3>Наведите и нажмите Tab</h3>
+              <div class="btn-row">
+                <a class="hover-target" href="#states">Shop now</a>
+                <button class="btn shop-now" type="button">Shop now</button>
+              </div>
+              <p class="note">
+                Hover красит фон в primary. Tab показывает outline.
+                У кнопки справа стрелка из <code>::after { content: " →" }</code>.
+              </p>
+            </div>
+            <div class="panel">
+              <h3>Почему не outline: none</h3>
+              <pre>a:focus-visible,
+button:focus-visible {
+  outline: 2px solid #9e5cf2;
+  outline-offset: 3px;
+}</pre>
+              <p class="note">
+                Кликом мыши кольца может не быть. С клавиатуры — должно.
+                <code>:focus-visible</code> не заменяет tabindex.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="media">
+        <div class="wrap">
+          <p class="q">Вопросы 17, 20, 23, 28, 29</p>
+          <h2>Картинки, медиа, шрифт, видимость</h2>
+          <p>
+            <code>object-fit: cover</code> заполняет бокс и может обрезать края.
+            Медиазапрос 768 — про viewport. Opacity 0 ≠ display none. Шрифт —
+            <code>@font-face</code> (здесь через Google Fonts).
+          </p>
+
+          <div class="grid-2">
+            <div class="panel">
+              <h3>cover vs contain</h3>
+              <div class="fit-row">
+                <figure class="fit-frame fit-cover" style="margin: 0">
+                  <img
+                    alt="Платье, cover обрезает края"
+                    width="200"
+                    height="140"
+                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200'%3E%3Crect fill='%239e5cf2' width='300' height='200'/%3E%3Ctext x='24' y='110' fill='white' font-size='28' font-family='sans-serif'%3EDress 3:2%3C/text%3E%3C/svg%3E"
+                  />
+                </figure>
+                <figure class="fit-frame fit-contain" style="margin: 0">
+                  <img
+                    alt="Платье, contain с полями"
+                    width="200"
+                    height="140"
+                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200'%3E%3Crect fill='%239e5cf2' width='300' height='200'/%3E%3Ctext x='24' y='110' fill='white' font-size='28' font-family='sans-serif'%3EDress 3:2%3C/text%3E%3C/svg%3E"
+                  />
+                </figure>
+              </div>
+              <p class="note">Слева cover (как фото карточки Coral), справа contain (как логотипы брендов).</p>
+              <p class="media-flag">Сейчас viewport ≤ 768px — сработал @media.</p>
+            </div>
+            <div class="panel">
+              <h3>opacity: 0 не display: none</h3>
+              <div class="ghost-row">
+                <div>
+                  <p>место занято:</p>
+                  <div class="ghost ghost-opacity">opacity 0</div>
+                  <p class="note">Бокс есть, события возможны.</p>
+                </div>
+                <div>
+                  <p>места нет:</p>
+                  <div class="ghost ghost-none">none</div>
+                  <p class="note">Соседа сдвинуло. Как hidden.</p>
+                </div>
+              </div>
+              <h3 style="margin-top: 16px">Наследуется color, не margin</h3>
+              <div class="inherit-demo">
+                <p>Этот абзац взял цвет и Roboto у родителя.</p>
+                <div class="no-margin">
+                  Padding и margin сюда сами не «капнули» — их задали явно.
+                </div>
+              </div>
+              <p class="note">
+                Страница уже с Roboto / Open Sans через
+                <code>&lt;link&gt;</code> на CSS с <code>@font-face</code>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="page-foot">
+      <div class="wrap">
+        Курс CORAL ·
+        <a href="lecture.md">текст лекции</a> ·
+        <a href="../../tests/02-css.md">тест этапа 2</a> ·
+        <a href="../../../../stage-02-css/index.html">эталон CSS</a>
+      </div>
+    </footer>
+
+    <script>
+      const flexDemo = document.getElementById("flex-demo");
+      document.getElementById("flex-toggle").addEventListener("click", () => {
+        flexDemo.classList.toggle("is-column");
+      });
+
+      const root = document.documentElement;
+      document.getElementById("token-toggle").addEventListener("click", () => {
+        const current = getComputedStyle(root).getPropertyValue("--accent").trim();
+        root.style.setProperty(
+          "--accent",
+          current === "#9e5cf2" || current === "rgb(158, 92, 242)"
+            ? "#1e2832"
+            : "#9e5cf2"
+        );
+      });
+    </script>
+  </body>
+</html>

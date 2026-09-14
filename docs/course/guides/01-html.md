@@ -8,6 +8,8 @@ CSS прячет плохую структуру. Страница должна 
 
 `stage-01-html/`
 
+Вводная лекция (разбор теста с примерами): [../lectures/01-html/lecture.md](../lectures/01-html/lecture.md), [живые примеры](../lectures/01-html/examples.html).
+
 ## Теория
 
 - [DOCTYPE](https://developer.mozilla.org/ru/docs/Glossary/Doctype)

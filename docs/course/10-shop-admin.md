@@ -1,5 +1,7 @@
 # Этап 10. Покупки и админка
 
+Корзина, заказ и права — во [вводной лекции](lectures/10-shop-admin/lecture.md), живые примеры: [lectures/10-shop-admin/examples.html](lectures/10-shop-admin/examples.html).
+
 Папка: `stage-10-shop-admin/`.
 
 Поверх SQLite из этапа 9:

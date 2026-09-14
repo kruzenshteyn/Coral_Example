@@ -9,6 +9,8 @@ JSON-файл нельзя нормально спрашивать «все за
 `stage-09-database/`  
 Схема: `data/schema.sql`
 
+Вводная лекция (разбор теста с примерами): [../lectures/09-database/lecture.md](../lectures/09-database/lecture.md), [живые примеры](../lectures/09-database/examples.html).
+
 ## Теория
 
 - [SQLite: когда уместен](https://www.sqlite.org/whentouse.html)

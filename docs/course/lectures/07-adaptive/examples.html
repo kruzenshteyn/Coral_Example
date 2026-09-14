@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Примеры к лекции. Адаптивная вёрстка</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --color-primary: #9e5cf2;
+        --color-black: #1e2832;
+        --color-black-50: #8f9499;
+        --color-white: #ffffff;
+        --color-stroke: #e3e3e3;
+        --color-page: #f6f4f8;
+        --font-head: "Roboto", system-ui, sans-serif;
+        --font-body: "Open Sans", system-ui, sans-serif;
+        --radius: 8px;
+        --gap: 24px;
+        --shadow: 0 8px 24px rgba(30, 40, 50, 0.08);
+        --container: 1100px;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: var(--font-body);
+        font-size: 16px;
+        line-height: 1.5;
+        color: var(--color-black);
+        background: var(--color-page);
+      }
+
+      h1,
+      h2,
+      h3 {
+        font-family: var(--font-head);
+        font-weight: 500;
+        line-height: 1.2;
+        margin: 0 0 0.5em;
+      }
+
+      p {
+        margin: 0 0 0.75em;
+      }
+
+      a {
+        color: var(--color-primary);
+      }
+
+      code,
+      pre {
+        font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+        font-size: 0.85em;
+      }
+
+      code {
+        background: #efe8f8;
+        padding: 0.1em 0.35em;
+        border-radius: 4px;
+      }
+
+      pre {
+        margin: 0;
+        background: #1e2832;
+        color: #f6f4f8;
+        padding: 16px;
+        border-radius: var(--radius);
+        overflow: auto;
+        line-height: 1.45;
+      }
+
+      .wrap {
+        width: min(var(--container), calc(100% - 32px));
+        margin-inline: auto;
+      }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: var(--color-white);
+        border-bottom: 1px solid var(--color-stroke);
+      }
+
+      .site-header .wrap {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        min-height: 64px;
+        padding-block: 8px;
+      }
+
+      .brand {
+        font-family: var(--font-head);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--color-black);
+        text-decoration: none;
+        font-size: 18px;
+      }
+
+      .toc {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 16px;
+        font-size: 14px;
+      }
+
+      .toc a {
+        color: var(--color-black);
+        text-decoration: none;
+      }
+
+      .toc a:hover,
+      .toc a:focus-visible {
+        color: var(--color-primary);
+      }
+
+      .hero {
+        background: var(--color-white);
+        border-bottom: 1px solid var(--color-stroke);
+        padding: 40px 0 32px;
+      }
+
+      .kicker {
+        color: var(--color-primary);
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        font-size: 12px;
+        margin-bottom: 8px;
+      }
+
+      .lead {
+        max-width: 62ch;
+        color: var(--color-black-50);
+      }
+
+      .section {
+        padding: 40px 0;
+      }
+
+      .section + .section {
+        border-top: 1px solid var(--color-stroke);
+      }
+
+      .q {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--color-primary);
+        background: #efe8f8;
+        border-radius: 999px;
+        padding: 4px 10px;
+        margin-bottom: 8px;
+      }
+
+      .panel {
+        background: var(--color-white);
+        border: 1px solid var(--color-stroke);
+        border-radius: var(--radius);
+        padding: 20px;
+        box-shadow: var(--shadow);
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--gap);
+      }
+
+      @media (max-width: 768px) {
+        .grid-2 {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .note {
+        font-size: 14px;
+        color: var(--color-black-50);
+        margin: 8px 0 0;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px 24px;
+        background: var(--color-black);
+        color: var(--color-white);
+        font-family: var(--font-head);
+        font-size: 16px;
+        border: 0;
+        border-radius: var(--radius);
+        cursor: pointer;
+        text-decoration: none;
+        min-height: 48px;
+      }
+
+      .btn:hover {
+        background: var(--color-primary);
+        color: var(--color-white);
+      }
+
+      .btn:focus-visible {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 3px;
+      }
+
+      .btn-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+      }
+
+      footer.page-foot {
+        padding: 24px 0 40px;
+        color: var(--color-black-50);
+        font-size: 14px;
+      }
+
+      .vp-bar {
+        position: sticky;
+        top: 64px;
+        z-index: 19;
+        background: var(--color-black);
+        color: var(--color-white);
+        font-size: 14px;
+        padding: 8px 0;
+      }
+
+      .vp-bar strong {
+        color: #d7b6ff;
+        font-family: var(--font-head);
+      }
+
+      .bp-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+
+      .bp-table th,
+      .bp-table td {
+        border: 1px solid var(--color-stroke);
+        padding: 8px 10px;
+        text-align: left;
+      }
+
+      .bp-table th {
+        background: #efe8f8;
+      }
+
+      .cols-12 {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 6px;
+      }
+
+      .cols-12 span {
+        background: var(--color-primary);
+        color: #fff;
+        text-align: center;
+        font-size: 12px;
+        padding: 10px 0;
+        border-radius: 4px;
+      }
+
+      @media (max-width: 768px) {
+        .cols-12 {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .products-demo {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+      }
+
+      .products-demo article {
+        background: #efe8f8;
+        border-radius: var(--radius);
+        padding: 16px 12px;
+        min-height: 88px;
+      }
+
+      @media (max-width: 1100px) {
+        .products-demo {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .products-demo {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 480px) {
+        .products-demo {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .demo-nav {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        border: 1px solid var(--color-stroke);
+        border-radius: var(--radius);
+        padding: 8px 12px;
+        background: #fff;
+      }
+
+      .demo-burger {
+        display: none;
+        border: 0;
+        background: transparent;
+        font-size: 22px;
+        cursor: pointer;
+        min-width: 48px;
+        min-height: 48px;
+      }
+
+      .demo-menu {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 20px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .demo-menu a {
+        color: var(--color-black);
+        text-decoration: none;
+        padding: 10px 0;
+        display: inline-block;
+      }
+
+      .demo-menu a:hover {
+        color: var(--color-primary);
+      }
+
+      @media (max-width: 768px) {
+        .demo-burger {
+          display: block;
+          margin-left: auto;
+        }
+
+        .demo-menu {
+          display: none;
+          flex-direction: column;
+          flex-basis: 100%;
+          width: 100%;
+          gap: 0;
+        }
+
+        .demo-nav.is-open .demo-menu {
+          display: flex;
+        }
+
+        .demo-menu a {
+          min-height: 48px;
+          display: flex;
+          align-items: center;
+        }
+      }
+
+      .min-box {
+        width: min(420px, 100%);
+        background: var(--color-black);
+        color: #fff;
+        padding: 16px;
+        border-radius: var(--radius);
+      }
+
+      .clamp-title {
+        font-size: clamp(32px, 5vw, 67px);
+        font-family: var(--font-head);
+        margin: 0;
+      }
+
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .chips span {
+        background: #efe8f8;
+        padding: 8px 14px;
+        border-radius: 999px;
+        font-size: 14px;
+      }
+
+      .hover-card {
+        position: relative;
+        border: 1px solid var(--color-stroke);
+        border-radius: var(--radius);
+        overflow: hidden;
+        background: #fff;
+      }
+
+      .hover-card .photo {
+        height: 160px;
+        background: linear-gradient(135deg, #9e5cf2, #1e2832);
+      }
+
+      .hover-card .price-hover {
+        position: absolute;
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+        background: var(--color-black);
+        color: #fff;
+        text-align: center;
+        padding: 8px;
+        opacity: 0;
+        transform: translateY(8px);
+        transition: 0.2s ease;
+      }
+
+      .hover-card:hover .price-hover,
+      .hover-card:focus-within .price-hover {
+        opacity: 1;
+        transform: none;
+      }
+
+      @media (max-width: 768px) {
+        .hover-card .price-hover {
+          opacity: 1;
+          transform: none;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .hover-card .price-hover {
+          transition: none;
+        }
+      }
+
+      .tiny {
+        font-size: 8px;
+      }
+
+      .tap {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 48px;
+        min-height: 48px;
+        border: 1px dashed var(--color-primary);
+        border-radius: var(--radius);
+        background: #efe8f8;
+      }
+
+      .tap.bad {
+        min-width: 16px;
+        min-height: 16px;
+        font-size: 10px;
+        border-color: #c0392b;
+        background: #fdecea;
+      }
+
+      .table-wrap {
+        overflow-x: auto;
+      }
+
+      table.data {
+        width: 720px;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+
+      table.data th,
+      table.data td {
+        border: 1px solid var(--color-stroke);
+        padding: 8px 10px;
+        text-align: left;
+        white-space: nowrap;
+      }
+
+      table.data th {
+        background: #efe8f8;
+      }
+
+      .hero-shot {
+        width: 100%;
+        height: 560px;
+        object-fit: cover;
+        background: linear-gradient(135deg, #1e2832, #9e5cf2);
+        border-radius: var(--radius);
+        display: grid;
+        place-items: center;
+        color: #fff;
+        font-family: var(--font-head);
+      }
+
+      @media (max-width: 768px) {
+        .hero-shot {
+          height: 240px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .hero-shot {
+          height: 220px;
+        }
+      }
+
+      @media (orientation: landscape) and (max-height: 500px) {
+        .hero-shot {
+          height: 160px;
+        }
+      }
+
+      .vh-box {
+        height: 30vh;
+        background: #efe8f8;
+        border-radius: var(--radius);
+        display: grid;
+        place-items: center;
+        text-align: center;
+        padding: 12px;
+      }
+
+      .files {
+        font-size: 14px;
+        margin: 0;
+        padding-left: 1.2em;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="#top">Coral · лекция 7</a>
+        <nav class="toc" aria-label="Темы примеров">
+          <a href="#viewport">Viewport</a>
+          <a href="#fluid">Резина</a>
+          <a href="#images">Картинки</a>
+          <a href="#ux">UX</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="vp-bar" id="vp-bar">
+      <div class="wrap">
+        Ширина окна: <strong id="vp-width">—</strong>
+        · сузьте браузер или DevTools 1280 → 1024 → 768 → 375
+        · сейчас порог: <strong id="vp-bp">desktop</strong>
+      </div>
+    </div>
+
+    <div class="hero" id="top">
+      <div class="wrap">
+        <p class="kicker">Этап 7 · адаптивная вёрстка</p>
+        <h1>Живые примеры к лекции адаптива</h1>
+        <p class="lead">
+          Макет Coral — desktop-first, пороги 1100 / 768 / 480. Тяните край окна:
+          сетка, бургер и hover меняются сами. Текст —
+          <a href="lecture.md">lecture.md</a>.
+        </p>
+      </div>
+    </div>
+
+    <main>
+      <section class="section" id="viewport">
+        <div class="wrap">
+          <p class="q">Вопросы 1, 2, 3, 4, 5, 6, 23, 29</p>
+          <h2>Viewport и стратегия: desktop-first Coral</h2>
+          <p>
+            Типичный viewport:
+            <code>width=device-width, initial-scale=1</code>.
+            Coral идёт от широкого макета и упрощает в <code>max-width</code>.
+            768px — планшет / крупный телефон, там бургер.
+          </p>
+
+          <div class="panel">
+            <table class="bp-table">
+              <thead>
+                <tr>
+                  <th>Ширина</th>
+                  <th>Сетка товаров</th>
+                  <th>Что ещё</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>&gt; 1100</td>
+                  <td>4 колонки</td>
+                  <td>как в макете Figma</td>
+                </tr>
+                <tr>
+                  <td>≤ 1100</td>
+                  <td>3 колонки</td>
+                  <td>герой 2 фото + текст снизу</td>
+                </tr>
+                <tr>
+                  <td>≤ 768</td>
+                  <td>2 колонки</td>
+                  <td>бургер, меню колонкой</td>
+                </tr>
+                <tr>
+                  <td>≤ 480</td>
+                  <td>1 колонка</td>
+                  <td>логотип короче, модалка на всю ширину</td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="note">
+              Нет mobile-фрейма в Figma — брейкпоинты всё равно проектируют в
+              коде. <code>@media (max-width: 768px)</code> = viewport ≤ 768.
+            </p>
+          </div>
+
+          <div class="panel" style="margin-top: 24px">
+            <h3>12 колонок → 1 колонка на 768</h3>
+            <div class="cols-12" aria-hidden="true">
+              <span>1</span><span>2</span><span>3</span><span>4</span>
+              <span>5</span><span>6</span><span>7</span><span>8</span>
+              <span>9</span><span>10</span><span>11</span><span>12</span>
+            </div>
+            <p class="note">
+              Сузьте окно до 768: ряд становится столбиком. Ниже — сетка товаров
+              Coral 4 → 3 → 2 → 1.
+            </p>
+            <div class="products-demo" style="margin-top: 16px">
+              <article>Joggers</article>
+              <article>Nike bag</article>
+              <article>Scarf</article>
+              <article>Jacket</article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="fluid">
+        <div class="wrap">
+          <p class="q">Вопросы 7, 8, 9, 10, 15, 24</p>
+          <h2>Резина: min(), clamp, wrap, max-width у картинки</h2>
+          <p>
+            Адаптив — набор макетов, отзывчивый — плавная резина; Coral смешивает
+            оба. Контейнер:
+            <code>min(1320px, calc(100% - 40px))</code>.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel">
+              <h3>min() контейнер</h3>
+              <div class="min-box">
+                width: min(420px, 100%)
+              </div>
+              <p class="note">
+                Не шире родителя и не шире заданного максимума. Картинка с
+                <code>max-width: 100%</code> не вылезает из колонки.
+              </p>
+            </div>
+            <div class="panel">
+              <h3>clamp заголовка героя</h3>
+              <p class="clamp-title">Collections</p>
+              <p class="note">
+                <code>clamp(32px, 5vw, 67px)</code> — как
+                <code>.hero__content h1</code> в Coral. Тяните окно: кегль растёт
+                между 32 и 67.
+              </p>
+            </div>
+          </div>
+
+          <div class="panel" style="margin-top: 24px">
+            <h3>flex-wrap: пункты переносятся</h3>
+            <div class="chips">
+              <span>Jewelry</span>
+              <span>Clothing &amp; Shoes</span>
+              <span>Home accessories</span>
+              <span>Wedding</span>
+              <span>Toys</span>
+              <span>Crafts</span>
+              <span>Hair accessories</span>
+            </div>
+            <p class="note">
+              Без <code>flex-wrap: wrap</code> ряд вылезет за край — горизонтальный
+              скролл страницы (баг, вопрос 27).
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="images">
+        <div class="wrap">
+          <p class="q">Вопросы 17, 20, 21, 28</p>
+          <h2>Картинки и единицы: 560px, srcset, picture, vh</h2>
+          <p>
+            Фикс высота 560px на ширине 320 давит макет. В Coral герою снижают
+            высоту на 768 и 480. <code>100vh</code> на телефоне сюрприз — берите
+            <code>dvh</code>.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel">
+              <h3>Герой: 560 → 240 → 220</h3>
+              <div class="hero-shot">hero 560px · object-fit cover</div>
+              <p class="note">
+                Сузьте окно. Landscape + низкая высота — ещё 160px (вопрос 16,
+                orientation).
+              </p>
+            </div>
+            <div class="panel">
+              <h3>srcset / picture</h3>
+              <pre>&lt;img
+  srcset="hero-800.jpg 800w, hero-1600.jpg 1600w"
+  sizes="(max-width: 768px) 100vw, 640px"
+  alt="…" /&gt;
+
+&lt;picture&gt;
+  &lt;source type="image/webp" srcset="hero.webp" /&gt;
+  &lt;img src="hero-left.jpg" alt="…" /&gt;
+&lt;/picture&gt;</pre>
+              <p class="note">
+                Плотность и формат. <code>picture</code> без запасного
+                <code>img</code> нельзя.
+              </p>
+              <div class="vh-box" style="margin-top: 12px">
+                30vh — доля окна, не документа.<br />
+                На мобильном панель браузера двигает vh → dvh / svh.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="ux">
+        <div class="wrap">
+          <p class="q">Вопросы 11–14, 16, 18, 19, 22, 25–27, 30</p>
+          <h2>UX: бургер, hover, 48px, таблица, медиа в блоке</h2>
+          <p>
+            Бургер — когда меню не помещается (у Coral на 768). Hover на таче
+            ненадёжен. <code>display: none</code> убирает из раскладки и a11y.
+          </p>
+
+          <div class="panel">
+            <h3>Бургер появляется ≤ 768</h3>
+            <div class="demo-nav" id="demo-nav">
+              <strong>CORAL</strong>
+              <button class="demo-burger" type="button" id="demo-burger" aria-expanded="false" aria-label="Меню">☰</button>
+              <ul class="demo-menu">
+                <li><a href="#ux">Jewelry</a></li>
+                <li><a href="#ux">Clothing</a></li>
+                <li><a href="#ux">Home</a></li>
+                <li><a href="#ux">Wedding</a></li>
+              </ul>
+            </div>
+            <p class="note">
+              Сузьте до планшета: кнопка ☰, меню <code>display: none</code> пока
+              не откроете. Пункты — зона ~48px.
+            </p>
+          </div>
+
+          <div class="grid-2" style="margin-top: 24px">
+            <div class="panel">
+              <h3>Hover-only vs всегда видно</h3>
+              <div class="hover-card" tabindex="0">
+                <div class="photo"></div>
+                <div class="price-hover">View product · $63.85</div>
+              </div>
+              <p class="note">
+                Наведите мышь. На ширине ≤ 768 плашка видна сразу — как
+                <code>.product-card__hover</code> в Coral. При
+                <code>prefers-reduced-motion: reduce</code> transition снимают.
+              </p>
+            </div>
+            <div class="panel">
+              <h3>Hit area 44–48px vs 16px</h3>
+              <div class="btn-row">
+                <span class="tap">48px</span>
+                <span class="tap bad">16</span>
+                <button class="btn" type="button">Shop now</button>
+              </div>
+              <p class="note">
+                Мелкий крестик — промах пальцем. 8px текст ниже плохо читается:
+              </p>
+              <p class="tiny">font-size: 8px — плохо на мобильном, не a11y и не SEO.</p>
+            </div>
+          </div>
+
+          <div class="grid-2" style="margin-top: 24px">
+            <div class="panel">
+              <h3>overflow-x: auto у таблицы</h3>
+              <div class="table-wrap">
+                <table class="data">
+                  <thead>
+                    <tr>
+                      <th>Товар</th>
+                      <th>Категория</th>
+                      <th>Цена</th>
+                      <th>Старая цена</th>
+                      <th>Склад</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Adicolor Classics Joggers</td>
+                      <td>Dress</td>
+                      <td>$63.85</td>
+                      <td>$70.00</td>
+                      <td>in stock</td>
+                    </tr>
+                    <tr>
+                      <td>Nike Sportswear Futura Luxe</td>
+                      <td>Bag</td>
+                      <td>$130.00</td>
+                      <td>—</td>
+                      <td>in stock</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="note">
+                Скролл внутри обёртки — компромисс. Скролл всей страницы на 375px
+                — баг (элемент шире 100%).
+              </p>
+            </div>
+            <div class="panel">
+              <h3>Медиа в файле блока</h3>
+              <ul class="files">
+                <li><code>css/index.css</code> — только @import</li>
+                <li><code>blocks/products/products.css</code> — сетка 4→1</li>
+                <li><code>blocks/burger/burger.css</code> — display на 768</li>
+                <li><code>blocks/hero/hero.css</code> — высота фото, clamp</li>
+                <li><code>blocks/menu/menu.css</code> — колонка на 768</li>
+              </ul>
+              <p class="note">
+                Проще сопровождать компонент, чем свалкой @media в конце.
+                <code>@container</code> смотрит ширину контейнера, не только viewport.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="page-foot">
+      <div class="wrap">
+        Курс CORAL ·
+        <a href="lecture.md">текст лекции</a> ·
+        <a href="../../tests/07-adaptive.md">тест этапа 7</a> ·
+        <a href="../../../../stage-07-adaptive/index.html">эталон адаптива</a>
+      </div>
+    </footer>
+
+    <script>
+      (function () {
+        const widthEl = document.getElementById("vp-width");
+        const bpEl = document.getElementById("vp-bp");
+
+        function label(w) {
+          if (w <= 480) return "≤ 480 · 1 колонка";
+          if (w <= 768) return "≤ 768 · 2 колонки, бургер";
+          if (w <= 1100) return "≤ 1100 · 3 колонки";
+          return "> 1100 · 4 колонки";
+        }
+
+        function paint() {
+          const w = window.innerWidth;
+          widthEl.textContent = w + "px";
+          bpEl.textContent = label(w);
+        }
+
+        paint();
+        window.addEventListener("resize", paint);
+
+        const nav = document.getElementById("demo-nav");
+        const burger = document.getElementById("demo-burger");
+        burger.addEventListener("click", () => {
+          const open = nav.classList.toggle("is-open");
+          burger.setAttribute("aria-expanded", String(open));
+        });
+      })();
+    </script>
+  </body>
+</html>

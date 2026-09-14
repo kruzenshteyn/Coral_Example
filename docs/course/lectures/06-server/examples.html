@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Примеры к лекции. HTTP, API и сервер</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --color-primary: #9e5cf2;
+        --color-black: #1e2832;
+        --color-black-50: #8f9499;
+        --color-white: #ffffff;
+        --color-stroke: #e3e3e3;
+        --color-page: #f6f4f8;
+        --font-head: "Roboto", system-ui, sans-serif;
+        --font-body: "Open Sans", system-ui, sans-serif;
+        --radius: 8px;
+        --gap: 24px;
+        --shadow: 0 8px 24px rgba(30, 40, 50, 0.08);
+        --container: 1100px;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: var(--font-body);
+        font-size: 16px;
+        line-height: 1.5;
+        color: var(--color-black);
+        background: var(--color-page);
+      }
+
+      h1,
+      h2,
+      h3 {
+        font-family: var(--font-head);
+        font-weight: 500;
+        line-height: 1.2;
+        margin: 0 0 0.5em;
+      }
+
+      p {
+        margin: 0 0 0.75em;
+      }
+
+      a {
+        color: var(--color-primary);
+      }
+
+      code,
+      pre {
+        font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+        font-size: 0.85em;
+      }
+
+      code {
+        background: #efe8f8;
+        padding: 0.1em 0.35em;
+        border-radius: 4px;
+      }
+
+      pre {
+        margin: 0;
+        background: #1e2832;
+        color: #f6f4f8;
+        padding: 16px;
+        border-radius: var(--radius);
+        overflow: auto;
+        line-height: 1.45;
+      }
+
+      .wrap {
+        width: min(var(--container), calc(100% - 32px));
+        margin-inline: auto;
+      }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: var(--color-white);
+        border-bottom: 1px solid var(--color-stroke);
+      }
+
+      .site-header .wrap {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        min-height: 64px;
+        padding-block: 8px;
+      }
+
+      .brand {
+        font-family: var(--font-head);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--color-black);
+        text-decoration: none;
+        font-size: 18px;
+      }
+
+      .toc {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 16px;
+        font-size: 14px;
+      }
+
+      .toc a {
+        color: var(--color-black);
+        text-decoration: none;
+      }
+
+      .toc a:hover,
+      .toc a:focus-visible {
+        color: var(--color-primary);
+      }
+
+      .hero {
+        background: var(--color-white);
+        border-bottom: 1px solid var(--color-stroke);
+        padding: 40px 0 32px;
+      }
+
+      .kicker {
+        color: var(--color-primary);
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        font-size: 12px;
+        margin-bottom: 8px;
+      }
+
+      .lead {
+        max-width: 62ch;
+        color: var(--color-black-50);
+      }
+
+      .section {
+        padding: 40px 0;
+      }
+
+      .section + .section {
+        border-top: 1px solid var(--color-stroke);
+      }
+
+      .q {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--color-primary);
+        background: #efe8f8;
+        border-radius: 999px;
+        padding: 4px 10px;
+        margin-bottom: 8px;
+      }
+
+      .panel {
+        background: var(--color-white);
+        border: 1px solid var(--color-stroke);
+        border-radius: var(--radius);
+        padding: 20px;
+        box-shadow: var(--shadow);
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--gap);
+      }
+
+      @media (max-width: 768px) {
+        .grid-2 {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .note {
+        font-size: 14px;
+        color: var(--color-black-50);
+        margin: 8px 0 0;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 24px;
+        background: var(--color-black);
+        color: var(--color-white);
+        font-family: var(--font-head);
+        font-size: 16px;
+        border: 0;
+        border-radius: var(--radius);
+        cursor: pointer;
+        text-decoration: none;
+      }
+
+      .btn:hover {
+        background: var(--color-primary);
+        color: var(--color-white);
+      }
+
+      .btn:focus-visible {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 3px;
+      }
+
+      .btn-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+      }
+
+      label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+
+      input:not([type="checkbox"]) {
+        font: inherit;
+        padding: 8px 12px;
+        border: 1px solid var(--color-stroke);
+        border-radius: var(--radius);
+        width: min(100%, 280px);
+      }
+
+      .log-box {
+        margin: 12px 0 0;
+        background: #1e2832;
+        color: #f6f4f8;
+        padding: 12px 16px;
+        border-radius: var(--radius);
+        font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+        font-size: 13px;
+        min-height: 4.5em;
+        white-space: pre-wrap;
+      }
+
+      footer.page-foot {
+        padding: 24px 0 40px;
+        color: var(--color-black-50);
+        font-size: 14px;
+      }
+
+      .codes {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+      }
+
+      @media (max-width: 900px) {
+        .codes {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      .code-card {
+        border: 1px solid var(--color-stroke);
+        border-radius: var(--radius);
+        padding: 14px;
+        background: #fff;
+        cursor: pointer;
+        text-align: left;
+        font: inherit;
+        color: inherit;
+        min-height: 132px;
+      }
+
+      .code-card:hover,
+      .code-card:focus-visible {
+        border-color: var(--color-primary);
+        outline: 2px solid var(--color-primary);
+        outline-offset: 2px;
+      }
+
+      .code-card strong {
+        display: block;
+        font-family: var(--font-head);
+        font-size: 28px;
+        font-weight: 500;
+        line-height: 1;
+        margin-bottom: 6px;
+      }
+
+      .code-card.c2 strong { color: #1a7f4b; }
+      .code-card.c4 strong { color: #c0392b; }
+      .code-card.c5 strong { color: #8e2a1f; }
+
+      .flow {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        gap: 12px;
+        align-items: stretch;
+      }
+
+      @media (max-width: 768px) {
+        .flow {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .flow-arrow {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--color-primary);
+        font-weight: 600;
+        font-size: 22px;
+      }
+
+      .origin {
+        border: 2px dashed var(--color-stroke);
+        border-radius: var(--radius);
+        padding: 16px;
+        background: #faf8fd;
+        min-height: 140px;
+      }
+
+      .origin-a {
+        border-color: var(--color-primary);
+      }
+
+      .origin-b {
+        border-color: var(--color-black);
+      }
+
+      .stacks {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+
+      @media (max-width: 768px) {
+        .stacks {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .stack {
+        border: 1px solid var(--color-stroke);
+        border-radius: var(--radius);
+        padding: 16px;
+        background: #fff;
+        text-align: center;
+      }
+
+      .stack .port {
+        font-family: var(--font-head);
+        font-size: 28px;
+        color: var(--color-primary);
+      }
+
+      .cartoon {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr auto 1fr;
+        gap: 8px;
+        align-items: center;
+        font-size: 14px;
+      }
+
+      @media (max-width: 768px) {
+        .cartoon {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .cartoon .box {
+        border: 1px solid var(--color-stroke);
+        border-radius: var(--radius);
+        padding: 12px;
+        background: #fff;
+        min-height: 110px;
+      }
+
+      .cartoon .evil {
+        background: #fdecea;
+      }
+
+      .status-pill {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+      }
+
+      .status-pill.ok {
+        background: #e3f6ea;
+        color: #1a7f4b;
+      }
+
+      .status-pill.bad {
+        background: #fdecea;
+        color: #c0392b;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="#top">Coral · лекция 6</a>
+        <nav class="toc" aria-label="Темы примеров">
+          <a href="#methods">Методы</a>
+          <a href="#codes">Коды</a>
+          <a href="#contract">Контракт</a>
+          <a href="#session">Сессии</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="hero" id="top">
+      <div class="wrap">
+        <p class="kicker">Этап 6 · HTTP, API и сервер</p>
+        <h1>Живые примеры к лекции HTTP</h1>
+        <p class="lead">
+          Один JSON-контракт, три стека, коды как в Coral. Текст лекции —
+          <a href="lecture.md">lecture.md</a>. Симуляция входа на этой странице
+          не ходит на сервер.
+        </p>
+      </div>
+    </div>
+
+    <main>
+      <section class="section" id="methods">
+        <div class="wrap">
+          <p class="q">Вопросы 1, 2, 17, 28</p>
+          <h2>Методы: GET, POST, идемпотентность, PUT / PATCH</h2>
+          <p>
+            GET — чтение без побочек. POST — действие с телом. PUT заменяет
+            целиком, PATCH — частично. Повтор PUT/DELETE даёт тот же эффект.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel">
+              <h3>GET — каталог</h3>
+              <pre>GET /api/products
+
+200 { "ok": true, "data": [ … ] }</pre>
+              <p class="note">
+                Можно повторять и кэшировать. В Coral так грузят товары.
+                Query <code>?q=hat</code> — тоже GET (вопрос 24).
+              </p>
+            </div>
+            <div class="panel">
+              <h3>POST — вход и заказ</h3>
+              <pre>POST /api/auth/login
+Content-Type: application/json
+
+{"email":"ada@coral.test","password":"secret1"}</pre>
+              <p class="note">
+                Тело обязательно для логина. Повтор POST регистрации с тем же
+                email — уже 409, не «ещё один пользователь».
+              </p>
+            </div>
+          </div>
+
+          <div class="panel" style="margin-top: 24px">
+            <h3>Идемпотентность и PUT vs PATCH</h3>
+            <pre>PUT   /api/users/3   { "name": "Ada", "email": "ada@coral.test" }
+PATCH /api/users/3   { "name": "Ada Lovelace" }
+
+DELETE /api/orders/12   ← второй раз: ресурс уже нет, эффект тот же</pre>
+            <p class="note">
+              Coral заказы добавляет POST (не идемпотентен). PUT — полная замена,
+              PATCH — поля. GET безопасен и идемпотентен.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="codes">
+        <div class="wrap">
+          <p class="q">Вопросы 3–10</p>
+          <h2>Коды: кликните карточку — история Coral</h2>
+          <p>
+            2xx — получилось, 4xx — клиент, 5xx — сервер. 401 «кто ты?», 403
+            «знаем кто, нельзя», 409 — email занят.
+          </p>
+
+          <div class="codes" id="codes">
+            <button class="code-card c2" type="button" data-code="200">
+              <strong>200</strong>
+              успех<br />GET /api/products
+            </button>
+            <button class="code-card c2" type="button" data-code="201">
+              <strong>201</strong>
+              ресурс создан<br />учебный POST /users
+            </button>
+            <button class="code-card c4" type="button" data-code="400">
+              <strong>400</strong>
+              некорректный клиент<br />пароль короче 6
+            </button>
+            <button class="code-card c4" type="button" data-code="401">
+              <strong>401</strong>
+              нужна аутентификация<br />нет сессии / неверный пароль
+            </button>
+            <button class="code-card c4" type="button" data-code="403">
+              <strong>403</strong>
+              вошёл, нет прав<br />покупатель ≠ админ
+            </button>
+            <button class="code-card c4" type="button" data-code="404">
+              <strong>404</strong>
+              не найден<br />GET /api/products/nope
+            </button>
+            <button class="code-card c4" type="button" data-code="409">
+              <strong>409</strong>
+              конфликт<br />email уже занят
+            </button>
+            <button class="code-card c5" type="button" data-code="500">
+              <strong>500</strong>
+              ошибка сервера<br />необработанный throw
+            </button>
+          </div>
+          <div class="log-box" id="code-log">Кликните код — покажем тело ответа как в контракте Coral.</div>
+        </div>
+      </section>
+
+      <section class="section" id="login-demo">
+        <div class="wrap">
+          <p class="q">Вопросы 6, 12, 16, 23</p>
+          <h2>Симуляция входа: сначала 401, потом 200</h2>
+          <p>
+            Клиент ставит <code>Content-Type: application/json</code> и
+            <code>credentials: "include"</code>. Пароль в ответе не возвращают.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel">
+              <h3>POST /api/auth/login</h3>
+              <form id="login-form">
+                <p>
+                  <label for="login-email">Email</label>
+                  <input id="login-email" type="email" value="ada@coral.test" autocomplete="username" />
+                </p>
+                <p>
+                  <label for="login-password">Password</label>
+                  <input id="login-password" type="password" value="" placeholder="secret1" autocomplete="current-password" />
+                </p>
+                <div class="btn-row">
+                  <button class="btn" type="submit">Войти</button>
+                  <button class="btn" type="button" id="login-empty">Войти без пароля</button>
+                </div>
+              </form>
+              <p class="note">
+                Учебный пароль симуляции: <code>secret1</code>. Пустой / неверный
+                → 401, верный → 200 без поля password.
+              </p>
+            </div>
+            <div class="panel">
+              <h3>Ответ</h3>
+              <p>
+                <span class="status-pill bad" id="status-pill">—</span>
+              </p>
+              <div class="log-box" id="login-log">ещё не вызывали</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="contract">
+        <div class="wrap">
+          <p class="q">Вопросы 11, 12, 18, 19, 24, 25, 29, 30</p>
+          <h2>Контракт: три стека, маршруты, статика, healthcheck</h2>
+          <p>
+            Ресурсы — существительные <code>/users</code>, <code>/products</code>.
+            PHP, Django и Node сравнимы, потому что все принимают HTTP и отдают JSON.
+          </p>
+
+          <div class="stacks">
+            <div class="stack">
+              <div class="port">:8000</div>
+              <p><strong>PHP</strong></p>
+              <p class="note" style="margin: 0"><code>php -S localhost:8000 router.php</code></p>
+            </div>
+            <div class="stack">
+              <div class="port">:8001</div>
+              <p><strong>Django</strong></p>
+              <p class="note" style="margin: 0"><code>python manage.py runserver 8001</code></p>
+            </div>
+            <div class="stack">
+              <div class="port">:8002</div>
+              <p><strong>Node.js</strong></p>
+              <p class="note" style="margin: 0"><code>npm start</code></p>
+            </div>
+          </div>
+          <p class="note" style="text-align: center; margin-top: 12px">
+            Один фронт <code>frontend/</code> · один контракт
+            <code>{ ok, data }</code> / <code>{ ok, error }</code>
+          </p>
+
+          <div class="grid-2" style="margin-top: 24px">
+            <div class="panel">
+              <h3>Маршрут = method + path</h3>
+              <pre>GET  /api/products
+GET  /api/products/:id
+POST /api/auth/register
+POST /api/auth/login
+GET  /api/me          ← сессия
+POST /api/orders      ← { productId }
+GET  /api/products?q=hat</pre>
+              <p class="note">
+                Статику роутер отдаёт по пути из ФС с Content-Type:
+                <code>style.css</code> → <code>text/css</code>.
+              </p>
+            </div>
+            <div class="panel">
+              <h3>Таймаут и healthcheck</h3>
+              <pre>GET /health  →  200 { "ok": true }
+// лёгкий GET: процесс жив, не «удали БД»
+
+const ctrl = new AbortController();
+setTimeout(() => ctrl.abort(), 8000);
+fetch(url, { signal: ctrl.signal });</pre>
+              <p class="note">
+                Таймаут прерывает слишком долгое ожидание. Healthcheck должен
+                отвечать быстро.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="session">
+        <div class="wrap">
+          <p class="q">Вопросы 13–16, 20–23, 26, 27</p>
+          <h2>Сессии: HttpOnly, CORS, CSRF, same-origin</h2>
+          <p>
+            Сессия хранит id пользователя. Cookie ставит сервер заголовком
+            <code>Set-Cookie</code>. Пароль — хеш с солью, в JSON и в логах его нет.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel">
+              <h3>HttpOnly vs localStorage</h3>
+              <pre>// этап 5 — видно JS, XSS украдёт
+localStorage.setItem("coral-user", …)
+document.cookie // сессию не читает, если HttpOnly
+
+// этап 6 — Set-Cookie от сервера
+Set-Cookie: PHPSESSID=abc; HttpOnly
+fetch("/api/me", { credentials: "include" })</pre>
+              <p class="note">
+                Same-origin = схема + хост + порт.
+                <code>localhost:8000</code> и <code>:8001</code> — разные origin.
+              </p>
+            </div>
+            <div class="panel">
+              <h3>CORS: origin A → origin B</h3>
+              <div class="flow">
+                <div class="origin origin-a">
+                  <strong>A · страница</strong>
+                  <p><code>http://localhost:8080</code></p>
+                  <p class="note">JS делает fetch</p>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="origin origin-b">
+                  <strong>B · API</strong>
+                  <p><code>http://localhost:8000</code></p>
+                  <p class="note">нужен Access-Control-Allow-Origin</p>
+                </div>
+              </div>
+              <p class="note">
+                В Coral PHP сам отдаёт фронт — запросы same-origin, CORS не нужен.
+                Сервер → БД CORS не касается.
+              </p>
+            </div>
+          </div>
+
+          <div class="panel" style="margin-top: 24px">
+            <h3>CSRF-мультик: чужая форма шлёт cookie</h3>
+            <div class="cartoon">
+              <div class="box">
+                <strong>1. Вы на Coral</strong>
+                <p>Залогинены, браузер хранит сессионную cookie.</p>
+              </div>
+              <div class="flow-arrow">→</div>
+              <div class="box evil">
+                <strong>2. Злой сайт</strong>
+                <p>
+                  <code>&lt;form action="http://localhost:8000/api/orders"&gt;</code>
+                  — cookie уйдёт сама.
+                </p>
+              </div>
+              <div class="flow-arrow">→</div>
+              <div class="box">
+                <strong>3. Заказ «от вас»</strong>
+                <p>Сервер видит сессию. Защита: токен, SameSite, не опасный GET.</p>
+              </div>
+            </div>
+            <p class="note">
+              Логировать пароль в access-log — плохая практика: URL и тело осядут
+              на диске.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="page-foot">
+      <div class="wrap">
+        Курс CORAL ·
+        <a href="lecture.md">текст лекции</a> ·
+        <a href="../../tests/06-server.md">тест этапа 6</a> ·
+        <a href="../../../../stage-06-server/api-contract.md">контракт API</a>
+      </div>
+    </footer>
+
+    <script>
+      (function () {
+        const stories = {
+          200: {
+            http: "HTTP/1.1 200 OK",
+            body: '{ "ok": true, "data": [{ "id": "joggers", "title": "Adicolor Classics Joggers", "price": 63.85 }] }',
+            note: "Успех. GET /api/products — каталог без побочек.",
+          },
+          201: {
+            http: "HTTP/1.1 201 Created",
+            body: '{ "ok": true, "data": { "id": 1, "name": "Ada", "email": "ada@coral.test" } }',
+            note: "Ресурс создан. В учебниках POST /users → 201. Coral часто отвечает 200 + ok:true — тот же смысл «получилось создать». Пароля в data нет.",
+          },
+          400: {
+            http: "HTTP/1.1 400 Bad Request",
+            body: '{ "ok": false, "error": "Invalid registration data" }',
+            note: "Клиент прислал короткое имя / пароль < 6 / битый JSON. Не «нет сети».",
+          },
+          401: {
+            http: "HTTP/1.1 401 Unauthorized",
+            body: '{ "ok": false, "error": "Unauthorized" }',
+            note: "Нужна аутентификация: GET /api/me без cookie или неверный пароль. Select product без входа.",
+          },
+          403: {
+            http: "HTTP/1.1 403 Forbidden",
+            body: '{ "ok": false, "error": "Forbidden" }',
+            note: "Вошёл, но нет прав (покупатель просит админский путь). Не то же, что 401.",
+          },
+          404: {
+            http: "HTTP/1.1 404 Not Found",
+            body: '{ "ok": false, "error": "Product not found" }',
+            note: "GET /api/products/no-such-id. Ресурс не найден, не конфликт email.",
+          },
+          409: {
+            http: "HTTP/1.1 409 Conflict",
+            body: '{ "ok": false, "error": "Email already registered" }',
+            note: "Повторная регистрация ada@coral.test. Уникальность нарушена.",
+          },
+          500: {
+            http: "HTTP/1.1 500 Internal Server Error",
+            body: '{ "ok": false, "error": "Server error" }',
+            note: "Упало на сервере. Клиент мог прислать правильный запрос.",
+          },
+        };
+
+        const codeLog = document.getElementById("code-log");
+        document.getElementById("codes").addEventListener("click", (event) => {
+          const card = event.target.closest("[data-code]");
+          if (!card) return;
+          const story = stories[card.dataset.code];
+          codeLog.textContent = story.http + "\n" + story.body + "\n\n" + story.note;
+        });
+
+        const USER = { id: 1, name: "Ada", email: "ada@coral.test" };
+        const loginLog = document.getElementById("login-log");
+        const pill = document.getElementById("status-pill");
+
+        function showLogin(status, payload) {
+          pill.textContent = String(status);
+          pill.classList.toggle("ok", status === 200);
+          pill.classList.toggle("bad", status !== 200);
+          loginLog.textContent =
+            "HTTP " +
+            status +
+            "\nContent-Type: application/json\n\n" +
+            JSON.stringify(payload, null, 2);
+        }
+
+        function fakeLogin(email, password) {
+          const headers = {
+            method: "POST",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+            body: { email: email, password: password },
+          };
+          loginLog.textContent = "→ " + JSON.stringify(headers, null, 2);
+          window.setTimeout(() => {
+            if (!password) {
+              showLogin(401, { ok: false, error: "Unauthorized" });
+              return;
+            }
+            if (password !== "secret1" || email !== USER.email) {
+              showLogin(401, { ok: false, error: "Invalid email or password" });
+              return;
+            }
+            showLogin(200, { ok: true, data: { id: USER.id, name: USER.name, email: USER.email } });
+          }, 280);
+        }
+
+        document.getElementById("login-form").addEventListener("submit", (event) => {
+          event.preventDefault();
+          fakeLogin(
+            document.getElementById("login-email").value.trim(),
+            document.getElementById("login-password").value
+          );
+        });
+        document.getElementById("login-empty").addEventListener("click", () => {
+          document.getElementById("login-password").value = "";
+          fakeLogin(document.getElementById("login-email").value.trim(), "");
+        });
+      })();
+    </script>
+  </body>
+</html>

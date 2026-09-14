@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Примеры к лекции. БЭМ: независимые блоки</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --color-primary: #9e5cf2;
+        --color-black: #1e2832;
+        --color-black-50: #8f9499;
+        --color-white: #ffffff;
+        --color-stroke: #e3e3e3;
+        --color-page: #f6f4f8;
+        --font-head: "Roboto", system-ui, sans-serif;
+        --font-body: "Open Sans", system-ui, sans-serif;
+        --radius: 8px;
+        --gap: 24px;
+        --shadow: 0 8px 24px rgba(30, 40, 50, 0.08);
+        --container: 1100px;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: var(--font-body);
+        font-size: 16px;
+        line-height: 1.5;
+        color: var(--color-black);
+        background: var(--color-page);
+      }
+
+      h1,
+      h2,
+      h3 {
+        font-family: var(--font-head);
+        font-weight: 500;
+        line-height: 1.2;
+        margin: 0 0 0.5em;
+      }
+
+      p {
+        margin: 0 0 0.75em;
+      }
+
+      a {
+        color: var(--color-primary);
+      }
+
+      code,
+      pre {
+        font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+        font-size: 0.85em;
+      }
+
+      code {
+        background: #efe8f8;
+        padding: 0.1em 0.35em;
+        border-radius: 4px;
+      }
+
+      pre {
+        margin: 0;
+        background: #1e2832;
+        color: #f6f4f8;
+        padding: 16px;
+        border-radius: var(--radius);
+        overflow: auto;
+        line-height: 1.45;
+      }
+
+      .wrap {
+        width: min(var(--container), calc(100% - 32px));
+        margin-inline: auto;
+      }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: var(--color-white);
+        border-bottom: 1px solid var(--color-stroke);
+      }
+
+      .site-header .wrap {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        min-height: 64px;
+        padding-block: 8px;
+      }
+
+      .brand {
+        font-family: var(--font-head);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--color-black);
+        text-decoration: none;
+        font-size: 18px;
+      }
+
+      .toc {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 16px;
+        font-size: 14px;
+      }
+
+      .toc a {
+        color: var(--color-black);
+        text-decoration: none;
+      }
+
+      .toc a:hover,
+      .toc a:focus-visible {
+        color: var(--color-primary);
+      }
+
+      .hero {
+        background: var(--color-white);
+        border-bottom: 1px solid var(--color-stroke);
+        padding: 40px 0 32px;
+      }
+
+      .kicker {
+        color: var(--color-primary);
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        font-size: 12px;
+        margin-bottom: 8px;
+      }
+
+      .lead {
+        max-width: 62ch;
+        color: var(--color-black-50);
+      }
+
+      .section {
+        padding: 40px 0;
+      }
+
+      .section + .section {
+        border-top: 1px solid var(--color-stroke);
+      }
+
+      .q {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--color-primary);
+        background: #efe8f8;
+        border-radius: 999px;
+        padding: 4px 10px;
+        margin-bottom: 8px;
+      }
+
+      .panel {
+        background: var(--color-white);
+        border: 1px solid var(--color-stroke);
+        border-radius: var(--radius);
+        padding: 20px;
+        box-shadow: var(--shadow);
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--gap);
+      }
+
+      @media (max-width: 768px) {
+        .grid-2 {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .note {
+        font-size: 14px;
+        color: var(--color-black-50);
+        margin: 8px 0 0;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 24px;
+        background: var(--color-black);
+        color: var(--color-white);
+        font-family: var(--font-head);
+        font-size: 16px;
+        border: 0;
+        border-radius: var(--radius);
+        cursor: pointer;
+        text-decoration: none;
+      }
+
+      .btn:hover {
+        background: var(--color-primary);
+        color: var(--color-white);
+      }
+
+      .btn:focus-visible {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 3px;
+      }
+
+      .btn:disabled,
+      .btn_disabled {
+        background: #c5c8cb;
+        color: #6b7075;
+        cursor: not-allowed;
+      }
+
+      .btn_size_l {
+        padding: 16px 32px;
+        font-size: 18px;
+      }
+
+      .btn-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .tree {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        font-size: 14px;
+      }
+
+      .tree ul {
+        margin: 0;
+        padding-left: 1.2em;
+        list-style: none;
+        border-left: 1px solid var(--color-stroke);
+      }
+
+      .tree code {
+        font-size: 12px;
+      }
+
+      .ok {
+        outline: 2px solid #1a7f4b;
+        outline-offset: 2px;
+      }
+
+      .bad {
+        outline: 2px dashed #c0392b;
+        outline-offset: 2px;
+      }
+
+      footer.page-foot {
+        padding: 24px 0 40px;
+        color: var(--color-black-50);
+        font-size: 14px;
+      }
+
+      /* Product card — independent block */
+      .product-card {
+        position: relative;
+        max-width: 240px;
+        background: var(--color-white);
+      }
+
+      .product-card__media {
+        display: block;
+        position: relative;
+        overflow: hidden;
+        background: #efe8f8;
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .product-card__media img {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+        display: block;
+      }
+
+      .product-card__title {
+        font-family: var(--font-body);
+        font-weight: 600;
+        font-size: 16px;
+        margin: 12px 0 4px;
+      }
+
+      .product-card__category {
+        color: var(--color-black-50);
+        font-size: 14px;
+        margin: 0;
+      }
+
+      .product-card__price {
+        margin: 6px 0 0;
+        font-weight: 600;
+      }
+
+      .product-card__badge {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        z-index: 1;
+        padding: 4px 10px;
+        font-size: 12px;
+        text-transform: lowercase;
+        color: var(--color-white);
+        margin: 0;
+      }
+
+      .product-card__badge_type_sale {
+        background: var(--color-primary);
+      }
+
+      .product-card__badge_type_hot {
+        background: #000;
+      }
+
+      .product-card_selected {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 6px;
+      }
+
+      .cards-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+        align-items: flex-start;
+      }
+
+      /* Mix: container + header__top */
+      .container {
+        width: 100%;
+        max-width: 640px;
+        margin-inline: auto;
+        padding-inline: 16px;
+      }
+
+      .header__top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        min-height: 56px;
+        background: #fff;
+        border: 1px solid var(--color-stroke);
+        border-radius: var(--radius);
+      }
+
+      .logo {
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        margin: 0;
+        font-family: var(--font-head);
+      }
+
+      .search-form {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .search-form input {
+        font: inherit;
+        border: 0;
+        border-bottom: 1px solid var(--color-stroke);
+        width: 120px;
+        padding: 4px 0;
+      }
+
+      /* Fragile vs BEM selector demo */
+      .fragile-stage {
+        border: 1px dashed var(--color-stroke);
+        padding: 12px;
+        border-radius: var(--radius);
+      }
+
+      .header-demo nav ul li a {
+        color: #1a7f4b;
+        font-weight: 600;
+      }
+
+      .product-card__link {
+        color: var(--color-primary);
+        font-weight: 600;
+        text-decoration: none;
+      }
+
+      .product-card__link:hover,
+      .product-card__link:focus-visible {
+        text-decoration: underline;
+      }
+
+      .menu {
+        background: #fff;
+        border: 1px solid var(--color-stroke);
+        border-radius: var(--radius);
+        padding: 8px 12px;
+      }
+
+      .menu ul {
+        display: flex;
+        gap: 16px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .menu_open {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 4px;
+      }
+
+      .is-open {
+        background: #efe8f8;
+      }
+
+      .footer-slot {
+        margin-top: 16px;
+        padding: 16px;
+        background: #1e2832;
+        color: #fff;
+        border-radius: var(--radius);
+      }
+
+      .footer-slot .product-card {
+        color: var(--color-black);
+      }
+
+      .long-name {
+        word-break: break-all;
+        font-size: 13px;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="#top">Coral · лекция 3</a>
+        <nav class="toc" aria-label="Темы примеров">
+          <a href="#names">Имена</a>
+          <a href="#independent">Независимость</a>
+          <a href="#structure">Структура</a>
+          <a href="#practice">Практика</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="hero" id="top">
+      <div class="wrap">
+        <p class="kicker">Этап 3 · БЭМ как договор имён</p>
+        <h1>Живые примеры к лекции БЭМ</h1>
+        <p class="lead">
+          Карточка Coral — независимый блок. Модификаторы включают обводку и
+          бейдж Sale. Длинный селектор ломается, класс элемента — нет. Текст
+          лекции — <a href="lecture.md">lecture.md</a>.
+        </p>
+      </div>
+    </div>
+
+    <main>
+      <section class="section" id="names">
+        <div class="wrap">
+          <p class="q">Вопросы 1, 2, 3, 4, 5, 6, 11, 12, 13</p>
+          <h2>Имена: блок, элемент, модификатор</h2>
+          <p>
+            БЭМ — Блок, Элемент, Модификатор. Блок независим.
+            Элемент принадлежит блоку: <code>menu__item</code>.
+            Модификатор меняет вид или состояние: <code>button_disabled</code>.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel">
+              <h3>Дерево product-card</h3>
+              <ul class="tree">
+                <li><code>product-card</code> блок
+                  <ul>
+                    <li><code>product-card__media</code> элемент</li>
+                    <li><code>product-card__title</code> элемент</li>
+                    <li><code>product-card__badge</code> элемент
+                      <ul>
+                        <li><code>product-card__badge_type_sale</code> модификатор элемента</li>
+                      </ul>
+                    </li>
+                    <li><code>product-card_selected</code> модификатор блока</li>
+                  </ul>
+                </li>
+              </ul>
+              <p class="note">
+                Имя блока строчными через дефис: <code>search-form</code>, не CamelCase.
+              </p>
+            </div>
+            <div class="panel">
+              <h3>Два модификатора — два класса</h3>
+              <div class="btn-row">
+                <button class="btn" type="button">.btn</button>
+                <button class="btn btn_size_l btn_disabled" type="button">
+                  size_l + disabled
+                </button>
+              </div>
+              <pre style="margin-top: 12px">&lt;button class="btn btn_size_l btn_disabled"&gt;</pre>
+              <p class="note">
+                Не один класс со всеми словами и не через id.
+                Элемент списка: <code>list__item_active</code>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="independent">
+        <div class="wrap">
+          <p class="q">Вопросы 7, 10, 14, 18, 21, 25</p>
+          <h2>Независимость и селекторы</h2>
+          <p>
+            <code>.header nav ul li a</code> хрупок: сменили тег — стиль пропал.
+            Стили блока не ждут конкретного родителя. Один класс БЭМ весит как
+            один <code>.class</code>, не как id.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel bad">
+              <h3>Хрупкий селектор</h3>
+              <div class="fragile-stage header-demo">
+                <nav>
+                  <ul>
+                    <li><a href="#independent">Jewelry — зелёный (nav ul li a)</a></li>
+                  </ul>
+                </nav>
+                <p style="margin-top: 12px">
+                  Та же ссылка без трёх обёрток:
+                  <a href="#independent">Jewelry — уже не зелёная</a>
+                </p>
+              </div>
+              <p class="note">Ложный БЭМ: имена «как БЭМ», стили всё равно от вложенности тегов.</p>
+            </div>
+            <div class="panel ok">
+              <h3>.product-card__link</h3>
+              <p>
+                <a class="product-card__link" href="#independent">View product</a>
+                — работает в карточке, в футере и в модалке.
+              </p>
+              <p class="note">
+                Не пишите <code>div.product-card</code>: карточка Coral —
+                <code>article</code>. Специфичность <code>.product-card__link</code>
+                = один класс.
+              </p>
+              <h3 style="margin-top: 16px">Карточка в «чужом» месте</h3>
+              <div class="footer-slot" id="footer-slot">
+                <p style="margin-bottom: 12px">Это футер, не секция products.</p>
+              </div>
+              <p>
+                <button class="btn" type="button" id="move-card">Вставить карточку в футер</button>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="structure">
+        <div class="wrap">
+          <p class="q">Вопросы 8, 9, 15, 23, 24, 30</p>
+          <h2>Структура: микс, вложенность, файлы</h2>
+          <p>
+            Микс — несколько классов на узле. Элемент элемента
+            (<code>block__el__sub</code>) не рекомендуют. Блок может содержать
+            другие блоки. Модификатор не переименовывает элементы.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel">
+              <h3>Микс container + header__top</h3>
+              <div class="container header__top">
+                <form class="search-form" action="#" method="get">
+                  <label class="visually-hidden" for="q" style="position:absolute;width:1px;height:1px;overflow:hidden">Search</label>
+                  <input id="q" type="search" name="q" placeholder="Search" />
+                </form>
+                <p class="logo">CORAL</p>
+                <a class="btn" href="#practice">Account</a>
+              </div>
+              <pre style="margin-top: 12px">&lt;div class="container header__top"&gt;</pre>
+              <p class="note">
+                Один узел: ширина контейнера и flex шапки. Внутри — блоки
+                <code>search-form</code> и <code>btn</code>.
+              </p>
+            </div>
+            <div class="panel">
+              <h3>Не header__top__nav__item</h3>
+              <ul class="tree">
+                <li><code>header</code>
+                  <ul>
+                    <li><code>header__top</code></li>
+                    <li><code>menu</code> — другой блок, не элемент элемента
+                      <ul>
+                        <li><code>menu__item</code></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+              <p class="note">
+                Повторяемый кусок (карточка, кнопка, поиск) — отдельный блок,
+                не три копии с уникальными именами. Файл на блок — чтобы найти
+                и удалить мёртвый CSS.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="practice">
+        <div class="wrap">
+          <p class="q">Вопросы 16, 17, 19, 20, 22, 26, 27, 28, 29</p>
+          <h2>Практика: состояния, семантика, команда</h2>
+          <p>
+            «Открыто» — модификатор. БЭМ не отменяет <code>article</code> и
+            <code>button</code>. Один <code>btn</code> на ссылке и кнопке.
+            Цель — предсказуемые имена и меньше конфликтов.
+          </p>
+
+          <div class="cards-row" id="card-home" style="margin-bottom: 24px">
+            <article class="product-card" id="live-card">
+              <p class="product-card__badge product-card__badge_type_sale">Sale</p>
+              <a class="product-card__media" href="#practice">
+                <img
+                  alt="Adicolor Classics Joggers"
+                  width="240"
+                  height="160"
+                  src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='160'%3E%3Crect fill='%239e5cf2' width='240' height='160'/%3E%3Ctext x='20' y='88' fill='white' font-size='18' font-family='sans-serif'%3EJoggers%3C/text%3E%3C/svg%3E"
+                />
+              </a>
+              <h3 class="product-card__title">Adicolor Classics Joggers</h3>
+              <p class="product-card__category">Dress</p>
+              <p class="product-card__price"><data value="63.85">$63.85</data></p>
+            </article>
+          </div>
+
+          <div class="grid-2">
+            <div class="panel">
+              <h3>Живые модификаторы</h3>
+              <div class="btn-row">
+                <button class="btn" type="button" id="toggle-selected">_selected</button>
+                <button class="btn" type="button" id="toggle-badge">бейдж Sale / Hot</button>
+              </div>
+              <p class="note" id="mod-log">
+                Классы карточки: <code>product-card</code>
+              </p>
+              <p class="note">
+                Включили <code>product-card_selected</code> —
+                <code>product-card__media</code> не переименовали.
+              </p>
+            </div>
+            <div class="panel">
+              <h3>btn на a и button</h3>
+              <div class="btn-row">
+                <a class="btn" href="#names">Shop now</a>
+                <button class="btn" type="submit" form="news-demo">Submit</button>
+              </div>
+              <form id="news-demo" action="#practice" method="get" hidden></form>
+              <p class="note">Один блок, разные теги. Семантика осталась.</p>
+            </div>
+          </div>
+
+          <div class="grid-2" style="margin-top: 24px">
+            <div class="panel">
+              <h3>menu_open vs .is-open</h3>
+              <nav class="menu" id="menu-demo" aria-label="Catalog">
+                <ul>
+                  <li class="menu__item"><a href="#practice">Jewelry</a></li>
+                  <li class="menu__item"><a href="#practice">Clothing</a></li>
+                </ul>
+              </nav>
+              <div class="btn-row" style="margin-top: 12px">
+                <button class="btn" type="button" id="toggle-menu">menu_open</button>
+                <button class="btn" type="button" id="toggle-is-open">.is-open утилита</button>
+              </div>
+              <p class="note">
+                В строгом БЭМ состояние блока — <code>menu_open</code>.
+                <code>.is-open</code> без пространства имён — утилита, легко
+                столкнётся с чужим CSS.
+              </p>
+            </div>
+            <div class="panel bad">
+              <h3>Не БЭМ: цепочка смыслов</h3>
+              <p class="long-name">
+                <code>header-top-nav-item-link-text</code>
+              </p>
+              <p class="note">
+                Это не элемент и не микс, а вся шапка в одном классе.
+                Сначала сверстали вид (этап 2), потом переименовали — нормальный
+                учебный путь. Документируют элементы, модификаторы и HTML-пример,
+                не Docker.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="page-foot">
+      <div class="wrap">
+        Курс CORAL ·
+        <a href="lecture.md">текст лекции</a> ·
+        <a href="../../tests/03-bem.md">тест этапа 3</a> ·
+        <a href="../../../../stage-03-bem/index.html">эталон БЭМ</a>
+      </div>
+    </footer>
+
+    <script>
+      const card = document.getElementById("live-card");
+      const modLog = document.getElementById("mod-log");
+      const badge = card.querySelector(".product-card__badge");
+
+      function logClasses() {
+        modLog.innerHTML =
+          "Классы карточки: <code>" +
+          card.className +
+          "</code>";
+      }
+
+      document.getElementById("toggle-selected").addEventListener("click", () => {
+        card.classList.toggle("product-card_selected");
+        logClasses();
+      });
+
+      document.getElementById("toggle-badge").addEventListener("click", () => {
+        const sale = badge.classList.contains("product-card__badge_type_sale");
+        badge.classList.toggle("product-card__badge_type_sale", !sale);
+        badge.classList.toggle("product-card__badge_type_hot", sale);
+        badge.textContent = sale ? "Hot" : "Sale";
+      });
+
+      const home = document.getElementById("card-home");
+      const footerSlot = document.getElementById("footer-slot");
+      document.getElementById("move-card").addEventListener("click", (event) => {
+        const inFooter = card.parentElement === footerSlot;
+        if (inFooter) {
+          home.prepend(card);
+          event.currentTarget.textContent = "Вставить карточку в футер";
+        } else {
+          footerSlot.append(card);
+          event.currentTarget.textContent = "Вернуть в каталог";
+        }
+      });
+
+      const menu = document.getElementById("menu-demo");
+      document.getElementById("toggle-menu").addEventListener("click", () => {
+        menu.classList.toggle("menu_open");
+      });
+      document.getElementById("toggle-is-open").addEventListener("click", () => {
+        menu.classList.toggle("is-open");
+      });
+
+      logClasses();
+    </script>
+  </body>
+</html>

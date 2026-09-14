@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Примеры к лекции. Корзина, заказ, права, админка</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --color-primary: #9e5cf2;
+        --color-black: #1e2832;
+        --color-black-50: #8f9499;
+        --color-white: #ffffff;
+        --color-stroke: #e3e3e3;
+        --color-page: #f6f4f8;
+        --font-head: "Roboto", system-ui, sans-serif;
+        --font-body: "Open Sans", system-ui, sans-serif;
+        --radius: 8px;
+        --gap: 24px;
+        --shadow: 0 8px 24px rgba(30, 40, 50, 0.08);
+        --container: 1100px;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: var(--font-body);
+        font-size: 16px;
+        line-height: 1.5;
+        color: var(--color-black);
+        background: var(--color-page);
+      }
+
+      h1,
+      h2,
+      h3 {
+        font-family: var(--font-head);
+        font-weight: 500;
+        line-height: 1.2;
+        margin: 0 0 0.5em;
+      }
+
+      p {
+        margin: 0 0 0.75em;
+      }
+
+      a {
+        color: var(--color-primary);
+      }
+
+      code,
+      pre {
+        font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+        font-size: 0.85em;
+      }
+
+      code {
+        background: #efe8f8;
+        padding: 0.1em 0.35em;
+        border-radius: 4px;
+      }
+
+      pre {
+        margin: 0;
+        background: #1e2832;
+        color: #f6f4f8;
+        padding: 16px;
+        border-radius: var(--radius);
+        overflow: auto;
+        line-height: 1.45;
+      }
+
+      .wrap {
+        width: min(var(--container), calc(100% - 32px));
+        margin-inline: auto;
+      }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: var(--color-white);
+        border-bottom: 1px solid var(--color-stroke);
+      }
+
+      .site-header .wrap {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        min-height: 64px;
+        padding-block: 8px;
+      }
+
+      .brand {
+        font-family: var(--font-head);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--color-black);
+        text-decoration: none;
+        font-size: 18px;
+      }
+
+      .toc {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 16px;
+        font-size: 14px;
+      }
+
+      .toc a {
+        color: var(--color-black);
+        text-decoration: none;
+      }
+
+      .toc a:hover,
+      .toc a:focus-visible {
+        color: var(--color-primary);
+      }
+
+      .hero {
+        background: var(--color-white);
+        border-bottom: 1px solid var(--color-stroke);
+        padding: 40px 0 32px;
+      }
+
+      .kicker {
+        color: var(--color-primary);
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        font-size: 12px;
+        margin-bottom: 8px;
+      }
+
+      .lead {
+        max-width: 62ch;
+        color: var(--color-black-50);
+      }
+
+      .section {
+        padding: 40px 0;
+      }
+
+      .section + .section {
+        border-top: 1px solid var(--color-stroke);
+      }
+
+      .q {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--color-primary);
+        background: #efe8f8;
+        border-radius: 999px;
+        padding: 4px 10px;
+        margin-bottom: 8px;
+      }
+
+      .panel {
+        background: var(--color-white);
+        border: 1px solid var(--color-stroke);
+        border-radius: var(--radius);
+        padding: 20px;
+        box-shadow: var(--shadow);
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--gap);
+      }
+
+      .grid-3 {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: var(--gap);
+      }
+
+      @media (max-width: 768px) {
+        .grid-2,
+        .grid-3 {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .note {
+        font-size: 14px;
+        color: var(--color-black-50);
+        margin: 8px 0 0;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 24px;
+        background: var(--color-black);
+        color: var(--color-white);
+        font-family: var(--font-head);
+        font-size: 16px;
+        border: 0;
+        border-radius: var(--radius);
+        cursor: pointer;
+        text-decoration: none;
+      }
+
+      .btn:hover {
+        background: var(--color-primary);
+        color: var(--color-white);
+      }
+
+      .btn:focus-visible {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 3px;
+      }
+
+      .btn:disabled {
+        background: #c5c8cb;
+        color: #6b7075;
+        cursor: not-allowed;
+      }
+
+      .btn-ghost {
+        background: transparent;
+        color: var(--color-black);
+        border: 1px solid var(--color-stroke);
+      }
+
+      .btn-ghost:hover {
+        background: #efe8f8;
+        color: var(--color-black);
+      }
+
+      .btn-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+      }
+
+      label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+
+      input:not([type="checkbox"]) {
+        font: inherit;
+        padding: 8px 12px;
+        border: 1px solid var(--color-stroke);
+        border-radius: var(--radius);
+        width: min(100%, 280px);
+      }
+
+      table.data {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+
+      table.data th,
+      table.data td {
+        border: 1px solid var(--color-stroke);
+        padding: 8px 10px;
+        text-align: left;
+      }
+
+      table.data th {
+        background: #efe8f8;
+      }
+
+      .log {
+        min-height: 1.5em;
+        font-size: 14px;
+        color: var(--color-primary);
+        font-weight: 600;
+        white-space: pre-wrap;
+      }
+
+      .log-err {
+        color: #c0392b;
+      }
+
+      .ok {
+        outline: 2px solid #1a7f4b;
+        outline-offset: 2px;
+      }
+
+      .bad {
+        outline: 2px dashed #c0392b;
+        outline-offset: 2px;
+      }
+
+      footer.page-foot {
+        padding: 24px 0 40px;
+        color: var(--color-black-50);
+        font-size: 14px;
+      }
+
+      .role-card {
+        min-height: 180px;
+      }
+
+      .role-card.is-on {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 2px;
+      }
+
+      .status {
+        font-size: 28px;
+        font-weight: 600;
+        font-family: var(--font-head);
+        margin: 0 0 8px;
+      }
+
+      .xss-box {
+        border: 1px solid var(--color-stroke);
+        border-radius: var(--radius);
+        padding: 12px;
+        background: #faf8fd;
+        min-height: 3em;
+        word-break: break-word;
+      }
+
+      .qty {
+        width: 72px;
+      }
+
+      .empty {
+        color: var(--color-black-50);
+        font-style: italic;
+      }
+
+      .pill {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 2px 8px;
+        border-radius: 999px;
+        background: #efe8f8;
+        color: var(--color-primary);
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="#top">Coral · лекция 10</a>
+        <nav class="toc" aria-label="Темы примеров">
+          <a href="#who">Кто вы</a>
+          <a href="#cart">Корзина</a>
+          <a href="#admin">Админка</a>
+          <a href="#xss">Ввод</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="hero" id="top">
+      <div class="wrap">
+        <p class="kicker">Этап 10 · корзина, заказ, права</p>
+        <h1>Живые примеры к лекции магазина</h1>
+        <p class="lead">
+          Гость / покупатель / админ. Корзина в памяти браузера: тот же SKU
+          увеличивает qty, 0 удаляет, checkout снимает цену. Текст лекции —
+          <a href="lecture.md">lecture.md</a>.
+        </p>
+      </div>
+    </div>
+
+    <main>
+      <section class="section" id="who">
+        <div class="wrap">
+          <p class="q">Вопросы 1, 2, 10, 11, 12, 19</p>
+          <h2>Аутентификация и авторизация</h2>
+          <p>
+            Кто вы — логин. Что можно — роль. Одна сессия, флаг
+            <code>is_admin</code>. Гость не читает чужую корзину.
+          </p>
+
+          <div class="btn-row" style="margin-bottom: 16px">
+            <button class="btn btn-ghost" type="button" data-role="guest">
+              Гость
+            </button>
+            <button class="btn" type="button" data-role="user">
+              Ada (покупатель)
+            </button>
+            <button class="btn" type="button" data-role="admin">
+              admin@coral.local
+            </button>
+          </div>
+
+          <div class="grid-3">
+            <div class="panel role-card" id="card-guest">
+              <h3>Гость</h3>
+              <p>Не вошёл. Витрина — да. <code>GET /api/cart</code> — нет.</p>
+              <p class="status" id="guest-status">401</p>
+              <p class="note">Нет сессии. Это не public API.</p>
+            </div>
+            <div class="panel role-card" id="card-user">
+              <h3>Покупатель</h3>
+              <p>Вошёл, <code>is_admin = 0</code>. Своя корзина, не админка.</p>
+              <p class="status" id="user-status">403</p>
+              <p class="note">POST /api/admin/products → вошёл, но не админ.</p>
+            </div>
+            <div class="panel role-card" id="card-admin">
+              <h3>Админ</h3>
+              <p>Тот же login, роль другая. Least privilege: админ-API только ему.</p>
+              <p class="status" id="admin-status">200</p>
+              <p class="note">Ссылка Admin в шапке — удобство, не защита.</p>
+            </div>
+          </div>
+          <p class="log" id="role-log">Выберите роль — что открыто этой сессии.</p>
+        </div>
+      </section>
+
+      <section class="section" id="cart">
+        <div class="wrap">
+          <p class="q">Вопросы 3, 4, 5, 6, 7, 8, 9, 16, 18, 24, 25, 26, 28, 29</p>
+          <h2>Черновик корзины и снимок заказа</h2>
+          <p>
+            Повтор SKU увеличивает quantity. Qty 0 удаляет строку. Checkout
+            атомарно создаёт заказ и чистит корзину. Смена цены не трогает чек.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel">
+              <h3>Витрина <span class="pill" id="who-pill">гость</span></h3>
+              <table class="data" id="catalog-table">
+                <thead>
+                  <tr>
+                    <th>Товар</th>
+                    <th>Цена сейчас</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+              <p class="note">Серверная корзина: после логина видна с другого устройства. Stock в MVP часто нет.</p>
+            </div>
+            <div class="panel">
+              <h3>Корзина (черновик)</h3>
+              <table class="data" id="cart-table">
+                <thead>
+                  <tr>
+                    <th>Товар</th>
+                    <th>Qty</th>
+                    <th>Сумма</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+              <p>Итог: <strong id="cart-total">$0.00</strong></p>
+              <div class="btn-row">
+                <button class="btn" type="button" id="checkout">Checkout</button>
+                <button class="btn btn-ghost" type="button" id="checkout-again">
+                  Повторить checkout
+                </button>
+              </div>
+              <p class="log" id="cart-log">Корзина пуста — checkout даст 4xx.</p>
+            </div>
+          </div>
+
+          <div class="grid-2" style="margin-top: 24px">
+            <div class="panel">
+              <h3>Заказы (снимок, статус «создана»)</h3>
+              <div id="orders-host">
+                <p class="empty">Пока нет. WHERE user_id = текущий.</p>
+              </div>
+            </div>
+            <div class="panel">
+              <h3>Админ меняет цену витрины</h3>
+              <p>
+                <label for="new-price">Новая цена Joggers</label>
+                <input id="new-price" type="number" min="0.01" step="0.01" value="99.00" />
+              </p>
+              <button class="btn" type="button" id="change-price">
+                UPDATE products SET price
+              </button>
+              <p class="note">
+                Старый order_items.price остаётся 63.85. В серьёзных системах
+                stock уменьшают в той же транзакции, что и заказ.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="admin">
+        <div class="wrap">
+          <p class="q">Вопросы 13, 15, 22, 23, 30</p>
+          <h2>CRUD админки: title, price, slug</h2>
+          <p>
+            Create Read Update Delete. URL картинки проще upload. Slug —
+            человекочитаемый id + суффикс от коллизий. Audit: кто что изменил.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel">
+              <h3>POST /api/admin/products</h3>
+              <p>
+                <label for="new-title">Title</label>
+                <input id="new-title" value="Coral Tote" />
+              </p>
+              <p>
+                <label for="new-admin-price">Price</label>
+                <input id="new-admin-price" type="number" value="42" min="0" step="0.01" />
+              </p>
+              <p>
+                <label for="new-image">Image URL</label>
+                <input id="new-image" value="/assets/images/product-leather-bag.jpg" />
+              </p>
+              <div class="btn-row">
+                <button class="btn" type="button" id="create-card">
+                  Создать карточку
+                </button>
+              </div>
+              <p class="log" id="admin-log">Нужны непустой title, price &gt; 0 и роль админ.</p>
+              <p class="note">Upload файла на курсе не делаем: нужен диск и проверка MIME.</p>
+            </div>
+            <div class="panel ok">
+              <h3>Журнал (audit)</h3>
+              <ul id="audit-list">
+                <li class="empty">Пока пусто — полезная практика, не замена бэкапа.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="xss">
+        <div class="wrap">
+          <p class="q">Вопросы 14, 17, 20, 21, 27</p>
+          <h2>XSS, CSRF, валидация на сервере</h2>
+          <p>
+            Название без экранирования — скрипт на витрине. Демо показывает
+            строку как текст, <strong>не выполняет</strong> её. CSRF — POST с
+            cookie. Цену проверяет сервер.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel bad">
+              <h3>Сырой вывод vs textContent</h3>
+              <p>
+                <label for="xss-title">Название от «админа»</label>
+                <input
+                  id="xss-title"
+                  value="<img src=x onerror=alert(1)> Sale"
+                  style="width: min(100%, 100%)"
+                />
+              </p>
+              <div class="btn-row">
+                <button class="btn" type="button" id="xss-raw">
+                  Показать как «сырой HTML» (текст)
+                </button>
+                <button class="btn btn-ghost" type="button" id="xss-esc">
+                  Экранировать
+                </button>
+              </div>
+              <p class="note">Как выглядело бы в innerHTML — только как текст, скрипт не запускаем.</p>
+              <div class="xss-box" id="xss-raw-box"></div>
+              <p class="note">Как надо: textContent / экранирование.</p>
+              <div class="xss-box" id="xss-esc-box"></div>
+            </div>
+            <div class="panel">
+              <h3>CSRF и серверная цена</h3>
+              <pre>POST /api/checkout     cookie сессии → опасен CSRF
+GET  /api/products     без побочек → не цель CSRF
+price: -1 в DevTools   клиент обойти легко
+сервер: price > 0      обязательно
+
+description → textContent
+не innerHTML, не eval</pre>
+              <p class="note">
+                Stock в учебной модели часто упрощают. CSRF-токен и SameSite —
+                защита POST checkout.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="page-foot">
+      <div class="wrap">
+        Курс CORAL ·
+        <a href="lecture.md">текст лекции</a> ·
+        <a href="../../tests/10-shop-admin.md">тест этапа 10</a> ·
+        <a href="../../../../stage-10-shop-admin/README.md">эталон магазина</a>
+      </div>
+    </footer>
+
+    <script>
+      const catalog = [
+        { id: "joggers", title: "Adicolor Classics Joggers", price: 63.85 },
+        { id: "nike-bag", title: "Nike Sportswear Futura Luxe", price: 130 },
+      ];
+
+      const state = {
+        role: "guest",
+        cart: [],
+        orders: [],
+        nextOrder: 1,
+        lastCheckoutKey: "",
+        audit: [],
+      };
+
+      const money = (n) => "$" + Number(n).toFixed(2);
+
+      function currentUser() {
+        if (state.role === "admin") {
+          return { id: 1, name: "Admin", email: "admin@coral.local", isAdmin: true };
+        }
+        if (state.role === "user") {
+          return { id: 2, name: "Ada", email: "ada@coral.local", isAdmin: false };
+        }
+        return null;
+      }
+
+      function requireUser() {
+        const user = currentUser();
+        if (!user) {
+          const err = new Error("401 Unauthorized");
+          err.status = 401;
+          throw err;
+        }
+        return user;
+      }
+
+      function requireAdmin() {
+        const user = requireUser();
+        if (!user.isAdmin) {
+          const err = new Error("403 Forbidden");
+          err.status = 403;
+          throw err;
+        }
+        return user;
+      }
+
+      function addToCart(productId) {
+        const user = requireUser();
+        const product = catalog.find((p) => p.id === productId);
+        if (!product) throw new Error("404 Product not found");
+        const line = state.cart.find(
+          (item) => item.userId === user.id && item.productId === productId
+        );
+        if (line) {
+          line.quantity += 1;
+          return line;
+        }
+        const created = {
+          userId: user.id,
+          productId,
+          title: product.title,
+          price: product.price,
+          quantity: 1,
+        };
+        state.cart.push(created);
+        return created;
+      }
+
+      function setQty(productId, quantity) {
+        const user = requireUser();
+        const index = state.cart.findIndex(
+          (item) => item.userId === user.id && item.productId === productId
+        );
+        if (index < 0) return;
+        if (quantity < 1) {
+          state.cart.splice(index, 1);
+          return;
+        }
+        state.cart[index].quantity = quantity;
+      }
+
+      function myCart() {
+        const user = requireUser();
+        return state.cart.filter((item) => item.userId === user.id);
+      }
+
+      function checkout() {
+        const user = requireUser();
+        const items = myCart();
+        if (!items.length) {
+          const err = new Error("400 Cart is empty");
+          err.status = 400;
+          throw err;
+        }
+        const snapshot = items.map((item) => {
+          const live = catalog.find((p) => p.id === item.productId);
+          return {
+            productId: item.productId,
+            title: live ? live.title : item.title,
+            quantity: item.quantity,
+            price: live ? live.price : item.price,
+          };
+        });
+        const total = snapshot.reduce((sum, line) => sum + line.price * line.quantity, 0);
+        const key = user.id + ":" + snapshot.map((l) => l.productId + "x" + l.quantity).join(",");
+        if (key === state.lastCheckoutKey) {
+          const err = new Error("409 Повтор: заказ уже создан, корзина пуста");
+          err.status = 409;
+          throw err;
+        }
+        const order = {
+          id: state.nextOrder++,
+          userId: user.id,
+          status: "создана",
+          items: snapshot,
+          total,
+        };
+        state.orders.push(order);
+        state.cart = state.cart.filter((item) => item.userId !== user.id);
+        state.lastCheckoutKey = key;
+        return order;
+      }
+
+      function myOrders() {
+        const user = requireUser();
+        return state.orders.filter((order) => order.userId === user.id);
+      }
+
+      const roleLog = document.getElementById("role-log");
+      const whoPill = document.getElementById("who-pill");
+
+      function paintRoles() {
+        ["guest", "user", "admin"].forEach((role) => {
+          document.getElementById("card-" + role).classList.toggle("is-on", state.role === role);
+        });
+        const labels = { guest: "гость", user: "Ada", admin: "админ" };
+        whoPill.textContent = labels[state.role];
+        if (state.role === "guest") {
+          roleLog.classList.remove("log-err");
+          roleLog.textContent =
+            "Гость: витрина открыта, GET /api/cart → 401. Чужую корзину не читаем.";
+        } else if (state.role === "user") {
+          roleLog.textContent =
+            "Ada вошла. Своя корзина можно. POST /api/admin/products → 403. Тот же login, другая роль.";
+        } else {
+          roleLog.textContent =
+            "admin@coral.local: тот же механизм сессии, is_admin=1. Админ-API только этой роли.";
+        }
+      }
+
+      document.querySelectorAll("[data-role]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          state.role = btn.dataset.role;
+          state.lastCheckoutKey = "";
+          paintRoles();
+          paintShop();
+        });
+      });
+
+      const cartLog = document.getElementById("cart-log");
+
+      function showCartError(error) {
+        cartLog.classList.add("log-err");
+        cartLog.textContent = error.message;
+      }
+
+      function paintShop() {
+        const tbody = document.querySelector("#catalog-table tbody");
+        tbody.replaceChildren();
+        catalog.forEach((product) => {
+          const tr = document.createElement("tr");
+          const tdTitle = document.createElement("td");
+          tdTitle.textContent = product.title;
+          const tdPrice = document.createElement("td");
+          tdPrice.textContent = money(product.price);
+          const tdBtn = document.createElement("td");
+          const btn = document.createElement("button");
+          btn.className = "btn";
+          btn.type = "button";
+          btn.textContent = "Add to cart";
+          btn.addEventListener("click", () => {
+            try {
+              addToCart(product.id);
+              cartLog.classList.remove("log-err");
+              cartLog.textContent =
+                "Повтор SKU увеличивает quantity. Корзина — черновик, не заказ.";
+              paintShop();
+            } catch (error) {
+              showCartError(error);
+            }
+          });
+          tdBtn.append(btn);
+          tr.append(tdTitle, tdPrice, tdBtn);
+          tbody.append(tr);
+        });
+
+        const cartBody = document.querySelector("#cart-table tbody");
+        cartBody.replaceChildren();
+        let items = [];
+        try {
+          items = myCart();
+        } catch (error) {
+          const tr = document.createElement("tr");
+          const td = document.createElement("td");
+          td.colSpan = 3;
+          td.className = "empty";
+          td.textContent = "401 — войдите как Ada или админ.";
+          tr.append(td);
+          cartBody.append(tr);
+          document.getElementById("cart-total").textContent = money(0);
+          paintOrders();
+          return;
+        }
+
+        if (!items.length) {
+          const tr = document.createElement("tr");
+          const td = document.createElement("td");
+          td.colSpan = 3;
+          td.className = "empty";
+          td.textContent = "Пусто. Checkout → 400.";
+          tr.append(td);
+          cartBody.append(tr);
+        }
+
+        let total = 0;
+        items.forEach((item) => {
+          const live = catalog.find((p) => p.id === item.productId);
+          const price = live ? live.price : item.price;
+          const lineTotal = price * item.quantity;
+          total += lineTotal;
+          const tr = document.createElement("tr");
+          const tdTitle = document.createElement("td");
+          tdTitle.textContent = (live ? live.title : item.title) + " · " + money(price);
+          const tdQty = document.createElement("td");
+          const input = document.createElement("input");
+          input.className = "qty";
+          input.type = "number";
+          input.min = "0";
+          input.value = String(item.quantity);
+          input.addEventListener("change", () => {
+            try {
+              const qty = Number(input.value);
+              setQty(item.productId, qty);
+              cartLog.classList.remove("log-err");
+              cartLog.textContent =
+                qty < 1
+                  ? "quantity 0 удаляет строку."
+                  : "Количество обновлено.";
+              paintShop();
+            } catch (error) {
+              showCartError(error);
+            }
+          });
+          tdQty.append(input);
+          const tdSum = document.createElement("td");
+          tdSum.textContent = money(lineTotal);
+          tr.append(tdTitle, tdQty, tdSum);
+          cartBody.append(tr);
+        });
+        document.getElementById("cart-total").textContent = money(total);
+        paintOrders();
+      }
+
+      function paintOrders() {
+        const host = document.getElementById("orders-host");
+        let orders = [];
+        try {
+          orders = myOrders();
+        } catch (error) {
+          host.replaceChildren();
+          const p = document.createElement("p");
+          p.className = "empty";
+          p.textContent = "Нет сессии — заказы не отдают всем.";
+          host.append(p);
+          return;
+        }
+        host.replaceChildren();
+        if (!orders.length) {
+          const p = document.createElement("p");
+          p.className = "empty";
+          p.textContent = "Пока нет. WHERE user_id = текущий.";
+          host.append(p);
+          return;
+        }
+        orders.forEach((order) => {
+          const table = document.createElement("table");
+          table.className = "data";
+          const caption = document.createElement("p");
+          const strong = document.createElement("strong");
+          strong.textContent = "Заказ #" + order.id;
+          caption.append(
+            strong,
+            document.createTextNode(
+              " · статус «" + order.status + "» · итог " + money(order.total)
+            )
+          );
+          const thead = document.createElement("thead");
+          thead.innerHTML = "<tr><th>Снимок title</th><th>Qty</th><th>Цена в чеке</th></tr>";
+          const tbody = document.createElement("tbody");
+          order.items.forEach((line) => {
+            const tr = document.createElement("tr");
+            const a = document.createElement("td");
+            a.textContent = line.title;
+            const b = document.createElement("td");
+            b.textContent = String(line.quantity);
+            const c = document.createElement("td");
+            c.textContent = money(line.price);
+            tr.append(a, b, c);
+            tbody.append(tr);
+          });
+          table.append(thead, tbody);
+          host.append(caption, table);
+        });
+      }
+
+      document.getElementById("checkout").addEventListener("click", () => {
+        try {
+          const order = checkout();
+          cartLog.classList.remove("log-err");
+          cartLog.textContent =
+            "Заказ #" +
+            order.id +
+            " создан, корзина пуста (атомарно). Итог " +
+            money(order.total) +
+            " — сумма цена×кол-во.";
+          paintShop();
+        } catch (error) {
+          showCartError(error);
+        }
+      });
+
+      document.getElementById("checkout-again").addEventListener("click", () => {
+        try {
+          checkout();
+          cartLog.classList.remove("log-err");
+          cartLog.textContent = "Второй заказ. Без защиты идемпотентности так и будет.";
+          paintShop();
+        } catch (error) {
+          showCartError(error);
+        }
+      });
+
+      document.getElementById("change-price").addEventListener("click", () => {
+        try {
+          requireAdmin();
+          const value = Number(document.getElementById("new-price").value);
+          if (!(value > 0)) {
+            cartLog.classList.add("log-err");
+            cartLog.textContent = "400: цена на сервере должна быть > 0. Клиент обойти легко.";
+            return;
+          }
+          const product = catalog.find((p) => p.id === "joggers");
+          product.price = value;
+          cartLog.classList.remove("log-err");
+          cartLog.textContent =
+            "Витрина joggers = " +
+            money(value) +
+            ". Старые order_items не пересчитываются.";
+          paintShop();
+        } catch (error) {
+          showCartError(error);
+        }
+      });
+
+      const adminLog = document.getElementById("admin-log");
+      const auditList = document.getElementById("audit-list");
+
+      function paintAudit() {
+        auditList.replaceChildren();
+        if (!state.audit.length) {
+          const li = document.createElement("li");
+          li.className = "empty";
+          li.textContent = "Пока пусто — полезная практика, не замена бэкапа.";
+          auditList.append(li);
+          return;
+        }
+        state.audit.forEach((row) => {
+          const li = document.createElement("li");
+          li.textContent = row;
+          auditList.append(li);
+        });
+      }
+
+      function slugId(title) {
+        const slug = title
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-|-$/g, "") || "product";
+        return slug.slice(0, 40) + "-" + Math.random().toString(16).slice(2, 6);
+      }
+
+      document.getElementById("create-card").addEventListener("click", () => {
+        try {
+          const admin = requireAdmin();
+          const title = document.getElementById("new-title").value.trim();
+          const price = Number(document.getElementById("new-admin-price").value);
+          if (title === "" || !(price > 0)) {
+            adminLog.classList.add("log-err");
+            adminLog.textContent = "400 Title and price are required";
+            return;
+          }
+          const id = slugId(title);
+          catalog.push({ id, title, price });
+          state.audit.unshift(
+            admin.email + " создал «" + title + "» (" + id + ") за " + money(price)
+          );
+          adminLog.classList.remove("log-err");
+          adminLog.textContent = "Create: slug " + id + ". URL картинки принят как строка.";
+          paintAudit();
+          paintShop();
+        } catch (error) {
+          adminLog.classList.add("log-err");
+          adminLog.textContent = error.message;
+        }
+      });
+
+      const xssRawBox = document.getElementById("xss-raw-box");
+      const xssEscBox = document.getElementById("xss-esc-box");
+
+      function showXssRaw() {
+        const value = document.getElementById("xss-title").value;
+        xssRawBox.textContent =
+          "innerHTML получил бы: " + value + " — скрипт на витрине. Здесь только текст.";
+      }
+
+      function showXssEsc() {
+        const value = document.getElementById("xss-title").value;
+        xssEscBox.textContent = value;
+      }
+
+      document.getElementById("xss-raw").addEventListener("click", showXssRaw);
+      document.getElementById("xss-esc").addEventListener("click", showXssEsc);
+      showXssEsc();
+
+      paintRoles();
+      paintShop();
+    </script>
+  </body>
+</html>

@@ -1,5 +1,7 @@
 # Этап 6. Сервер
 
+Общие правила HTTP и API — во [вводной лекции](lectures/06-server/lecture.md), живые примеры: [lectures/06-server/examples.html](lectures/06-server/examples.html).
+
 Папка: `stage-06-server/`.
 
 Один фронт (`frontend/`) и три бэкенда с одним контрактом: [api-contract.md](../../stage-06-server/api-contract.md).

@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Примеры к лекции. Макет как ТЗ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --color-primary: #9e5cf2;
+        --color-primary-75: #b184f5;
+        --color-black: #1e2832;
+        --color-black-50: #8f9499;
+        --color-white: #ffffff;
+        --color-dark: #000000;
+        --color-stroke: #e3e3e3;
+        --color-page: #f6f4f8;
+        --font-head: "Roboto", system-ui, sans-serif;
+        --font-body: "Open Sans", system-ui, sans-serif;
+        --radius: 8px;
+        --gap: 24px;
+        --shadow: 0 8px 24px rgba(30, 40, 50, 0.08);
+        --container: 1100px;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: var(--font-body);
+        font-size: 16px;
+        line-height: 1.5;
+        color: var(--color-black);
+        background: var(--color-page);
+      }
+
+      h1,
+      h2,
+      h3 {
+        font-family: var(--font-head);
+        font-weight: 500;
+        line-height: 1.2;
+        margin: 0 0 0.5em;
+      }
+
+      p {
+        margin: 0 0 0.75em;
+      }
+
+      a {
+        color: var(--color-primary);
+      }
+
+      code {
+        font-size: 0.9em;
+        background: #efe8f8;
+        padding: 0.1em 0.35em;
+        border-radius: 4px;
+      }
+
+      .wrap {
+        width: min(var(--container), calc(100% - 32px));
+        margin-inline: auto;
+      }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: var(--color-white);
+        border-bottom: 1px solid var(--color-stroke);
+      }
+
+      .site-header .wrap {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        min-height: 64px;
+        padding-block: 8px;
+      }
+
+      .brand {
+        font-family: var(--font-head);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--color-black);
+        text-decoration: none;
+        font-size: 18px;
+      }
+
+      .toc {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 16px;
+        font-size: 14px;
+      }
+
+      .toc a {
+        color: var(--color-black);
+        text-decoration: none;
+      }
+
+      .toc a:hover,
+      .toc a:focus-visible {
+        color: var(--color-primary);
+      }
+
+      .hero {
+        background: var(--color-white);
+        border-bottom: 1px solid var(--color-stroke);
+        padding: 40px 0 32px;
+      }
+
+      .kicker {
+        color: var(--color-primary);
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        font-size: 12px;
+        margin-bottom: 8px;
+      }
+
+      .lead {
+        max-width: 62ch;
+        color: var(--color-black-50);
+      }
+
+      .section {
+        padding: 40px 0;
+      }
+
+      .section + .section {
+        border-top: 1px solid var(--color-stroke);
+      }
+
+      .q {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--color-primary);
+        background: #efe8f8;
+        border-radius: 999px;
+        padding: 4px 10px;
+        margin-bottom: 8px;
+      }
+
+      .panel {
+        background: var(--color-white);
+        border: 1px solid var(--color-stroke);
+        border-radius: var(--radius);
+        padding: 20px;
+        box-shadow: var(--shadow);
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--gap);
+      }
+
+      @media (max-width: 768px) {
+        .grid-2 {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* 12-col grid demo */
+      .cols {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 8px;
+      }
+
+      .cols span {
+        background: #efe8f8;
+        color: var(--color-primary);
+        text-align: center;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 10px 0;
+        border-radius: 4px;
+      }
+
+      .layout-demo {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .layout-demo .cell {
+        background: var(--color-black);
+        color: var(--color-white);
+        border-radius: 4px;
+        padding: 16px;
+        font-size: 13px;
+      }
+
+      .span-3 { grid-column: span 3; }
+      .span-4 { grid-column: span 4; }
+      .span-8 { grid-column: span 8; }
+      .span-12 { grid-column: span 12; }
+
+      @media (max-width: 700px) {
+        .span-3,
+        .span-4,
+        .span-8 {
+          grid-column: span 12;
+        }
+      }
+
+      /* 8px ruler */
+      .ruler {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: flex-end;
+      }
+
+      .ruler i {
+        display: block;
+        background: var(--color-primary);
+        width: 8px;
+        border-radius: 2px 2px 0 0;
+      }
+
+      .bad-space {
+        outline: 2px dashed #c0392b;
+        outline-offset: 2px;
+      }
+
+      /* box model */
+      .box-demo {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+        align-items: center;
+      }
+
+      .margin-box {
+        background: #fdebd0;
+        padding: 16px;
+        border-radius: 4px;
+      }
+
+      .padding-box {
+        background: #d5f5e3;
+        padding: 16px 24px;
+        border: 2px solid var(--color-black);
+      }
+
+      .padding-box span {
+        background: var(--color-white);
+        display: block;
+        padding: 8px;
+      }
+
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+      }
+
+      @media (max-width: 700px) {
+        .cards {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .card {
+        border: 1px solid var(--color-stroke);
+        border-radius: var(--radius);
+        padding: 16px;
+        background: var(--color-white);
+      }
+
+      .card h3 {
+        font-size: 16px;
+        margin-bottom: 4px;
+      }
+
+      .price {
+        color: var(--color-primary);
+        font-weight: 600;
+      }
+
+      /* auto layout */
+      .al-row,
+      .al-col {
+        display: flex;
+        gap: 12px;
+        padding: 12px;
+        border: 1px dashed var(--color-primary);
+        border-radius: var(--radius);
+        background: #faf8fd;
+      }
+
+      .al-row { flex-direction: row; align-items: center; }
+      .al-col { flex-direction: column; }
+
+      .chip {
+        background: var(--color-black);
+        color: var(--color-white);
+        padding: 8px 12px;
+        border-radius: 4px;
+        font-size: 13px;
+      }
+
+      /* tokens */
+      .swatches {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .swatch {
+        width: 120px;
+      }
+
+      .swatch b {
+        display: block;
+        height: 48px;
+        border-radius: var(--radius);
+        border: 1px solid var(--color-stroke);
+      }
+
+      .swatch span {
+        display: block;
+        font-size: 12px;
+        margin-top: 6px;
+      }
+
+      .radius-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        align-items: center;
+      }
+
+      .radius-row button,
+      .radius-row input {
+        border-radius: var(--radius);
+        border: 1px solid var(--color-stroke);
+        padding: 10px 16px;
+        font: inherit;
+      }
+
+      .shadow-card {
+        width: 180px;
+        height: 80px;
+        border-radius: var(--radius);
+        background: var(--color-white);
+        box-shadow: var(--shadow);
+        display: grid;
+        place-items: center;
+        font-size: 13px;
+      }
+
+      /* type */
+      .type-tight {
+        line-height: 1;
+        max-width: 36ch;
+      }
+
+      .type-ok {
+        line-height: 1.5;
+        max-width: 36ch;
+      }
+
+      .baseline-row {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        font-size: 28px;
+        font-family: var(--font-head);
+        border-bottom: 1px solid var(--color-primary);
+      }
+
+      .baseline-row svg {
+        width: 1em;
+        height: 1em;
+      }
+
+      /* buttons */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 24px;
+        background: var(--color-black);
+        color: var(--color-white);
+        font-family: var(--font-head);
+        font-size: 16px;
+        border: 0;
+        border-radius: var(--radius);
+        cursor: pointer;
+        text-decoration: none;
+      }
+
+      .btn:hover {
+        background: var(--color-primary);
+        color: var(--color-white);
+      }
+
+      .btn:focus-visible {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 3px;
+      }
+
+      .btn:disabled {
+        background: #c5c8cb;
+        color: #6b7075;
+        cursor: not-allowed;
+      }
+
+      .btn-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+      }
+
+      /* contrast */
+      .contrast {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      @media (max-width: 600px) {
+        .contrast {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .contrast .ok {
+        background: #fff;
+        color: #1e2832;
+        padding: 16px;
+        border-radius: var(--radius);
+        border: 1px solid var(--color-stroke);
+      }
+
+      .contrast .fail {
+        background: #fff;
+        color: #b0b0b0;
+        padding: 16px;
+        border-radius: var(--radius);
+        border: 1px solid var(--color-stroke);
+      }
+
+      /* off-canvas */
+      .burger {
+        display: inline-flex;
+        flex-direction: column;
+        gap: 5px;
+        background: var(--color-black);
+        border: 0;
+        border-radius: var(--radius);
+        padding: 10px;
+        cursor: pointer;
+      }
+
+      .burger i {
+        display: block;
+        width: 18px;
+        height: 2px;
+        background: var(--color-white);
+      }
+
+      .drawer {
+        position: fixed;
+        inset: 0 auto 0 0;
+        width: min(280px, 86vw);
+        background: var(--color-white);
+        border-right: 1px solid var(--color-stroke);
+        box-shadow: var(--shadow);
+        padding: 24px;
+        transform: translateX(-110%);
+        transition: transform 0.2s ease;
+        z-index: 40;
+      }
+
+      .drawer.open {
+        transform: none;
+      }
+
+      .drawer ul {
+        list-style: none;
+        margin: 16px 0 0;
+        padding: 0;
+      }
+
+      .drawer a {
+        display: block;
+        padding: 8px 0;
+        color: var(--color-black);
+        text-decoration: none;
+      }
+
+      .scrim {
+        position: fixed;
+        inset: 0;
+        background: rgba(30, 40, 50, 0.35);
+        border: 0;
+        z-index: 30;
+        display: none;
+      }
+
+      .scrim.open {
+        display: block;
+      }
+
+      /* icons */
+      .icon-scale {
+        display: flex;
+        gap: 24px;
+        align-items: flex-end;
+        flex-wrap: wrap;
+      }
+
+      .pixel-icon {
+        width: 16px;
+        height: 16px;
+        image-rendering: pixelated;
+        transform: scale(4);
+        transform-origin: bottom left;
+        background:
+          linear-gradient(#1e2832, #1e2832) 6px 2px / 4px 10px no-repeat,
+          linear-gradient(#1e2832, #1e2832) 2px 6px / 12px 4px no-repeat;
+        margin-right: 48px;
+      }
+
+      /* max-width */
+      .wide-bad {
+        background: var(--color-white);
+        border: 1px solid var(--color-stroke);
+        padding: 16px;
+      }
+
+      .wide-ok {
+        max-width: 42ch;
+        background: var(--color-white);
+        border: 1px solid var(--color-stroke);
+        padding: 16px;
+      }
+
+      .note {
+        font-size: 14px;
+        color: var(--color-black-50);
+      }
+
+      footer {
+        padding: 24px 0 40px;
+        color: var(--color-black-50);
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="#top">Coral · лекция 0</a>
+        <nav class="toc" aria-label="Темы примеров">
+          <a href="#grid">Сетка</a>
+          <a href="#space">Отступы</a>
+          <a href="#tokens">Токены</a>
+          <a href="#type">Типографика</a>
+          <a href="#states">Состояния</a>
+          <a href="#assets">Ассеты</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="hero" id="top">
+      <div class="wrap">
+        <p class="kicker">Этап 0 · макет → вёрстка</p>
+        <h1>Живые примеры к вводной лекции</h1>
+        <p class="lead">
+          Токены как в Coral: primary <code>#9E5CF2</code>, текст
+          <code>#1E2832</code>, шаг 8/16/24, радиус 8px. Каждый блок подписан
+          номерами вопросов теста. Текст лекции —
+          <a href="lecture.md">lecture.md</a>.
+        </p>
+      </div>
+    </div>
+
+    <main>
+      <section class="section" id="grid">
+        <div class="wrap">
+          <p class="q">Вопросы 1, 20, 27, 11</p>
+          <h2>Сетка 12 колонок, желоб, max-width</h2>
+          <p>
+            Колонки и желоб — общая система выравнивания. 12 удобно делить на
+            2, 3, 4 и 6. Контейнер ограничивает длину строки на широком экране.
+          </p>
+
+          <div class="panel">
+            <p class="note">12 колонок · желоб 8px в демо (в макете чаще 16–24)</p>
+            <div class="cols" aria-hidden="true">
+              <span>1</span><span>2</span><span>3</span><span>4</span>
+              <span>5</span><span>6</span><span>7</span><span>8</span>
+              <span>9</span><span>10</span><span>11</span><span>12</span>
+            </div>
+            <div class="layout-demo">
+              <div class="cell span-8">Герой · 8 колонок</div>
+              <div class="cell span-4">Текст · 4</div>
+              <div class="cell span-3">Карточка</div>
+              <div class="cell span-3">Карточка</div>
+              <div class="cell span-3">Карточка</div>
+              <div class="cell span-3">Карточка</div>
+              <div class="cell span-4">Подвал</div>
+              <div class="cell span-4">Подвал</div>
+              <div class="cell span-4">Подвал</div>
+            </div>
+            <p class="note" style="margin-top: 16px">
+              Сузьте окно — это и есть breakpoint: компоновка меняется, когда
+              колонки больше не помещаются.
+            </p>
+          </div>
+
+          <div class="grid-2" style="margin-top: 24px">
+            <div>
+              <h3>Без max-width</h3>
+              <div class="wide-bad">
+                На ультрашироком мониторе строка тянется от края до края, глаз
+                теряет начало следующей строки, читать абзац невозможно.
+              </div>
+            </div>
+            <div>
+              <h3>С max-width: 42ch</h3>
+              <div class="wide-ok">
+                Та же мысль в контейнере: ширина строки ограничена, ритм чтения
+                сохраняется. В Coral контейнер — 1320px.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="space">
+        <div class="wrap">
+          <p class="q">Вопросы 5, 16, 26, 7</p>
+          <h2>Шаг 8px, gap, padding, Auto Layout</h2>
+          <p>
+            Размеры кратны 4/8/16/24. Между карточками — <code>gap</code>.
+            Внутри блока — <code>padding</code>. Auto Layout в Figma ≈ flex +
+            gap: направление и отступы живут при смене текста.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel">
+              <h3>Шкала 8px</h3>
+              <div class="ruler" aria-hidden="true">
+                <div><i style="height: 8px"></i><small>8</small></div>
+                <div><i style="height: 16px"></i><small>16</small></div>
+                <div><i style="height: 24px"></i><small>24</small></div>
+                <div><i style="height: 32px"></i><small>32</small></div>
+                <div><i style="height: 40px"></i><small>40</small></div>
+                <div><i style="height: 48px"></i><small>48</small></div>
+                <div class="bad-space">
+                  <i style="height: 17px; background: #c0392b"></i>
+                  <small>17 — нет</small>
+                </div>
+              </div>
+            </div>
+            <div class="panel">
+              <h3>Padding внутри, margin снаружи</h3>
+              <div class="box-demo">
+                <div class="margin-box">
+                  margin
+                  <div class="padding-box">
+                    padding
+                    <span>контент</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel" style="margin-top: 24px">
+            <h3>Spacing between items = gap 24px</h3>
+            <div class="cards">
+              <article class="card">
+                <h3>Basic Dress Green</h3>
+                <p class="price">$236.00</p>
+              </article>
+              <article class="card">
+                <h3>Nike Air Zoom</h3>
+                <p class="price">$198.00</p>
+              </article>
+              <article class="card">
+                <h3>Geometric Scarf</h3>
+                <p class="price">$53.00</p>
+              </article>
+            </div>
+          </div>
+
+          <div class="grid-2" style="margin-top: 24px">
+            <div class="panel">
+              <h3>Auto Layout · ряд</h3>
+              <div class="al-row">
+                <span class="chip">Поиск</span>
+                <span class="chip">CORAL</span>
+                <span class="chip">Account</span>
+              </div>
+              <p class="note" style="margin-top: 8px">direction: row · gap: 12</p>
+            </div>
+            <div class="panel">
+              <h3>Auto Layout · колонка</h3>
+              <div class="al-col">
+                <span class="chip">Фото</span>
+                <span class="chip">Название</span>
+                <span class="chip">Цена</span>
+              </div>
+              <p class="note" style="margin-top: 8px">direction: column · gap: 12</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="tokens">
+        <div class="wrap">
+          <p class="q">Вопросы 2, 12, 17, 25</p>
+          <h2>Токены: цвет, HEX, радиус, тень</h2>
+          <p>
+            Имя <code>primary</code> переиспользуют. <code>#1E2832</code> и
+            <code>#1e2832</code> — один цвет. Радиус общий для кнопки и поля.
+            Тень — <code>box-shadow</code>.
+          </p>
+
+          <div class="panel">
+            <h3>Именованные цвета Coral</h3>
+            <div class="swatches">
+              <div class="swatch">
+                <b style="background: #9e5cf2"></b>
+                <span>primary<br />#9E5CF2</span>
+              </div>
+              <div class="swatch">
+                <b style="background: #1e2832"></b>
+                <span>black<br />#1E2832 = #1e2832</span>
+              </div>
+              <div class="swatch">
+                <b style="background: #e3e3e3"></b>
+                <span>stroke<br />#E3E3E3</span>
+              </div>
+              <div class="swatch">
+                <b style="background: #000"></b>
+                <span>dark<br />баннер Zara</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid-2" style="margin-top: 24px">
+            <div class="panel">
+              <h3>Один --radius: 8px</h3>
+              <div class="radius-row">
+                <button type="button" class="btn">Shop now</button>
+                <input type="email" placeholder="email" aria-label="email" />
+              </div>
+            </div>
+            <div class="panel">
+              <h3>box-shadow, не тег &lt;shadow&gt;</h3>
+              <div class="shadow-card">карточка hover</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="type">
+        <div class="wrap">
+          <p class="q">Вопросы 3, 8, 22, 10</p>
+          <h2>Типографика, базовая линия, контраст</h2>
+          <p>
+            Line-height — шаг строк. Базовая линия держит текст и иконку.
+            Контраст — чтобы прочитать, не ради SEO.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel">
+              <h3>line-height: 1 — тесно</h3>
+              <p class="type-tight">
+                You can explore and shop many different collections from various
+                brands here. Строки слипаются, глаз не находит начало.
+              </p>
+            </div>
+            <div class="panel">
+              <h3>line-height: 1.5 — ритм</h3>
+              <p class="type-ok">
+                You can explore and shop many different collections from various
+                brands here. 16 × 1.5 = 24px — кратно шагу 8px.
+              </p>
+            </div>
+          </div>
+
+          <div class="panel" style="margin-top: 24px">
+            <h3>Выравнивание по базовой линии</h3>
+            <div class="baseline-row">
+              Shop now
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M5 12h12M13 6l6 6-6 6"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+              </svg>
+            </div>
+            <p class="note">Фиолетовая черта — базовая линия текста, стрелка сидит на ней.</p>
+          </div>
+
+          <div class="contrast" style="margin-top: 24px">
+            <div class="ok">
+              <strong>Контраст ок.</strong> #1E2832 на белом читается.
+              Это про доступность, не про cookie.
+            </div>
+            <div class="fail">
+              <strong>Контраст плохой.</strong> Светло-серый на белом.
+              Выглядит «мягко», но текст теряется.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="states">
+        <div class="wrap">
+          <p class="q">Вопросы 4, 6, 19, 23, 24, 29</p>
+          <h2>Компонент, hover, disabled, ссылка vs кнопка, меню</h2>
+          <p>
+            Один компонент — несколько вариантов. Hover для интерактива.
+            Disabled не удаляет кнопку. Одинаковый вид не значит одинаковый тег.
+            Off-canvas — отдельное состояние, его закладывают.
+          </p>
+
+          <div class="panel">
+            <h3>Варианты кнопки (компонент)</h3>
+            <div class="btn-row">
+              <button class="btn" type="button">Default / hover меня</button>
+              <button class="btn" type="button" disabled>Disabled · оформить</button>
+              <a class="btn" href="#grid">Ссылка Shop now</a>
+            </div>
+            <p class="note" style="margin-top: 12px">
+              Слева и справа выглядят одинаково. Слева — действие
+              (<code>&lt;button&gt;</code>), справа — переход
+              (<code>&lt;a href&gt;</code>). Disabled показывает, что заказать
+              сейчас нельзя, но кнопка остаётся в разметке.
+            </p>
+          </div>
+
+          <div class="panel" style="margin-top: 24px">
+            <h3>Hidden / off-canvas</h3>
+            <p>Нажмите бургер — это состояние навигации, которого нет на статичном PNG.</p>
+            <button class="burger" type="button" id="open-menu" aria-expanded="false" aria-controls="drawer" aria-label="Открыть меню">
+              <i></i><i></i><i></i>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="assets">
+        <div class="wrap">
+          <p class="q">Вопросы 9, 15, 18, 30</p>
+          <h2>Вектор, @2x, не скриншот, pixel-perfect</h2>
+          <p>
+            Иконка-SVG не мылится при увеличении. Растр для Retina экспортируют
+            @2x/@3x. Скрин не даёт числа. Pixel-perfect — ритм и токены, не
+            субпиксель на всех устройствах.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel">
+              <h3>Растр 16px, растянут ×4 — мыло</h3>
+              <div class="icon-scale">
+                <div class="pixel-icon" aria-hidden="true"></div>
+              </div>
+              <p class="note">Так выглядит иконка без @2x на плотном экране.</p>
+            </div>
+            <div class="panel">
+              <h3>SVG 16 → 64 — края живые</h3>
+              <svg viewBox="0 0 24 24" width="64" height="64" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" fill="none" stroke="#1e2832" stroke-width="2"/>
+                <path d="M16 16l5 5" stroke="#1e2832" stroke-width="2"/>
+              </svg>
+              <p class="note">Один файл на 1x, 2x и 3x.</p>
+            </div>
+          </div>
+
+          <div class="panel" style="margin-top: 24px">
+            <h3>Скрин vs спецификация</h3>
+            <p>
+              По картинке: «кнопка тёмная, текст белый». По макету:
+              padding 16×32, кегль 18, Roboto, hover primary, радиус из токена,
+              состояние disabled. Pixel-perfect — попасть в эту систему, а не
+              скопировать каждый субпиксель скриншота.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap">
+        Курс CORAL ·
+        <a href="lecture.md">текст лекции</a> ·
+        <a href="../../tests/00-figma.md">тест этапа 0</a>
+      </div>
+    </footer>
+
+    <div class="drawer" id="drawer" hidden>
+      <strong>Каталог</strong>
+      <ul>
+        <li><a href="#grid">Jewelry &amp; Accessories</a></li>
+        <li><a href="#grid">Clothing &amp; Shoes</a></li>
+        <li><a href="#space">Home &amp; Living</a></li>
+      </ul>
+      <button class="btn" type="button" id="close-menu" style="margin-top: 16px">Закрыть</button>
+    </div>
+    <button class="scrim" id="scrim" type="button" aria-label="Закрыть меню" hidden></button>
+
+    <script>
+      const drawer = document.getElementById("drawer");
+      const scrim = document.getElementById("scrim");
+      const openBtn = document.getElementById("open-menu");
+      const closeBtn = document.getElementById("close-menu");
+
+      function setOpen(open) {
+        drawer.hidden = !open;
+        scrim.hidden = !open;
+        drawer.classList.toggle("open", open);
+        scrim.classList.toggle("open", open);
+        openBtn.setAttribute("aria-expanded", String(open));
+        if (open) closeBtn.focus();
+        else openBtn.focus();
+      }
+
+      openBtn.addEventListener("click", () => setOpen(true));
+      closeBtn.addEventListener("click", () => setOpen(false));
+      scrim.addEventListener("click", () => setOpen(false));
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && !drawer.hidden) setOpen(false);
+      });
+    </script>
+  </body>
+</html>

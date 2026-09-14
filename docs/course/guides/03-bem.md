@@ -8,6 +8,8 @@
 
 `stage-03-bem/` — копия этапа 2, затем переименование.
 
+Вводная лекция (разбор теста с примерами): [../lectures/03-bem/lecture.md](../lectures/03-bem/lecture.md), [живые примеры](../lectures/03-bem/examples.html).
+
 ## Теория
 
 - [БЭМ: методология](https://ru.bem.info/methodology/)

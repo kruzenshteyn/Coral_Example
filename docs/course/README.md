@@ -22,6 +22,7 @@
 10. **Покупки и админка** — корзина, checkout, форма новой карточки.
 
 Карта макета: [00-figma.md](00-figma.md).  
+Вводные лекции (разбор тестов с примерами): [lectures/README.md](lectures/README.md).  
 Занятия: [HTML](01-html.md) · [CSS](02-css.md) · [БЭМ](03-bem.md) · [Модалки](04-modals.md) · [JS](05-js.md) · [Сервер](06-server.md) · [Адаптив](07-adaptive.md) · [ООП](08-oop.md) · [БД](09-database.md) · [Магазин](10-shop-admin.md).
 
 ## Правила для студентов
@@ -38,6 +39,7 @@
 ## Инструкции и тесты
 
 Пошаговые инструкции: [guides/README.md](guides/README.md) — шаги, примеры кода, обоснование решений, ссылки на [MDN](https://developer.mozilla.org/ru/) и документацию стеков.  
+Лекции (разбор вопросов теста с примерами): [lectures/README.md](lectures/README.md).  
 Как работать над каждым этапом по шагам: [Методика пошагового выполнения](metodika-po-shagam.md).  
 Тесты по 30 вопросов (общие темы, ключ в конце файла): [tests/README.md](tests/README.md).  
 Копия для Moodle (GIFT, правильный ответ всегда первый): [tests/moodle/README.md](tests/moodle/README.md).

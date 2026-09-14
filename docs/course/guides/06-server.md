@@ -10,6 +10,8 @@
 Контракт: [api-contract.md](../../stage-06-server/api-contract.md)  
 Прогон curl: [TESTING.md](../../stage-06-server/TESTING.md)
 
+Вводная лекция (разбор теста с примерами): [../lectures/06-server/lecture.md](../lectures/06-server/lecture.md), [живые примеры](../lectures/06-server/examples.html).
+
 ## Теория
 
 - [Обзор HTTP](https://developer.mozilla.org/ru/docs/Web/HTTP/Guides/Overview)

@@ -8,6 +8,8 @@
 
 `stage-04-modals/`
 
+Вводная лекция (разбор теста с примерами): [../lectures/04-modals/lecture.md](../lectures/04-modals/lecture.md), [живые примеры](../lectures/04-modals/examples.html).
+
 ## Теория
 
 - [Диалоги и попапы (MDN, UI-паттерны)](https://developer.mozilla.org/ru/docs/Learn_web_development/Core/Accessibility/WAI-ARIA_basics)

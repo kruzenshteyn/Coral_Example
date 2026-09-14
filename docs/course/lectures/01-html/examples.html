@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Примеры к лекции. HTML как смысл</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --color-primary: #9e5cf2;
+        --color-black: #1e2832;
+        --color-black-50: #8f9499;
+        --color-white: #ffffff;
+        --color-stroke: #e3e3e3;
+        --color-page: #f6f4f8;
+        --font-head: "Roboto", system-ui, sans-serif;
+        --font-body: "Open Sans", system-ui, sans-serif;
+        --radius: 8px;
+        --gap: 24px;
+        --shadow: 0 8px 24px rgba(30, 40, 50, 0.08);
+        --container: 1100px;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: var(--font-body);
+        font-size: 16px;
+        line-height: 1.5;
+        color: var(--color-black);
+        background: var(--color-page);
+      }
+
+      h1,
+      h2,
+      h3 {
+        font-family: var(--font-head);
+        font-weight: 500;
+        line-height: 1.2;
+        margin: 0 0 0.5em;
+      }
+
+      p {
+        margin: 0 0 0.75em;
+      }
+
+      a {
+        color: var(--color-primary);
+      }
+
+      code,
+      pre {
+        font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+        font-size: 0.85em;
+      }
+
+      code {
+        background: #efe8f8;
+        padding: 0.1em 0.35em;
+        border-radius: 4px;
+      }
+
+      pre {
+        margin: 0;
+        background: #1e2832;
+        color: #f6f4f8;
+        padding: 16px;
+        border-radius: var(--radius);
+        overflow: auto;
+        line-height: 1.45;
+      }
+
+      .wrap {
+        width: min(var(--container), calc(100% - 32px));
+        margin-inline: auto;
+      }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: var(--color-white);
+        border-bottom: 1px solid var(--color-stroke);
+      }
+
+      .site-header .wrap {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        min-height: 64px;
+        padding-block: 8px;
+      }
+
+      .brand {
+        font-family: var(--font-head);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--color-black);
+        text-decoration: none;
+        font-size: 18px;
+      }
+
+      .toc {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 16px;
+        font-size: 14px;
+      }
+
+      .toc a {
+        color: var(--color-black);
+        text-decoration: none;
+      }
+
+      .toc a:hover,
+      .toc a:focus-visible {
+        color: var(--color-primary);
+      }
+
+      .hero {
+        background: var(--color-white);
+        border-bottom: 1px solid var(--color-stroke);
+        padding: 40px 0 32px;
+      }
+
+      .kicker {
+        color: var(--color-primary);
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        font-size: 12px;
+        margin-bottom: 8px;
+      }
+
+      .lead {
+        max-width: 62ch;
+        color: var(--color-black-50);
+      }
+
+      .section {
+        padding: 40px 0;
+      }
+
+      .section + .section {
+        border-top: 1px solid var(--color-stroke);
+      }
+
+      .q {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--color-primary);
+        background: #efe8f8;
+        border-radius: 999px;
+        padding: 4px 10px;
+        margin-bottom: 8px;
+      }
+
+      .panel {
+        background: var(--color-white);
+        border: 1px solid var(--color-stroke);
+        border-radius: var(--radius);
+        padding: 20px;
+        box-shadow: var(--shadow);
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--gap);
+      }
+
+      @media (max-width: 768px) {
+        .grid-2 {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .note {
+        font-size: 14px;
+        color: var(--color-black-50);
+        margin: 8px 0 0;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 24px;
+        background: var(--color-black);
+        color: var(--color-white);
+        font-family: var(--font-head);
+        font-size: 16px;
+        border: 0;
+        border-radius: var(--radius);
+        cursor: pointer;
+        text-decoration: none;
+      }
+
+      .btn:hover {
+        background: var(--color-primary);
+        color: var(--color-white);
+      }
+
+      .btn:focus-visible {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 3px;
+      }
+
+      .btn:disabled {
+        background: #c5c8cb;
+        color: #6b7075;
+        cursor: not-allowed;
+      }
+
+      .btn-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+      }
+
+      label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+
+      input:not([type="checkbox"]) {
+        font: inherit;
+        padding: 8px 12px;
+        border: 1px solid var(--color-stroke);
+        border-radius: var(--radius);
+        width: min(100%, 280px);
+      }
+
+      fieldset {
+        border: 1px solid var(--color-stroke);
+        border-radius: var(--radius);
+        padding: 16px;
+        margin: 0;
+      }
+
+      legend {
+        padding: 0 6px;
+        font-weight: 600;
+      }
+
+      .tree {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        font-size: 14px;
+      }
+
+      .tree ul {
+        margin: 0;
+        padding-left: 1.2em;
+        list-style: none;
+        border-left: 1px solid var(--color-stroke);
+      }
+
+      .tree code {
+        font-size: 12px;
+      }
+
+      .ok {
+        outline: 2px solid #1a7f4b;
+        outline-offset: 2px;
+      }
+
+      .bad {
+        outline: 2px dashed #c0392b;
+        outline-offset: 2px;
+      }
+
+      .phones {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+      }
+
+      .phone {
+        width: 160px;
+        height: 280px;
+        border: 8px solid var(--color-black);
+        border-radius: 16px;
+        overflow: hidden;
+        background: #fff;
+        position: relative;
+      }
+
+      .phone-screen {
+        transform-origin: top left;
+      }
+
+      .phone-tiny .phone-screen {
+        width: 980px;
+        height: 1600px;
+        transform: scale(0.147);
+        font-size: 32px;
+        padding: 24px;
+      }
+
+      .phone-ok .phone-screen {
+        padding: 12px;
+        font-size: 14px;
+      }
+
+      .mini-card {
+        border: 1px solid var(--color-stroke);
+        border-radius: var(--radius);
+        padding: 12px;
+        max-width: 240px;
+      }
+
+      .mini-card img {
+        width: 100%;
+        height: 120px;
+        object-fit: cover;
+        background: #efe8f8;
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      .bare .mini-card {
+        border: 0;
+        border-radius: 0;
+        padding: 0;
+        font-family: serif;
+      }
+
+      .bare .mini-card img {
+        height: auto;
+      }
+
+      .bare .btn {
+        background: none;
+        color: #00e;
+        padding: 0;
+        font: inherit;
+        text-decoration: underline;
+        display: inline;
+      }
+
+      .outline {
+        font-size: 15px;
+      }
+
+      .outline .h1 { font-size: 1.4em; font-weight: 600; }
+      .outline .h2 { margin-left: 1em; font-weight: 600; }
+      .outline .h3 { margin-left: 2em; }
+      .outline .skip { margin-left: 1em; color: #c0392b; }
+
+      table.data {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+
+      table.data th,
+      table.data td {
+        border: 1px solid var(--color-stroke);
+        padding: 8px 10px;
+        text-align: left;
+      }
+
+      table.data th {
+        background: #efe8f8;
+      }
+
+      .log {
+        min-height: 1.5em;
+        font-size: 14px;
+        color: var(--color-primary);
+        font-weight: 600;
+      }
+
+      .dialog-demo {
+        border: 1px solid var(--color-stroke);
+        border-radius: var(--radius);
+        padding: 16px;
+        background: #faf8fd;
+      }
+
+      footer.page-foot {
+        padding: 24px 0 40px;
+        color: var(--color-black-50);
+        font-size: 14px;
+      }
+
+      .placeholder-only::placeholder {
+        color: var(--color-black-50);
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="#top">Coral · лекция 1</a>
+        <nav class="toc" aria-label="Темы примеров">
+          <a href="#doc">Каркас</a>
+          <a href="#semantic">Семантика</a>
+          <a href="#links">Ссылки</a>
+          <a href="#headings">Заголовки</a>
+          <a href="#forms">Формы</a>
+          <a href="#valid">Валидность</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="hero" id="top">
+      <div class="wrap">
+        <p class="kicker">Этап 1 · HTML как документ</p>
+        <h1>Живые примеры к лекции HTML</h1>
+        <p class="lead">
+          Теги несут смысл. Отключите воображение «как в макете» и смотрите, что
+          останется без CSS. Текст лекции —
+          <a href="lecture.md">lecture.md</a>.
+        </p>
+      </div>
+    </div>
+
+    <main>
+      <section class="section" id="doc">
+        <div class="wrap">
+          <p class="q">Вопросы 1, 2, 14, 15, 28</p>
+          <h2>Каркас документа</h2>
+          <p>
+            Doctype включает стандарт HTML5. <code>lang</code> — для скринридера
+            и перевода. Charset — Unicode. Viewport — ширина телефона.
+            Стили — в <code>head</code>.
+          </p>
+
+          <div class="panel">
+            <pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8" /&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+    &lt;title&gt;CORAL — Collections&lt;/title&gt;
+    &lt;link rel="stylesheet" href="css/style.css" /&gt;
+  &lt;/head&gt;
+  &lt;body&gt;…&lt;/body&gt;
+&lt;/html&gt;</pre>
+            <p class="note">
+              В Coral текст макета английский — <code>lang="en"</code>, не «всегда ru».
+            </p>
+          </div>
+
+          <div class="grid-2" style="margin-top: 24px">
+            <div class="panel">
+              <h3>Без viewport</h3>
+              <div class="phones">
+                <div class="phone phone-tiny" aria-hidden="true">
+                  <div class="phone-screen">
+                    <strong>CORAL</strong>
+                    <p>Collections Shop now Jewelry Clothing Home…</p>
+                  </div>
+                </div>
+              </div>
+              <p class="note">Браузер думает, что ширина 980px, и уменьшает всё.</p>
+            </div>
+            <div class="panel">
+              <h3>С viewport</h3>
+              <div class="phones">
+                <div class="phone phone-ok" aria-hidden="true">
+                  <div class="phone-screen">
+                    <strong>CORAL</strong>
+                    <p>Collections</p>
+                    <p>Shop now</p>
+                  </div>
+                </div>
+              </div>
+              <p class="note">width=device-width: колонка по ширине экрана.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="semantic">
+        <div class="wrap">
+          <p class="q">Вопросы 3, 4, 10, 11, 19, 22</p>
+          <h2>Семантика: header, main, nav, section, article, footer</h2>
+          <p>
+            <code>header</code> — ввод страницы <em>или</em> секции.
+            <code>main</code> обычно один. Карточка товара — <code>article</code>,
+            не бессмысленный <code>div</code>.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel ok">
+              <h3>Смысл</h3>
+              <ul class="tree">
+                <li><code>header</code> шапка страницы
+                  <ul>
+                    <li><code>nav</code> + <code>ul</code> каталог</li>
+                  </ul>
+                </li>
+                <li><code>main</code>
+                  <ul>
+                    <li><code>section</code> герой + <code>h1</code></li>
+                    <li><code>section</code> товары
+                      <ul>
+                        <li><code>article</code> карточка</li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li><code>footer</code> подвал страницы</li>
+              </ul>
+            </div>
+            <div class="panel bad">
+              <h3>Div-суп</h3>
+              <ul class="tree">
+                <li><code>div</code>
+                  <ul>
+                    <li><code>div</code></li>
+                    <li><code>div</code></li>
+                  </ul>
+                </li>
+                <li><code>div</code>
+                  <ul>
+                    <li><code>div</code></li>
+                    <li><code>div</code> карточка?</li>
+                  </ul>
+                </li>
+                <li><code>div</code></li>
+              </ul>
+              <p class="note">Скринридер и SEO не видят «это товар».</p>
+            </div>
+          </div>
+
+          <div class="panel" style="margin-top: 24px">
+            <h3>Один article = один товар</h3>
+            <div class="btn-row">
+              <article class="mini-card">
+                <img alt="Adicolor Classics Joggers" width="200" height="120" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120'%3E%3Crect fill='%239e5cf2' width='200' height='120'/%3E%3Ctext x='20' y='68' fill='white' font-size='16' font-family='sans-serif'%3EJoggers%3C/text%3E%3C/svg%3E" />
+                <h3>Adicolor Classics Joggers</h3>
+                <p>Dress</p>
+                <p><data value="63.85">$63.85</data></p>
+                <footer>карточка тоже может иметь footer</footer>
+              </article>
+            </div>
+            <p class="note">
+              Выньте карточку со страницы — смысл останется. У <code>div</code> смысла нет.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="links">
+        <div class="wrap">
+          <p class="q">Вопросы 5, 6, 8, 16, 17</p>
+          <h2>Ссылка, кнопка, alt, void, type у button</h2>
+          <p>
+            Переход — <code>&lt;a href&gt;</code>. Отправка —
+            <code>&lt;button type="submit"&gt;</code>. Кнопка без type внутри
+            формы часто сама отправляет. <code>img</code> — void-элемент с
+            <code>alt</code>.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel">
+              <h3>Одинаковый вид, разный тег</h3>
+              <div class="btn-row">
+                <a class="btn" href="#semantic">Shop now</a>
+                <form id="news-mini" action="#links" method="get">
+                  <button class="btn" type="submit">Submit</button>
+                </form>
+              </div>
+              <p class="note">Слева переход к якорю, справа отправка формы.</p>
+            </div>
+            <div class="panel">
+              <h3>Ловушка: button без type</h3>
+              <form id="trap-form">
+                <p>
+                  <label for="trap-q">Поиск</label>
+                  <input id="trap-q" name="q" value="joggers" />
+                </p>
+                <div class="btn-row">
+                  <button>Закрыть</button>
+                  <button type="submit">Искать</button>
+                </div>
+              </form>
+              <p class="log" id="trap-log"></p>
+              <p class="note">Нажмите «Закрыть» — форма всё равно уйдёт как submit.</p>
+            </div>
+          </div>
+
+          <div class="grid-2" style="margin-top: 24px">
+            <div class="panel">
+              <h3>alt — запасной текст</h3>
+              <img
+                src="file-which-does-not-exist.jpg"
+                alt="Woman in a brown wrap dress walking in the city"
+                width="280"
+                height="120"
+              />
+              <p class="note">
+                Файл не найден — виден <code>alt</code>. Скринридер прочитает то же.
+                <code>img</code> не закрывают: это void / empty element.
+              </p>
+            </div>
+            <div class="panel">
+              <h3>Без оформления страница всё ещё читается</h3>
+              <p>
+                <button class="btn" type="button" id="bare-toggle">Снять CSS с карточки</button>
+              </p>
+              <div id="bare-host">
+                <article class="mini-card">
+                  <img alt="Nike Sportswear Futura Luxe backpack" width="200" height="120" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120'%3E%3Crect fill='%231e2832' width='200' height='120'/%3E%3Ctext x='20' y='68' fill='white' font-size='16' font-family='sans-serif'%3EBag%3C/text%3E%3C/svg%3E" />
+                  <h3>Nike Sportswear Futura Luxe</h3>
+                  <p>Bag · $130.00</p>
+                  <a class="btn" href="../../../../stage-01-html/product.html">View product</a>
+                </article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="headings">
+        <div class="wrap">
+          <p class="q">Вопросы 9, 23, 29</p>
+          <h2>Заголовки, strong / b, уникальный id</h2>
+          <p>
+            Обычно один <code>h1</code>, дальше по уровням. <code>strong</code> —
+            важность, <code>b</code> — вид. <code>id</code> на странице не
+            повторяют: якорь, <code>for</code>, <code>aria-labelledby</code>.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel ok">
+              <h3>Логичная иерархия</h3>
+              <div class="outline">
+                <div class="h1">h1 Collections</div>
+                <div class="h2">h2 Products</div>
+                <div class="h3">h3 Adicolor Classics Joggers</div>
+                <div class="h3">h3 Nike Air Zoom</div>
+                <div class="h2">h2 Newsletter</div>
+              </div>
+            </div>
+            <div class="panel bad">
+              <h3>Скачок уровней</h3>
+              <div class="outline">
+                <div class="h1">h1 Collections</div>
+                <div class="skip">h4 Sale??? — дыра в иерархии</div>
+                <div class="h1">ещё один h1 логотипа — два главных</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid-2" style="margin-top: 24px">
+            <div class="panel">
+              <h3>Важность vs вид</h3>
+              <p>Скидка <strong>70%</strong> — это важно (strong).</p>
+              <p>Бренд <b>Zara</b> — жирный для вида (b), без обязательного смысла.</p>
+            </div>
+            <div class="panel">
+              <h3>id как якорь</h3>
+              <p>
+                <a href="#demo-products">Перейти к #demo-products</a>
+                — как «Shop now» в Coral.
+              </p>
+              <p id="demo-products">
+                Секция с <code>id="demo-products"</code>. Второй такой id на
+                странице ставить нельзя.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="forms">
+        <div class="wrap">
+          <p class="q">Вопросы 7, 12, 13, 21, 24, 26, 27</p>
+          <h2>Формы: label, пароль, required, action, disabled</h2>
+          <p>
+            Клик по подписи фокусирует поле. Скринридер читает label, не
+            placeholder. <code>action</code> — URL отправки. Disabled не
+            редактируется и обычно не уходит на сервер.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel">
+              <h3>Кликните «Email address»</h3>
+              <form action="#forms" method="post" id="news-form">
+                <p>
+                  <label for="newsletter-email">Email address</label>
+                  <input
+                    id="newsletter-email"
+                    type="email"
+                    name="email"
+                    placeholder="Email address..."
+                    autocomplete="email"
+                    required
+                  />
+                </p>
+                <p>
+                  <label for="auth-password">Password</label>
+                  <input
+                    id="auth-password"
+                    type="password"
+                    name="password"
+                    autocomplete="current-password"
+                    required
+                  />
+                </p>
+                <button class="btn" type="submit">Submit</button>
+              </form>
+              <p class="note">
+                <code>for</code> совпадает с <code>id</code>. Пустое поле +
+                required — браузер не отправит. Password скрывает символы.
+              </p>
+            </div>
+            <div class="panel">
+              <h3>Только placeholder — плохо для SR</h3>
+              <p>
+                <input
+                  class="placeholder-only"
+                  type="email"
+                  name="email_placeholder_only"
+                  placeholder="Email address..."
+                />
+              </p>
+              <p class="note">
+                Подписи нет: placeholder исчезнет при вводе. Скринридер может
+                сказать «пустое поле». Нужен label или aria-label.
+              </p>
+              <h3 style="margin-top: 16px">disabled не в submit</h3>
+              <form id="order-form">
+                <p>
+                  <label for="promo">Промокод</label>
+                  <input id="promo" name="promo" value="SALE70" disabled />
+                </p>
+                <p>
+                  <label>
+                    <input type="checkbox" id="agree" /> Корзина не пуста
+                  </label>
+                </p>
+                <button class="btn" type="submit" id="order-btn" disabled>Оформить заказ</button>
+              </form>
+              <p class="log" id="order-log"></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="valid">
+        <div class="wrap">
+          <p class="q">Вопросы 18, 20, 25, 30</p>
+          <h2>hidden, таблица, вложенные p, валидатор</h2>
+          <p>
+            <code>hidden</code> прячет блок от всех, включая скринридер.
+            Таблицу данных размечают <code>table/th/td</code>.
+            <code>p</code> внутри <code>p</code> браузер сам разорвёт.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel">
+              <h3>Модалка с hidden</h3>
+              <p>
+                <button class="btn" type="button" id="open-dialog">Открыть Account</button>
+              </p>
+              <div class="dialog-demo" id="auth-dialog" hidden>
+                <h3 id="auth-title">Account</h3>
+                <p>Это не картинка диалога, а HTML с <code>hidden</code>.</p>
+                <button class="btn" type="button" id="close-dialog">Close</button>
+              </div>
+              <p class="note">Пока hidden есть — блока нет ни на экране, ни у скринридера.</p>
+            </div>
+            <div class="panel">
+              <h3>Таблица данных</h3>
+              <table class="data">
+                <thead>
+                  <tr>
+                    <th>Товар</th>
+                    <th>Цена</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Adicolor Classics Joggers</td>
+                    <td>$63.85</td>
+                  </tr>
+                  <tr>
+                    <td>Nike Sportswear Futura Luxe</td>
+                    <td>$130.00</td>
+                  </tr>
+                </tbody>
+              </table>
+              <p class="note">Каталог карточек — список article, не таблица. Состав заказа — таблица.</p>
+            </div>
+          </div>
+
+          <div class="grid-2" style="margin-top: 24px">
+            <div class="panel">
+              <h3>&lt;p&gt; внутри &lt;p&gt; — невалидно</h3>
+              <pre>&lt;p&gt;Текст &lt;p&gt;внутри&lt;/p&gt; дальше&lt;/p&gt;
+
+браузер сделает:
+&lt;p&gt;Текст &lt;/p&gt;
+&lt;p&gt;внутри&lt;/p&gt;
+дальше
+&lt;p&gt;&lt;/p&gt;</pre>
+              <p class="note">Внутри абзаца — span, a, strong. Не второй p.</p>
+            </div>
+            <div class="panel">
+              <h3>Что смотрит валидатор</h3>
+              <ul>
+                <li>один doctype, charset, уникальные id</li>
+                <li>запрещённая вложенность (p в p)</li>
+                <li>img без alt, label без поля</li>
+                <li>не закрытые не-void теги</li>
+              </ul>
+              <p class="note">
+                Не цвет кнопок и не Docker.
+                <a href="https://validator.w3.org/">validator.w3.org</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="page-foot">
+      <div class="wrap">
+        Курс CORAL ·
+        <a href="lecture.md">текст лекции</a> ·
+        <a href="../../tests/01-html.md">тест этапа 1</a> ·
+        <a href="../../../../stage-01-html/index.html">эталон HTML</a>
+      </div>
+    </footer>
+
+    <script>
+      const trapForm = document.getElementById("trap-form");
+      const trapLog = document.getElementById("trap-log");
+      trapForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const submitter = event.submitter;
+        trapLog.textContent =
+          "Ушла как submit. Нажал: " +
+          (submitter ? submitter.textContent.trim() : "неизвестно") +
+          (submitter && !submitter.hasAttribute("type")
+            ? " — у кнопки не было type"
+            : "");
+      });
+
+      const bareToggle = document.getElementById("bare-toggle");
+      const bareHost = document.getElementById("bare-host");
+      bareToggle.addEventListener("click", () => {
+        const on = bareHost.classList.toggle("bare");
+        bareToggle.textContent = on
+          ? "Вернуть оформление"
+          : "Снять CSS с карточки";
+      });
+
+      const agree = document.getElementById("agree");
+      const orderBtn = document.getElementById("order-btn");
+      const orderForm = document.getElementById("order-form");
+      const orderLog = document.getElementById("order-log");
+      agree.addEventListener("change", () => {
+        orderBtn.disabled = !agree.checked;
+      });
+      orderForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const data = new FormData(orderForm);
+        const sent = [...data.keys()].join(", ") || "(пусто)";
+        orderLog.textContent =
+          "В submit ушло: " + sent + ". Поле promo disabled — его нет.";
+      });
+
+      const dialog = document.getElementById("auth-dialog");
+      document.getElementById("open-dialog").addEventListener("click", () => {
+        dialog.hidden = false;
+      });
+      document.getElementById("close-dialog").addEventListener("click", () => {
+        dialog.hidden = true;
+      });
+    </script>
+  </body>
+</html>

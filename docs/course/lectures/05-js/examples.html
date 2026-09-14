@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Примеры к лекции. JavaScript в браузере</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --color-primary: #9e5cf2;
+        --color-black: #1e2832;
+        --color-black-50: #8f9499;
+        --color-white: #ffffff;
+        --color-stroke: #e3e3e3;
+        --color-page: #f6f4f8;
+        --font-head: "Roboto", system-ui, sans-serif;
+        --font-body: "Open Sans", system-ui, sans-serif;
+        --radius: 8px;
+        --gap: 24px;
+        --shadow: 0 8px 24px rgba(30, 40, 50, 0.08);
+        --container: 1100px;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: var(--font-body);
+        font-size: 16px;
+        line-height: 1.5;
+        color: var(--color-black);
+        background: var(--color-page);
+      }
+
+      body.modal-open {
+        overflow: hidden;
+      }
+
+      h1,
+      h2,
+      h3 {
+        font-family: var(--font-head);
+        font-weight: 500;
+        line-height: 1.2;
+        margin: 0 0 0.5em;
+      }
+
+      p {
+        margin: 0 0 0.75em;
+      }
+
+      a {
+        color: var(--color-primary);
+      }
+
+      code,
+      pre {
+        font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+        font-size: 0.85em;
+      }
+
+      code {
+        background: #efe8f8;
+        padding: 0.1em 0.35em;
+        border-radius: 4px;
+      }
+
+      pre {
+        margin: 0;
+        background: #1e2832;
+        color: #f6f4f8;
+        padding: 16px;
+        border-radius: var(--radius);
+        overflow: auto;
+        line-height: 1.45;
+      }
+
+      .wrap {
+        width: min(var(--container), calc(100% - 32px));
+        margin-inline: auto;
+      }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: var(--color-white);
+        border-bottom: 1px solid var(--color-stroke);
+      }
+
+      .site-header .wrap {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        min-height: 64px;
+        padding-block: 8px;
+      }
+
+      .brand {
+        font-family: var(--font-head);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--color-black);
+        text-decoration: none;
+        font-size: 18px;
+      }
+
+      .toc {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 16px;
+        font-size: 14px;
+      }
+
+      .toc a {
+        color: var(--color-black);
+        text-decoration: none;
+      }
+
+      .toc a:hover,
+      .toc a:focus-visible {
+        color: var(--color-primary);
+      }
+
+      .hero {
+        background: var(--color-white);
+        border-bottom: 1px solid var(--color-stroke);
+        padding: 40px 0 32px;
+      }
+
+      .kicker {
+        color: var(--color-primary);
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        font-size: 12px;
+        margin-bottom: 8px;
+      }
+
+      .lead {
+        max-width: 62ch;
+        color: var(--color-black-50);
+      }
+
+      .section {
+        padding: 40px 0;
+      }
+
+      .section + .section {
+        border-top: 1px solid var(--color-stroke);
+      }
+
+      .q {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--color-primary);
+        background: #efe8f8;
+        border-radius: 999px;
+        padding: 4px 10px;
+        margin-bottom: 8px;
+      }
+
+      .panel {
+        background: var(--color-white);
+        border: 1px solid var(--color-stroke);
+        border-radius: var(--radius);
+        padding: 20px;
+        box-shadow: var(--shadow);
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--gap);
+      }
+
+      @media (max-width: 768px) {
+        .grid-2 {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .note {
+        font-size: 14px;
+        color: var(--color-black-50);
+        margin: 8px 0 0;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 24px;
+        background: var(--color-black);
+        color: var(--color-white);
+        font-family: var(--font-head);
+        font-size: 16px;
+        border: 0;
+        border-radius: var(--radius);
+        cursor: pointer;
+        text-decoration: none;
+      }
+
+      .btn:hover {
+        background: var(--color-primary);
+        color: var(--color-white);
+      }
+
+      .btn:focus-visible {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 3px;
+      }
+
+      .btn-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+      }
+
+      label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+
+      input:not([type="checkbox"]) {
+        font: inherit;
+        padding: 8px 12px;
+        border: 1px solid var(--color-stroke);
+        border-radius: var(--radius);
+        width: min(100%, 280px);
+      }
+
+      .log {
+        min-height: 1.5em;
+        font-size: 14px;
+        color: var(--color-primary);
+        font-weight: 600;
+        white-space: pre-wrap;
+      }
+
+      .log-box {
+        margin: 12px 0 0;
+        background: #1e2832;
+        color: #f6f4f8;
+        padding: 12px 16px;
+        border-radius: var(--radius);
+        font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+        font-size: 13px;
+        min-height: 3em;
+        white-space: pre-wrap;
+      }
+
+      footer.page-foot {
+        padding: 24px 0 40px;
+        color: var(--color-black-50);
+        font-size: 14px;
+      }
+
+      .compare {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+
+      .compare th,
+      .compare td {
+        border: 1px solid var(--color-stroke);
+        padding: 8px 10px;
+        text-align: left;
+      }
+
+      .compare th {
+        background: #efe8f8;
+      }
+
+      .product-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 8px;
+      }
+
+      .product-list li {
+        margin: 0;
+      }
+
+      .mini-card {
+        border: 1px solid var(--color-stroke);
+        border-radius: var(--radius);
+        padding: 12px 14px;
+        cursor: pointer;
+        background: #fff;
+      }
+
+      .mini-card:hover,
+      .mini-card:focus-visible {
+        border-color: var(--color-primary);
+      }
+
+      .mini-card[data-product-id] {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .mini-card.product-card_selected {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 2px;
+      }
+
+      .price {
+        font-weight: 600;
+        color: var(--color-black);
+      }
+
+      .warn {
+        background: #fdecea;
+        border: 1px solid #f5c6c2;
+        color: #8a1f16;
+        border-radius: var(--radius);
+        padding: 12px 16px;
+        font-size: 14px;
+      }
+
+      .modal {
+        position: fixed;
+        inset: 0;
+        display: none;
+        z-index: 40;
+      }
+
+      .modal.modal_open {
+        display: grid;
+        place-items: center;
+      }
+
+      .modal__overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(30, 40, 50, 0.45);
+      }
+
+      .modal__box {
+        position: relative;
+        background: #fff;
+        border-radius: var(--radius);
+        padding: 24px;
+        width: min(360px, calc(100% - 32px));
+        box-shadow: var(--shadow);
+        z-index: 1;
+      }
+
+      .is-invalid {
+        outline: 2px solid #c0392b;
+        outline-offset: 1px;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="#top">Coral · лекция 5</a>
+        <nav class="toc" aria-label="Темы примеров">
+          <a href="#lang">Язык</a>
+          <a href="#dom">DOM</a>
+          <a href="#net">Сеть</a>
+          <a href="#data">Данные</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="hero" id="top">
+      <div class="wrap">
+        <p class="kicker">Этап 5 · JavaScript в браузере</p>
+        <h1>Живые примеры к лекции JavaScript</h1>
+        <p class="lead">
+          Кликай демо: язык, DOM, fetch и localStorage — как в
+          <code>stage-05-js</code>. Текст лекции —
+          <a href="lecture.md">lecture.md</a>.
+        </p>
+      </div>
+    </div>
+
+    <main>
+      <section class="section" id="lang">
+        <div class="wrap">
+          <p class="q">Вопросы 1, 2, 3, 19, 20, 21, 22</p>
+          <h2>Язык: const / let, ===, null, strict, try/catch</h2>
+          <p>
+            <code>const</code> запрещает переназначить имя, объект не заморожен.
+            <code>let</code> — блок, <code>===</code> — без приведения.
+            <code>typeof null</code> — <code>"object"</code>.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel">
+              <h3>const и let</h3>
+              <div class="btn-row">
+                <button class="btn" type="button" id="run-const">Прогнать const</button>
+                <button class="btn" type="button" id="run-let">Прогнать let vs var</button>
+              </div>
+              <div class="log-box" id="lang-log">Нажмите кнопку.</div>
+              <p class="note">
+                В Coral <code>const STORAGE_KEY = "coral-selected"</code>. Массив
+                id внутри ключа меняют — это не переназначение константы.
+              </p>
+            </div>
+            <div class="panel">
+              <h3>=== vs ==</h3>
+              <table class="compare">
+                <thead>
+                  <tr>
+                    <th>Выражение</th>
+                    <th>Результат</th>
+                  </tr>
+                </thead>
+                <tbody id="eq-body"></tbody>
+              </table>
+              <p class="note">
+                <code>null == undefined</code> — true. <code>typeof null</code> —
+                "object" (историческая особенность).
+              </p>
+            </div>
+          </div>
+
+          <div class="grid-2" style="margin-top: 24px">
+            <div class="panel">
+              <h3>try/catch + JSON.parse</h3>
+              <p>
+                <label for="json-in">Строка</label>
+                <input id="json-in" value="{ broken" />
+              </p>
+              <div class="btn-row">
+                <button class="btn" type="button" id="run-parse">JSON.parse</button>
+                <button class="btn" type="button" id="run-parse-ok">Валидный JSON</button>
+              </div>
+              <p class="log" id="parse-log"></p>
+              <p class="note">Невалидная строка бросает SyntaxError, не тихий {}.</p>
+            </div>
+            <div class="panel">
+              <h3>use strict</h3>
+              <pre>'use strict';
+undeclared = 1; // ReferenceError
+
+// без strict — молчаливая глобальная</pre>
+              <p class="note">
+                Модули всегда strict. Необъявленная переменная — ошибка, не
+                «ускорение Wi‑Fi».
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="dom">
+        <div class="wrap">
+          <p class="q">Вопросы 4, 5, 6, 7, 14, 15, 24, 25, 28</p>
+          <h2>DOM и события: querySelector, preventDefault, делегирование</h2>
+          <p>
+            Слушатель на родителе смотрит <code>event.target</code>.
+            <code>dataset.productId</code> читает <code>data-product-id</code>.
+            Скрипт в конце <code>body</code> — DOM уже есть.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel">
+              <h3>querySelector — первый или null</h3>
+              <ul class="product-list">
+                <li class="item mini-card">Adicolor Classics Joggers</li>
+                <li class="item mini-card">Nike Sportswear Futura Luxe</li>
+              </ul>
+              <div class="btn-row" style="margin-top: 12px">
+                <button class="btn" type="button" id="qs-item">querySelector('.item')</button>
+                <button class="btn" type="button" id="qs-miss">querySelector('.no-such')</button>
+              </div>
+              <p class="log" id="qs-log"></p>
+            </div>
+            <div class="panel">
+              <h3>preventDefault на ссылке</h3>
+              <p>
+                <a class="btn" id="shop-link" href="#products-anchor">Shop now</a>
+              </p>
+              <p id="products-anchor">Якорь #products-anchor — без preventDefault страница сюда прыгнет.</p>
+              <p class="log" id="shop-log"></p>
+              <p class="note">
+                В Coral Account — <code>a[href="#modal-auth"]</code>: preventDefault
+                + <code>classList.add('modal_open')</code>.
+              </p>
+            </div>
+          </div>
+
+          <div class="grid-2" style="margin-top: 24px">
+            <div class="panel">
+              <h3>Делегирование на списке товаров</h3>
+              <p class="note" style="margin-top: 0">
+                Один слушатель на <code>ul</code>. Кликни название или цену.
+              </p>
+              <ul class="product-list" id="catalog-demo" data-catalog>
+                <li>
+                  <article class="mini-card" data-product-id="joggers">
+                    <span>Adicolor Classics Joggers</span>
+                    <span class="price">$63.85</span>
+                  </article>
+                </li>
+                <li>
+                  <article class="mini-card" data-product-id="nike-bag">
+                    <span>Nike Sportswear Futura Luxe</span>
+                    <span class="price">$130.00</span>
+                  </article>
+                </li>
+                <li>
+                  <article class="mini-card" data-product-id="leather-bag">
+                    <span>Leather Crossbody Bag</span>
+                    <span class="price">$54.00</span>
+                  </article>
+                </li>
+              </ul>
+              <p class="log" id="deleg-log"></p>
+            </div>
+            <div class="panel">
+              <h3>classList.toggle + модалка</h3>
+              <p>
+                <button class="btn" type="button" id="open-modal">Открыть Account</button>
+              </p>
+              <p class="note">
+                Класс <code>modal_open</code>. Закрытие: кнопка, оверлей, Esc.
+                Скрипт внизу страницы — <code>#modal-auth</code> уже в DOM
+                (вопрос 25). <code>DOMContentLoaded</code> — HTML разобран, картинки
+                ещё качаются (вопрос 24).
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="net">
+        <div class="wrap">
+          <p class="q">Вопросы 8, 9, 10, 11, 26, 27</p>
+          <h2>Сеть и async: fetch, ok, module, file://</h2>
+          <p>
+            <code>fetch</code> не бросает на 404 — смотрят <code>response.ok</code>.
+            <code>async</code> всегда возвращает Promise. С <code>file://</code>
+            локальный JSON блокируют.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel">
+              <h3>fetch: 404 не исключение</h3>
+              <div class="btn-row">
+                <button class="btn" type="button" id="fetch-404">fetch missing.json</button>
+                <button class="btn" type="button" id="fetch-self">fetch этой страницы</button>
+              </div>
+              <div class="log-box" id="fetch-log">Нажмите кнопку.</div>
+              <p class="note">
+                Сеть / CORS / file:// — тогда <code>catch</code>. HTTP 404 —
+                промис fulfilled, <code>ok === false</code>.
+              </p>
+            </div>
+            <div class="panel">
+              <h3>file:// блокирует JSON</h3>
+              <div class="warn">
+                Эталон Coral: <code>fetch("data/products.json")</code> с
+                <code>file://</code> падает. Сообщение в каталоге:
+                «Open this folder through a local server».
+              </div>
+              <pre style="margin-top: 12px">python -m http.server 8080
+# из stage-05-js/
+# http://localhost:8080/</pre>
+              <p class="note">
+                <code>type="module"</code> включает import/export и defer.
+                С file:// модули тоже часто режет CORS (вопрос 26–27).
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="data">
+        <div class="wrap">
+          <p class="q">Вопросы 12, 13, 16, 17, 18, 23, 29, 30</p>
+          <h2>Данные: localStorage, map/filter, debounce, push</h2>
+          <p>
+            Хранилище — строки того же origin. <code>map</code> даёт
+            <code>[2,4,6]</code>, <code>filter</code> — <code>[2,3]</code>.
+            Debounce ждёт паузу в печати.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel">
+              <h3>localStorage coral-selected</h3>
+              <div class="btn-row">
+                <button class="btn" type="button" id="save-sel">Сохранить выбор</button>
+                <button class="btn" type="button" id="read-sel">Прочитать</button>
+                <button class="btn" type="button" id="clear-sel">Очистить</button>
+              </div>
+              <p class="log" id="storage-log"></p>
+              <p class="note">
+                Видно JS того же origin, не серверу и не другому порту. Объект —
+                через JSON.stringify.
+              </p>
+            </div>
+            <div class="panel">
+              <h3>map / filter / push vs concat</h3>
+              <pre id="array-pre">[1, 2, 3].map(x => x * 2)
+[1, 2, 3].filter(x => x > 1)</pre>
+              <div class="btn-row">
+                <button class="btn" type="button" id="run-map">map и filter</button>
+                <button class="btn" type="button" id="run-push">push vs concat</button>
+              </div>
+              <p class="log" id="array-log"></p>
+            </div>
+          </div>
+
+          <div class="grid-2" style="margin-top: 24px">
+            <div class="panel">
+              <h3>Debounce поиска</h3>
+              <p>
+                <label for="search-q">Фильтр каталога</label>
+                <input id="search-q" placeholder="joggers…" autocomplete="off" />
+              </p>
+              <p class="log" id="deb-log">Печатайте — вызов через 300 мс после паузы.</p>
+              <p class="note">
+                Откладывает вызов, пока пользователь печатает. Не удаляет input.
+              </p>
+            </div>
+            <div class="panel">
+              <h3>Regex email — приближение</h3>
+              <form id="email-form">
+                <p>
+                  <label for="demo-email">Email</label>
+                  <input id="demo-email" type="text" placeholder="ada@coral.test" />
+                </p>
+                <button class="btn" type="submit">Проверить</button>
+              </form>
+              <p class="log" id="email-log"></p>
+              <p class="note">
+                <code>/^[^\s@]+@[^\s@]+\.[^\s@]+$/</code> — не RFC, не MX, не
+                доставка. Как в <code>isEmail</code> у Coral.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="modal" id="modal-auth" role="dialog" aria-labelledby="auth-title">
+      <div class="modal__overlay" data-close></div>
+      <div class="modal__box">
+        <h3 id="auth-title">Account</h3>
+        <p>Класс <code>modal_open</code> на диалоге. Замыкание помнит, какой модал открыли.</p>
+        <button class="btn" type="button" data-close>Close</button>
+      </div>
+    </div>
+
+    <footer class="page-foot">
+      <div class="wrap">
+        Курс CORAL ·
+        <a href="lecture.md">текст лекции</a> ·
+        <a href="../../tests/05-js.md">тест этапа 5</a> ·
+        <a href="../../../../stage-05-js/index.html">эталон JS</a>
+      </div>
+    </footer>
+
+    <script>
+      (function () {
+        const langLog = document.getElementById("lang-log");
+        document.getElementById("run-const").addEventListener("click", () => {
+          const lines = [];
+          const STORAGE_KEY = "coral-selected";
+          lines.push('const STORAGE_KEY = "coral-selected" — ок');
+          try {
+            eval('const STORAGE_KEY = "coral-selected"; STORAGE_KEY = "other";');
+            lines.push("переназначение прошло? неожиданно");
+          } catch (error) {
+            lines.push("STORAGE_KEY = \"other\" → " + error.name + ": привязку нельзя переназначить");
+          }
+          const user = { email: "ada@coral.test" };
+          user.email = "new@coral.test";
+          lines.push("user.email = \"" + user.email + "\" — объект не заморожен");
+          langLog.textContent = lines.join("\n");
+        });
+
+        document.getElementById("run-let").addEventListener("click", () => {
+          const lines = [];
+          if (true) {
+            let ids = ["joggers"];
+            var leaked = 1;
+            lines.push("внутри блока let ids = " + JSON.stringify(ids));
+          }
+          lines.push("let ids снаружи → ReferenceError (блочная область)");
+          lines.push("var leaked снаружи = " + leaked);
+          langLog.textContent = lines.join("\n");
+        });
+
+        const eqBody = document.getElementById("eq-body");
+        const eqRows = [
+          ["0 == \"0\"", 0 == "0"],
+          ["0 === \"0\"", 0 === "0"],
+          ["null == undefined", null == undefined],
+          ["null === undefined", null === undefined],
+          ["typeof null", typeof null],
+          ["typeof undefined", typeof undefined],
+        ];
+        eqBody.innerHTML = eqRows
+          .map(function (row) {
+            return "<tr><td><code>" + row[0] + "</code></td><td>" + String(row[1]) + "</td></tr>";
+          })
+          .join("");
+
+        const parseLog = document.getElementById("parse-log");
+        const jsonIn = document.getElementById("json-in");
+        document.getElementById("run-parse").addEventListener("click", () => {
+          try {
+            const value = JSON.parse(jsonIn.value);
+            parseLog.textContent = "Ок: " + JSON.stringify(value);
+          } catch (error) {
+            parseLog.textContent = error.name + ": " + error.message;
+          }
+        });
+        document.getElementById("run-parse-ok").addEventListener("click", () => {
+          jsonIn.value = '{"id":"joggers","price":63.85}';
+          document.getElementById("run-parse").click();
+        });
+
+        const qsLog = document.getElementById("qs-log");
+        document.getElementById("qs-item").addEventListener("click", () => {
+          const node = document.querySelector(".item");
+          qsLog.textContent = node
+            ? "первый: «" + node.textContent.trim() + "»"
+            : "null";
+        });
+        document.getElementById("qs-miss").addEventListener("click", () => {
+          const node = document.querySelector(".no-such");
+          qsLog.textContent = "результат: " + node + " (null, не массив)";
+        });
+
+        const shopLog = document.getElementById("shop-log");
+        document.getElementById("shop-link").addEventListener("click", (event) => {
+          event.preventDefault();
+          shopLog.textContent =
+            "preventDefault: перехода к якорю не было. href остался " +
+            event.currentTarget.getAttribute("href");
+        });
+
+        const delegLog = document.getElementById("deleg-log");
+        const catalog = document.getElementById("catalog-demo");
+        catalog.addEventListener("click", (event) => {
+          const card = event.target.closest("[data-product-id]");
+          if (!card) return;
+          const id = card.dataset.productId;
+          card.classList.toggle("product-card_selected");
+          delegLog.textContent =
+            "target: " +
+            event.target.tagName.toLowerCase() +
+            " («" +
+            event.target.textContent.trim() +
+            "»)\n" +
+            "currentTarget: " +
+            event.currentTarget.tagName.toLowerCase() +
+            "#" +
+            event.currentTarget.id +
+            " (слушатель)\n" +
+            "dataset.productId ← data-product-id=\"" +
+            id +
+            "\"";
+        });
+
+        const modal = document.getElementById("modal-auth");
+        function openModal() {
+          modal.classList.add("modal_open");
+          document.body.classList.add("modal-open");
+        }
+        function closeModal() {
+          modal.classList.remove("modal_open");
+          document.body.classList.remove("modal-open");
+        }
+        document.getElementById("open-modal").addEventListener("click", openModal);
+        modal.addEventListener("click", (event) => {
+          if (event.target.closest("[data-close]")) closeModal();
+        });
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape") closeModal();
+        });
+
+        const fetchLog = document.getElementById("fetch-log");
+        document.getElementById("fetch-404").addEventListener("click", async () => {
+          fetchLog.textContent = "ждём…";
+          try {
+            const response = await fetch("no-such-file.json");
+            fetchLog.textContent =
+              "fetch не бросил.\nstatus = " +
+              response.status +
+              "\nok = " +
+              response.ok +
+              "\n(на 404 смотрят ok, не catch)";
+          } catch (error) {
+            fetchLog.textContent =
+              "Бросил (сеть / CORS / file://):\n" + error.message;
+          }
+        });
+        document.getElementById("fetch-self").addEventListener("click", async () => {
+          fetchLog.textContent = "ждём…";
+          try {
+            const response = await fetch("examples.html");
+            fetchLog.textContent =
+              "async вернул Promise, await внутри async.\nstatus = " +
+              response.status +
+              ", ok = " +
+              response.ok +
+              ", type = " +
+              response.headers.get("content-type");
+          } catch (error) {
+            fetchLog.textContent = "catch: " + error.message;
+          }
+        });
+
+        const STORAGE_KEY = "coral-selected-lecture";
+        const storageLog = document.getElementById("storage-log");
+        document.getElementById("save-sel").addEventListener("click", () => {
+          const ids = ["joggers", "nike-bag"];
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
+          storageLog.textContent = "записали строку " + JSON.stringify(ids);
+        });
+        document.getElementById("read-sel").addEventListener("click", () => {
+          try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            storageLog.textContent =
+              "raw: " +
+              raw +
+              "\nparse: " +
+              JSON.stringify(JSON.parse(raw || "[]")) +
+              "\norigin: " +
+              location.origin;
+          } catch (error) {
+            storageLog.textContent = error.message;
+          }
+        });
+        document.getElementById("clear-sel").addEventListener("click", () => {
+          localStorage.removeItem(STORAGE_KEY);
+          storageLog.textContent = "ключ удалён";
+        });
+
+        const arrayLog = document.getElementById("array-log");
+        document.getElementById("run-map").addEventListener("click", () => {
+          const mapped = [1, 2, 3].map((x) => x * 2);
+          const filtered = [1, 2, 3].filter((x) => x > 1);
+          arrayLog.textContent =
+            "map → " + JSON.stringify(mapped) + "\nfilter → " + JSON.stringify(filtered);
+        });
+        document.getElementById("run-push").addEventListener("click", () => {
+          const ids = ["joggers"];
+          const pushed = ids.push("nike-bag");
+          const base = ["joggers"];
+          const concated = base.concat("nike-bag");
+          arrayLog.textContent =
+            "push вернул длину " +
+            pushed +
+            ", ids стал " +
+            JSON.stringify(ids) +
+            " (мутация)\nconcat → " +
+            JSON.stringify(concated) +
+            ", исходный " +
+            JSON.stringify(base) +
+            " (новый массив)";
+        });
+
+        function debounce(fn, ms) {
+          let timer;
+          return function (...args) {
+            clearTimeout(timer);
+            timer = setTimeout(() => fn.apply(this, args), ms);
+          };
+        }
+        const debLog = document.getElementById("deb-log");
+        document.getElementById("search-q").addEventListener(
+          "input",
+          debounce((event) => {
+            debLog.textContent =
+              "сработал после паузы: «" + event.target.value + "» (" + new Date().toLocaleTimeString() + ")";
+          }, 300)
+        );
+
+        function isEmail(value) {
+          return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+        }
+        const emailLog = document.getElementById("email-log");
+        const emailInput = document.getElementById("demo-email");
+        document.getElementById("email-form").addEventListener("submit", (event) => {
+          event.preventDefault();
+          const ok = isEmail(emailInput.value);
+          emailInput.classList.toggle("is-invalid", !ok);
+          emailLog.textContent = ok
+            ? "похоже на email (приближение, не RFC)"
+            : "не прошло /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/ — форму не отправляем";
+        });
+      })();
+    </script>
+  </body>
+</html>

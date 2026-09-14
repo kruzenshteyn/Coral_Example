@@ -119,7 +119,8 @@ stage-10-shop-admin/    корзина, заказы, админка
 3. Выпишите цвета (фиолетовый акцент, почти чёрный текст, белый фон) и шрифты.
 
 Готово, если есть таблица «блок → зачем человеку».  
-Подробнее: [guides/00-figma.md](guides/00-figma.md)
+Подробнее: [guides/00-figma.md](guides/00-figma.md).  
+Вводная лекция (сетка, токены, состояния, разбор теста): [lectures/00-figma](lectures/00-figma/README.md).
 
 ---
 
@@ -136,7 +137,8 @@ stage-10-shop-admin/    корзина, заказы, админка
 Откройте файл в браузере. Будет «голое» — так и надо. Страница должна читаться списком заголовков.
 
 Эталон: `stage-01-html/index.html`  
-Подробнее: [guides/01-html.md](guides/01-html.md)
+Подробнее: [guides/01-html.md](guides/01-html.md).  
+Вводная лекция (семантика, формы, разбор теста): [lectures/01-html](lectures/01-html/README.md).
 
 ---
 
@@ -151,7 +153,8 @@ stage-10-shop-admin/    корзина, заказы, админка
 
 Откройте `stage-02-css/index.html`. Должно быть похоже на Figma на широком экране.
 
-Подробнее: [guides/02-css.md](guides/02-css.md)
+Подробнее: [guides/02-css.md](guides/02-css.md).  
+Вводная лекция: [lectures/02-css](lectures/02-css/README.md).
 
 ---
 
@@ -163,7 +166,8 @@ stage-10-shop-admin/    корзина, заказы, админка
 
 Скопируйте шаг 2 и переименуйте классы. Сравните с `stage-03-bem/`.
 
-Подробнее: [guides/03-bem.md](guides/03-bem.md)
+Подробнее: [guides/03-bem.md](guides/03-bem.md).  
+Вводная лекция: [lectures/03-bem](lectures/03-bem/README.md).
 
 ---
 
@@ -177,7 +181,8 @@ stage-10-shop-admin/    корзина, заказы, админка
 
 Эталон: `stage-04-modals/index.html` — кликните Account.
 
-Подробнее: [guides/04-modals.md](guides/04-modals.md)
+Подробнее: [guides/04-modals.md](guides/04-modals.md).  
+Вводная лекция: [lectures/04-modals](lectures/04-modals/README.md).
 
 ---
 
@@ -196,7 +201,8 @@ python -m http.server 8080
 
 Должно быть: карточки появились, Esc закрывает окно, «выбрать» без входа просит Account.
 
-Подробнее: [guides/05-js.md](guides/05-js.md)
+Подробнее: [guides/05-js.md](guides/05-js.md).  
+Вводная лекция: [lectures/05-js](lectures/05-js/README.md).
 
 ---
 
@@ -215,7 +221,8 @@ npm start
 
 Зарегистрируйтесь, откройте карточку, выберите товар, нажмите F5 — выбор не должен пропасть.
 
-Подробнее: [guides/06-server.md](guides/06-server.md), прогон команд: [../../stage-06-server/TESTING.md](../../stage-06-server/TESTING.md)
+Подробнее: [guides/06-server.md](guides/06-server.md), прогон команд: [../../stage-06-server/TESTING.md](../../stage-06-server/TESTING.md).  
+Вводная лекция: [lectures/06-server](lectures/06-server/README.md).
 
 ---
 
@@ -225,7 +232,8 @@ npm start
 
 Откройте `stage-07-adaptive/index.html`, в DevTools ширины **1280 / 768 / 375**. На узкой должен появиться «бургер» (кнопка меню).
 
-Подробнее: [guides/07-adaptive.md](guides/07-adaptive.md)
+Подробнее: [guides/07-adaptive.md](guides/07-adaptive.md).  
+Вводная лекция: [lectures/07-adaptive](lectures/07-adaptive/README.md).
 
 ---
 
@@ -235,7 +243,8 @@ npm start
 
 Снова локальный сервер, вход `js/App.js`.
 
-Подробнее: [guides/08-oop.md](guides/08-oop.md)
+Подробнее: [guides/08-oop.md](guides/08-oop.md).  
+Вводная лекция: [lectures/08-oop](lectures/08-oop/README.md).
 
 ---
 
@@ -245,7 +254,8 @@ npm start
 
 После запуска появится `coral.db`. Регистрация пишет строку в таблицу `users`.
 
-Подробнее: [guides/09-database.md](guides/09-database.md)
+Подробнее: [guides/09-database.md](guides/09-database.md).  
+Вводная лекция: [lectures/09-database](lectures/09-database/README.md).
 
 ---
 
@@ -258,7 +268,8 @@ npm start
 3. Выйдите. Войдите: `admin@coral.local` / `admin123`.
 4. Ссылка Admin → создайте товар → обновите витрину.
 
-Подробнее: [guides/10-shop-admin.md](guides/10-shop-admin.md)
+Подробнее: [guides/10-shop-admin.md](guides/10-shop-admin.md).  
+Вводная лекция: [lectures/10-shop-admin](lectures/10-shop-admin/README.md).
 
 ---
 

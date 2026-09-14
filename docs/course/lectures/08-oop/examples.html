@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Примеры к лекции. ООП в JavaScript</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --color-primary: #9e5cf2;
+        --color-black: #1e2832;
+        --color-black-50: #8f9499;
+        --color-white: #ffffff;
+        --color-stroke: #e3e3e3;
+        --color-page: #f6f4f8;
+        --font-head: "Roboto", system-ui, sans-serif;
+        --font-body: "Open Sans", system-ui, sans-serif;
+        --radius: 8px;
+        --gap: 24px;
+        --shadow: 0 8px 24px rgba(30, 40, 50, 0.08);
+        --container: 1100px;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: var(--font-body);
+        font-size: 16px;
+        line-height: 1.5;
+        color: var(--color-black);
+        background: var(--color-page);
+      }
+
+      h1,
+      h2,
+      h3 {
+        font-family: var(--font-head);
+        font-weight: 500;
+        line-height: 1.2;
+        margin: 0 0 0.5em;
+      }
+
+      p {
+        margin: 0 0 0.75em;
+      }
+
+      a {
+        color: var(--color-primary);
+      }
+
+      code,
+      pre {
+        font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+        font-size: 0.85em;
+      }
+
+      code {
+        background: #efe8f8;
+        padding: 0.1em 0.35em;
+        border-radius: 4px;
+      }
+
+      pre {
+        margin: 0;
+        background: #1e2832;
+        color: #f6f4f8;
+        padding: 16px;
+        border-radius: var(--radius);
+        overflow: auto;
+        line-height: 1.45;
+      }
+
+      .wrap {
+        width: min(var(--container), calc(100% - 32px));
+        margin-inline: auto;
+      }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: var(--color-white);
+        border-bottom: 1px solid var(--color-stroke);
+      }
+
+      .site-header .wrap {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        min-height: 64px;
+        padding-block: 8px;
+      }
+
+      .brand {
+        font-family: var(--font-head);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--color-black);
+        text-decoration: none;
+        font-size: 18px;
+      }
+
+      .toc {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 16px;
+        font-size: 14px;
+      }
+
+      .toc a {
+        color: var(--color-black);
+        text-decoration: none;
+      }
+
+      .toc a:hover,
+      .toc a:focus-visible {
+        color: var(--color-primary);
+      }
+
+      .hero {
+        background: var(--color-white);
+        border-bottom: 1px solid var(--color-stroke);
+        padding: 40px 0 32px;
+      }
+
+      .kicker {
+        color: var(--color-primary);
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        font-size: 12px;
+        margin-bottom: 8px;
+      }
+
+      .lead {
+        max-width: 62ch;
+        color: var(--color-black-50);
+      }
+
+      .section {
+        padding: 40px 0;
+      }
+
+      .section + .section {
+        border-top: 1px solid var(--color-stroke);
+      }
+
+      .q {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--color-primary);
+        background: #efe8f8;
+        border-radius: 999px;
+        padding: 4px 10px;
+        margin-bottom: 8px;
+      }
+
+      .panel {
+        background: var(--color-white);
+        border: 1px solid var(--color-stroke);
+        border-radius: var(--radius);
+        padding: 20px;
+        box-shadow: var(--shadow);
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--gap);
+      }
+
+      @media (max-width: 768px) {
+        .grid-2 {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .note {
+        font-size: 14px;
+        color: var(--color-black-50);
+        margin: 8px 0 0;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 24px;
+        background: var(--color-black);
+        color: var(--color-white);
+        font-family: var(--font-head);
+        font-size: 16px;
+        border: 0;
+        border-radius: var(--radius);
+        cursor: pointer;
+        text-decoration: none;
+      }
+
+      .btn:hover {
+        background: var(--color-primary);
+        color: var(--color-white);
+      }
+
+      .btn:focus-visible {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 3px;
+      }
+
+      .btn:disabled {
+        background: #c5c8cb;
+        color: #6b7075;
+        cursor: not-allowed;
+      }
+
+      .btn-ghost {
+        background: transparent;
+        color: var(--color-black);
+        border: 1px solid var(--color-stroke);
+      }
+
+      .btn-ghost:hover {
+        background: #efe8f8;
+        color: var(--color-black);
+      }
+
+      .btn-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+      }
+
+      label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+
+      input:not([type="checkbox"]) {
+        font: inherit;
+        padding: 8px 12px;
+        border: 1px solid var(--color-stroke);
+        border-radius: var(--radius);
+        width: min(100%, 280px);
+      }
+
+      .tree {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        font-size: 14px;
+      }
+
+      .tree ul {
+        margin: 0;
+        padding-left: 1.2em;
+        list-style: none;
+        border-left: 1px solid var(--color-stroke);
+      }
+
+      .tree code {
+        font-size: 12px;
+      }
+
+      .ok {
+        outline: 2px solid #1a7f4b;
+        outline-offset: 2px;
+      }
+
+      .bad {
+        outline: 2px dashed #c0392b;
+        outline-offset: 2px;
+      }
+
+      .log {
+        min-height: 1.5em;
+        font-size: 14px;
+        color: var(--color-primary);
+        font-weight: 600;
+        white-space: pre-wrap;
+      }
+
+      .log-err {
+        color: #c0392b;
+      }
+
+      footer.page-foot {
+        padding: 24px 0 40px;
+        color: var(--color-black-50);
+        font-size: 14px;
+      }
+
+      .mini-card {
+        border: 1px solid var(--color-stroke);
+        border-radius: var(--radius);
+        padding: 12px;
+        max-width: 280px;
+      }
+
+      .price {
+        font-weight: 600;
+      }
+
+      .price s {
+        color: var(--color-black-50);
+        font-weight: 400;
+        margin-right: 8px;
+      }
+
+      .modal-root {
+        position: fixed;
+        inset: 0;
+        display: none;
+        place-items: center;
+        z-index: 40;
+      }
+
+      .modal-root.is-open {
+        display: grid;
+      }
+
+      .modal-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(30, 40, 50, 0.45);
+      }
+
+      .modal-box {
+        position: relative;
+        z-index: 1;
+        background: var(--color-white);
+        border-radius: var(--radius);
+        padding: 24px;
+        width: min(360px, calc(100% - 32px));
+        box-shadow: var(--shadow);
+      }
+
+      .modal-box h3 {
+        margin-top: 0;
+      }
+
+      .facade {
+        font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+        font-size: 13px;
+        line-height: 1.45;
+        background: #1e2832;
+        color: #f6f4f8;
+        padding: 16px;
+        border-radius: var(--radius);
+        overflow: auto;
+      }
+
+      .facade .app {
+        color: #b184f5;
+      }
+
+      .pill {
+        display: inline-block;
+        font-size: 12px;
+        padding: 2px 8px;
+        border-radius: 999px;
+        background: #efe8f8;
+        color: var(--color-primary);
+        font-weight: 600;
+      }
+
+      .status-ok {
+        color: #1a7f4b;
+        font-weight: 600;
+      }
+
+      .status-bad {
+        color: #c0392b;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="#top">Coral · лекция 8</a>
+        <nav class="toc" aria-label="Темы примеров">
+          <a href="#class">Класс</a>
+          <a href="#relations">Отношения</a>
+          <a href="#compose">Композиция</a>
+          <a href="#this">this</a>
+          <a href="#principles">Принципы</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="hero" id="top">
+      <div class="wrap">
+        <p class="kicker">Этап 8 · ООП в JavaScript</p>
+        <h1>Живые примеры к лекции ООП</h1>
+        <p class="lead">
+          Класс — шаблон, объект — экземпляр. Наследование только там, где
+          «является». Текст лекции —
+          <a href="lecture.md">lecture.md</a>.
+        </p>
+      </div>
+    </div>
+
+    <main>
+      <section class="section" id="class">
+        <div class="wrap">
+          <p class="q">Вопросы 1, 2, 3, 11, 12, 13, 25</p>
+          <h2>Класс, экземпляр, static, #, геттер</h2>
+          <p>
+            <code>new Product(...)</code> вызывает <code>constructor</code>.
+            Геттер читается как свойство. <code>#sku</code> снаружи не виден.
+            <code>FormValidator.isEmail</code> зовут на классе.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel">
+              <h3>Два экземпляра из одного шаблона</h3>
+              <div class="btn-row">
+                <article class="mini-card" id="card-joggers">
+                  <h3>Adicolor Classics Joggers</h3>
+                  <p>Dress</p>
+                  <p class="price"></p>
+                  <p class="note sku"></p>
+                </article>
+                <article class="mini-card" id="card-hoodie">
+                  <h3>Yellow Reserved Hoodie</h3>
+                  <p>Dress</p>
+                  <p class="price"></p>
+                  <p class="note sku"></p>
+                </article>
+              </div>
+              <p class="note">
+                <code>joggers.priceLabel</code> без скобок — геттер.
+                Попытка прочитать <code>#sku</code> снаружи пишется в лог.
+              </p>
+              <p class="log" id="private-log"></p>
+            </div>
+            <div class="panel">
+              <h3>static vs new, забыли new</h3>
+              <p>
+                <label for="email-demo">Email</label>
+                <input id="email-demo" value="admin@coral.local" />
+              </p>
+              <div class="btn-row">
+                <button class="btn" type="button" id="check-email">
+                  FormValidator.isEmail
+                </button>
+                <button class="btn btn-ghost" type="button" id="forgot-new">
+                  Product() без new
+                </button>
+              </div>
+              <p class="log" id="static-log"></p>
+              <p class="note">
+                Статический метод — на классе. Класс без
+                <code>new</code> бросает TypeError.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="relations">
+        <div class="wrap">
+          <p class="q">Вопросы 4, 5, 6, 14, 21, 28</p>
+          <h2>AuthModal является Modal</h2>
+          <p>
+            <code>extends</code> — логин-окно <strong>является</strong> модалкой.
+            <code>super()</code> вызывает конструктор родителя.
+            <code>open()</code> у наследника — override + <code>super.open()</code>.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel">
+              <h3>Открыть / закрыть</h3>
+              <div class="btn-row">
+                <button class="btn" type="button" id="open-auth">
+                  Account — AuthModal
+                </button>
+                <button class="btn btn-ghost" type="button" id="open-base">
+                  Базовый Modal
+                </button>
+              </div>
+              <p class="log" id="modal-log">Закрыто.</p>
+              <p class="note">
+                Один интерфейс <code>open()</code> / <code>close()</code>.
+                Наследник ещё ставит фокус в email — полиморфизм.
+              </p>
+            </div>
+            <div class="panel ok">
+              <h3>is a, не «скопировать CSS»</h3>
+              <ul class="tree">
+                <li><code>Modal</code> open / close / overlay
+                  <ul>
+                    <li><code>AuthModal extends Modal</code> вкладки, login</li>
+                    <li><code>ProductModal extends Modal</code> подставить товар</li>
+                  </ul>
+                </li>
+              </ul>
+              <p class="note">
+                Инкапсуляция: снаружи <code>open()</code>, внутри
+                <code>#bind()</code>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="compose">
+        <div class="wrap">
+          <p class="q">Вопросы 7, 22</p>
+          <h2>Композиция: Catalog имеет карточки</h2>
+          <p>
+            Связь «имеет», не «является». Каталог — сервис загрузки и отрисовки,
+            не вид списка: его не наследуют от <code>Array</code>.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel ok">
+              <h3>Имеет</h3>
+              <ul class="tree">
+                <li><code>Catalog</code>
+                  <ul>
+                    <li><code>items: Product[]</code></li>
+                    <li><code>load()</code> / <code>render()</code></li>
+                    <li>рисует <code>ProductCard</code></li>
+                  </ul>
+                </li>
+                <li><code>UserSession</code> имеет <code>StorageBox</code></li>
+              </ul>
+            </div>
+            <div class="panel bad">
+              <h3>Не является</h3>
+              <pre>class Catalog extends Array {
+  // push, map, length — не смысл каталога
+}</pre>
+              <p class="note">
+                У Coral у каталога есть URL JSON, два корня DOM и
+                <code>findById</code>. Это не массив.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="this">
+        <div class="wrap">
+          <p class="q">Вопросы 9, 10, 16, 17, 18, 26</p>
+          <h2>this в методе и потеря в колбэке</h2>
+          <p>
+            <code>obj.method()</code> — <code>this</code> сам объект. Слушатель
+            DOM отрывает метод: лечат стрелкой или <code>bind</code>.
+            <code>export class</code> нужен <code>type="module"</code>.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel">
+              <h3>Три кнопки, один счётчик</h3>
+              <p>Кликов: <strong id="click-count">0</strong></p>
+              <div class="btn-row">
+                <button class="btn" type="button" id="this-lost">
+                  counter.bump — потеря this
+                </button>
+                <button class="btn" type="button" id="this-arrow">
+                  стрелка () =>
+                </button>
+                <button class="btn" type="button" id="this-bind">
+                  bind(counter)
+                </button>
+              </div>
+              <p class="log" id="this-log"></p>
+              <p class="note">
+                Методы живут на <code>Counter.prototype</code> — одна функция
+                на все экземпляры.
+              </p>
+            </div>
+            <div class="panel">
+              <h3>Модуль без побочек</h3>
+              <pre>&lt;script type="module" src="js/App.js"&gt;&lt;/script&gt;
+
+import { Catalog } from "./Catalog.js";
+import { AuthModal } from "./AuthModal.js";
+
+export class Product { … }
+// при import не трогает document</pre>
+              <p class="note">
+                Именованный импорт <code>{ X }</code>. Побочка — только в
+                <code>App.js</code>: <code>new App(); app.start()</code>.
+                С <code>file://</code> модули не грузятся — нужен
+                <code>python -m http.server</code>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="principles">
+        <div class="wrap">
+          <p class="q">Вопросы 8, 15, 19, 20, 23, 24, 27, 29, 30</p>
+          <h2>Фасад App, не божественный объект</h2>
+          <p>
+            SRP — одна задача на класс. App прячет сборку. Конструктор не
+            делает fetch: это <code>start()</code>. Рефакторинг успешен, если
+            поведение то же, читать проще.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel ok">
+              <h3>Фасад</h3>
+              <pre class="facade"><span class="app">App</span>
+ ├─ Catalog ── Product ── ProductCard
+ ├─ UserSession ── StorageBox
+ ├─ Selection ── StorageBox
+ ├─ AuthModal ── Modal
+ └─ ProductModal ── Modal</pre>
+              <p class="note">
+                HTML знает одну точку входа. Публичный интерфейс:
+                <code>load</code>, <code>open</code>, <code>login</code>.
+              </p>
+            </div>
+            <div class="panel bad">
+              <h3>Божество и coupling</h3>
+              <p>
+                Один класс на 2000 строк: fetch, localStorage, Esc, валидация,
+                бургер. Высокая связность — если A лезет в
+                <code>b.signinForm</code> вместо <code>b.open()</code>.
+              </p>
+              <p class="note">
+                <code>FormValidator.isEmail</code> тестируется без DOM.
+                Конструктор <code>App</code> только собирает поля, сеть — в
+                <code>start()</code>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="modal-root" id="modal-auth">
+      <div class="modal-overlay" data-close></div>
+      <div class="modal-box" role="dialog" aria-labelledby="auth-title">
+        <h3 id="auth-title">Sign in</h3>
+        <p>
+          <label for="auth-email">Email</label>
+          <input id="auth-email" type="email" value="admin@coral.local" />
+        </p>
+        <div class="btn-row">
+          <button class="btn" type="button" data-close>Close</button>
+        </div>
+        <p class="note">AuthModal.open() → super.open() + focus.</p>
+      </div>
+    </div>
+
+    <div class="modal-root" id="modal-base">
+      <div class="modal-overlay" data-close></div>
+      <div class="modal-box" role="dialog" aria-labelledby="base-title">
+        <h3 id="base-title">Modal</h3>
+        <p>Базовый класс: только открыть и закрыть.</p>
+        <button class="btn" type="button" data-close>Close</button>
+      </div>
+    </div>
+
+    <footer class="page-foot">
+      <div class="wrap">
+        Курс CORAL ·
+        <a href="lecture.md">текст лекции</a> ·
+        <a href="../../tests/08-oop.md">тест этапа 8</a> ·
+        <a href="../../../../stage-08-oop/index.html">эталон ООП</a>
+      </div>
+    </footer>
+
+    <script>
+      class Product {
+        #sku;
+        #amount;
+
+        constructor(data) {
+          this.#sku = data.id;
+          this.title = data.title;
+          this.#amount = Number(data.price);
+          this.oldPrice =
+            data.oldPrice != null ? Number(data.oldPrice) : null;
+        }
+
+        formatPrice(value) {
+          return "$" + Number(value).toFixed(2);
+        }
+
+        get price() {
+          return this.#amount;
+        }
+
+        get priceLabel() {
+          return this.formatPrice(this.price);
+        }
+
+        get oldPriceLabel() {
+          return this.oldPrice == null ? "" : this.formatPrice(this.oldPrice);
+        }
+
+        get sku() {
+          return this.#sku;
+        }
+      }
+
+      class FormValidator {
+        static isEmail(value) {
+          return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+        }
+      }
+
+      class Modal {
+        constructor(root) {
+          this.root = root;
+          this.#bind();
+        }
+
+        open() {
+          this.root.classList.add("is-open");
+        }
+
+        close() {
+          this.root.classList.remove("is-open");
+        }
+
+        #bind() {
+          this.root.addEventListener("click", (event) => {
+            if (event.target.closest("[data-close]")) {
+              this.close();
+            }
+          });
+        }
+      }
+
+      class AuthModal extends Modal {
+        constructor(root, onOpen) {
+          super(root);
+          this.onOpen = onOpen;
+          this.email = root.querySelector("#auth-email");
+        }
+
+        open() {
+          super.open();
+          if (this.email) this.email.focus();
+          if (this.onOpen) this.onOpen();
+        }
+      }
+
+      class Counter {
+        constructor() {
+          this.count = 0;
+        }
+
+        bump() {
+          if (!(this instanceof Counter)) {
+            throw new TypeError(
+              "Потеря this: ждали Counter, получили " +
+                (this && this.tagName ? this.tagName : String(this))
+            );
+          }
+          this.count += 1;
+          document.getElementById("click-count").textContent = String(
+            this.count
+          );
+          return this.count;
+        }
+      }
+
+      const joggers = new Product({
+        id: "joggers",
+        title: "Adicolor Classics Joggers",
+        price: 63.85,
+      });
+      const hoodie = new Product({
+        id: "hoodie",
+        title: "Yellow Reserved Hoodie",
+        price: 155,
+        oldPrice: 364,
+      });
+
+      function paintCard(el, product) {
+        const price = el.querySelector(".price");
+        if (product.oldPrice != null) {
+          price.innerHTML =
+            "<s>" +
+            product.oldPriceLabel +
+            "</s><span>" +
+            product.priceLabel +
+            "</span>";
+        } else {
+          price.textContent = product.priceLabel;
+        }
+        el.querySelector(".sku").textContent =
+          "get price → " + product.price + " · sku: " + product.sku;
+      }
+
+      paintCard(document.getElementById("card-joggers"), joggers);
+      paintCard(document.getElementById("card-hoodie"), hoodie);
+
+      const privateLog = document.getElementById("private-log");
+      try {
+        const probe = joggers["#sku"];
+        privateLog.textContent =
+          "Скобочная запись ['#sku'] даёт " +
+          String(probe) +
+          " — это не приватное поле. Синтаксис obj.#sku снаружи — SyntaxError.";
+      } catch (error) {
+        privateLog.textContent = error.message;
+      }
+
+      const staticLog = document.getElementById("static-log");
+      document.getElementById("check-email").addEventListener("click", () => {
+        const value = document.getElementById("email-demo").value;
+        const ok = FormValidator.isEmail(value);
+        staticLog.classList.toggle("log-err", !ok);
+        staticLog.textContent =
+          "FormValidator.isEmail(\"" +
+          value +
+          "\") → " +
+          ok +
+          ". Экземпляр не создавали.";
+      });
+
+      document.getElementById("forgot-new").addEventListener("click", () => {
+        try {
+          Product({ id: "joggers", title: "Joggers", price: 63.85 });
+          staticLog.textContent = "Неожиданно: экземпляр создался.";
+        } catch (error) {
+          staticLog.classList.add("log-err");
+          staticLog.textContent = error.name + ": " + error.message;
+        }
+      });
+
+      const modalLog = document.getElementById("modal-log");
+      const authModal = new AuthModal(
+        document.getElementById("modal-auth"),
+        () => {
+          modalLog.textContent =
+            "AuthModal.open() → super.open() + focus в email.";
+        }
+      );
+      const baseModal = new Modal(document.getElementById("modal-base"));
+
+      document.getElementById("open-auth").addEventListener("click", () => {
+        authModal.open();
+      });
+      document.getElementById("open-base").addEventListener("click", () => {
+        baseModal.open();
+        modalLog.textContent = "Modal.open() — без фокуса в поле.";
+      });
+
+      const counter = new Counter();
+      const thisLog = document.getElementById("this-log");
+
+      document.getElementById("this-lost").addEventListener("click", (event) => {
+        try {
+          counter.bump.call(event.currentTarget);
+        } catch (error) {
+          thisLog.classList.add("log-err");
+          thisLog.textContent = error.name + ": " + error.message;
+        }
+      });
+
+      document.getElementById("this-arrow").addEventListener("click", () => {
+        try {
+          counter.bump();
+          thisLog.classList.remove("log-err");
+          thisLog.textContent = "Стрелка: this внутри bump — counter.";
+        } catch (error) {
+          thisLog.classList.add("log-err");
+          thisLog.textContent = error.message;
+        }
+      });
+
+      document
+        .getElementById("this-bind")
+        .addEventListener("click", counter.bump.bind(counter));
+      document.getElementById("this-bind").addEventListener("click", () => {
+        thisLog.classList.remove("log-err");
+        thisLog.textContent = "bind(counter): this снова экземпляр.";
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key !== "Escape") return;
+        authModal.close();
+        baseModal.close();
+        modalLog.textContent = "Esc закрывает модалку — поведение родителя Modal.";
+      });
+    </script>
+  </body>
+</html>

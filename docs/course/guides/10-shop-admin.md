@@ -9,6 +9,8 @@
 `stage-10-shop-admin/`  
 Запускайте **этот** сервер, не этап 6/9.
 
+Вводная лекция (разбор теста с примерами): [../lectures/10-shop-admin/lecture.md](../lectures/10-shop-admin/lecture.md), [живые примеры](../lectures/10-shop-admin/examples.html).
+
 ## Теория
 
 - Снова [401](https://developer.mozilla.org/ru/docs/Web/HTTP/Reference/Status/401) vs [403](https://developer.mozilla.org/ru/docs/Web/HTTP/Reference/Status/403): не вошёл / вошёл, но не админ

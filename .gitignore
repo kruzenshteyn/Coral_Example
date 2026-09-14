@@ -16,3 +16,4 @@ stage-06-server/django/db.sqlite3
 .vscode/
 design/
 **/tests/
+docs/course/lectures/**/answer-map.md

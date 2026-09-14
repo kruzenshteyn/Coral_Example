@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Примеры к лекции. Базы данных и SQL</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --color-primary: #9e5cf2;
+        --color-black: #1e2832;
+        --color-black-50: #8f9499;
+        --color-white: #ffffff;
+        --color-stroke: #e3e3e3;
+        --color-page: #f6f4f8;
+        --font-head: "Roboto", system-ui, sans-serif;
+        --font-body: "Open Sans", system-ui, sans-serif;
+        --radius: 8px;
+        --gap: 24px;
+        --shadow: 0 8px 24px rgba(30, 40, 50, 0.08);
+        --container: 1100px;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: var(--font-body);
+        font-size: 16px;
+        line-height: 1.5;
+        color: var(--color-black);
+        background: var(--color-page);
+      }
+
+      h1,
+      h2,
+      h3 {
+        font-family: var(--font-head);
+        font-weight: 500;
+        line-height: 1.2;
+        margin: 0 0 0.5em;
+      }
+
+      p {
+        margin: 0 0 0.75em;
+      }
+
+      a {
+        color: var(--color-primary);
+      }
+
+      code,
+      pre {
+        font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+        font-size: 0.85em;
+      }
+
+      code {
+        background: #efe8f8;
+        padding: 0.1em 0.35em;
+        border-radius: 4px;
+      }
+
+      pre {
+        margin: 0;
+        background: #1e2832;
+        color: #f6f4f8;
+        padding: 16px;
+        border-radius: var(--radius);
+        overflow: auto;
+        line-height: 1.45;
+      }
+
+      .wrap {
+        width: min(var(--container), calc(100% - 32px));
+        margin-inline: auto;
+      }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: var(--color-white);
+        border-bottom: 1px solid var(--color-stroke);
+      }
+
+      .site-header .wrap {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        min-height: 64px;
+        padding-block: 8px;
+      }
+
+      .brand {
+        font-family: var(--font-head);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--color-black);
+        text-decoration: none;
+        font-size: 18px;
+      }
+
+      .toc {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 16px;
+        font-size: 14px;
+      }
+
+      .toc a {
+        color: var(--color-black);
+        text-decoration: none;
+      }
+
+      .toc a:hover,
+      .toc a:focus-visible {
+        color: var(--color-primary);
+      }
+
+      .hero {
+        background: var(--color-white);
+        border-bottom: 1px solid var(--color-stroke);
+        padding: 40px 0 32px;
+      }
+
+      .kicker {
+        color: var(--color-primary);
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        font-size: 12px;
+        margin-bottom: 8px;
+      }
+
+      .lead {
+        max-width: 62ch;
+        color: var(--color-black-50);
+      }
+
+      .section {
+        padding: 40px 0;
+      }
+
+      .section + .section {
+        border-top: 1px solid var(--color-stroke);
+      }
+
+      .q {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--color-primary);
+        background: #efe8f8;
+        border-radius: 999px;
+        padding: 4px 10px;
+        margin-bottom: 8px;
+      }
+
+      .panel {
+        background: var(--color-white);
+        border: 1px solid var(--color-stroke);
+        border-radius: var(--radius);
+        padding: 20px;
+        box-shadow: var(--shadow);
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--gap);
+      }
+
+      @media (max-width: 768px) {
+        .grid-2 {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .note {
+        font-size: 14px;
+        color: var(--color-black-50);
+        margin: 8px 0 0;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 24px;
+        background: var(--color-black);
+        color: var(--color-white);
+        font-family: var(--font-head);
+        font-size: 16px;
+        border: 0;
+        border-radius: var(--radius);
+        cursor: pointer;
+        text-decoration: none;
+      }
+
+      .btn:hover {
+        background: var(--color-primary);
+        color: var(--color-white);
+      }
+
+      .btn:focus-visible {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 3px;
+      }
+
+      .btn-ghost {
+        background: transparent;
+        color: var(--color-black);
+        border: 1px solid var(--color-stroke);
+      }
+
+      .btn-ghost:hover {
+        background: #efe8f8;
+        color: var(--color-black);
+      }
+
+      .btn-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+      }
+
+      label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+
+      input:not([type="checkbox"]) {
+        font: inherit;
+        padding: 8px 12px;
+        border: 1px solid var(--color-stroke);
+        border-radius: var(--radius);
+        width: min(100%, 100%);
+      }
+
+      table.data {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+
+      table.data th,
+      table.data td {
+        border: 1px solid var(--color-stroke);
+        padding: 8px 10px;
+        text-align: left;
+      }
+
+      table.data th {
+        background: #efe8f8;
+      }
+
+      table.data tr.is-hit td {
+        background: #efe8f8;
+        outline: 2px solid var(--color-primary);
+        outline-offset: -2px;
+      }
+
+      table.data tr.is-dim td {
+        opacity: 0.35;
+      }
+
+      .pk {
+        color: var(--color-primary);
+        font-weight: 600;
+      }
+
+      .fk {
+        border-bottom: 2px solid var(--color-primary);
+      }
+
+      .null {
+        color: var(--color-black-50);
+        font-style: italic;
+      }
+
+      .schema {
+        display: grid;
+        gap: 16px;
+      }
+
+      .arrows {
+        font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+        font-size: 13px;
+        color: var(--color-primary);
+        text-align: center;
+        font-weight: 600;
+      }
+
+      .log {
+        min-height: 1.5em;
+        font-size: 14px;
+        color: var(--color-primary);
+        font-weight: 600;
+        white-space: pre-wrap;
+      }
+
+      .log-err {
+        color: #c0392b;
+      }
+
+      .ok {
+        outline: 2px solid #1a7f4b;
+        outline-offset: 2px;
+      }
+
+      .bad {
+        outline: 2px dashed #c0392b;
+        outline-offset: 2px;
+      }
+
+      footer.page-foot {
+        padding: 24px 0 40px;
+        color: var(--color-black-50);
+        font-size: 14px;
+      }
+
+      .cartoon {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        gap: 12px;
+        align-items: center;
+        font-size: 14px;
+      }
+
+      @media (max-width: 768px) {
+        .cartoon {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .box {
+        border: 1px dashed var(--color-stroke);
+        border-radius: var(--radius);
+        padding: 12px;
+        min-height: 88px;
+        background: #faf8fd;
+      }
+
+      .type-pill {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: #efe8f8;
+        color: var(--color-primary);
+        margin: 0 8px 8px 0;
+      }
+
+      .sql-out {
+        margin-top: 12px;
+        background: #1e2832;
+        color: #f6f4f8;
+        padding: 12px 16px;
+        border-radius: var(--radius);
+        font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+        font-size: 13px;
+        overflow: auto;
+        white-space: pre-wrap;
+      }
+
+      .sql-out .danger {
+        color: #ff8a80;
+      }
+
+      .sql-out .safe {
+        color: #80cbc4;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="#top">Coral · лекция 9</a>
+        <nav class="toc" aria-label="Темы примеров">
+          <a href="#model">Модель</a>
+          <a href="#crud">CRUD</a>
+          <a href="#tx">Транзакции</a>
+          <a href="#secure">Безопасность</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="hero" id="top">
+      <div class="wrap">
+        <p class="kicker">Этап 9 · SQLite coral.db</p>
+        <h1>Живые примеры к лекции SQL</h1>
+        <p class="lead">
+          Три таблицы Coral, ключи, JOIN и почему нельзя склеивать ввод со
+          строкой SQL. Текст лекции —
+          <a href="lecture.md">lecture.md</a>.
+        </p>
+      </div>
+    </div>
+
+    <main>
+      <section class="section" id="model">
+        <div class="wrap">
+          <p class="q">Вопросы 1, 2, 3, 4, 5, 6</p>
+          <h2>Таблица, строка, PK, FK, UNIQUE, NULL</h2>
+          <p>
+            Таблица — строки с одинаковыми столбцами. Строка — одна запись.
+            Фиолетовый столбец — PRIMARY KEY. Подчёркнутый — FOREIGN KEY.
+          </p>
+
+          <div class="schema">
+            <div class="panel">
+              <h3>users</h3>
+              <table class="data" id="tbl-users">
+                <thead>
+                  <tr>
+                    <th><span class="pk">id PK</span></th>
+                    <th>name TEXT</th>
+                    <th>email UNIQUE</th>
+                    <th>is_admin INTEGER</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr data-id="1">
+                    <td class="pk">1</td>
+                    <td>Admin</td>
+                    <td>admin@coral.local</td>
+                    <td>1</td>
+                  </tr>
+                  <tr data-id="2">
+                    <td class="pk">2</td>
+                    <td>Ada</td>
+                    <td>ada@coral.local</td>
+                    <td>0</td>
+                  </tr>
+                </tbody>
+              </table>
+              <p class="note">Сид: admin@coral.local / admin123. UNIQUE не даст второго такого email.</p>
+            </div>
+
+            <p class="arrows">selected_products.user_id → users.id &nbsp;·&nbsp; selected_products.product_id → products.id</p>
+
+            <div class="grid-2">
+              <div class="panel">
+                <h3>products</h3>
+                <table class="data" id="tbl-products">
+                  <thead>
+                    <tr>
+                      <th><span class="pk">id PK</span></th>
+                      <th>title</th>
+                      <th>price REAL</th>
+                      <th>old_price</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr data-id="joggers">
+                      <td class="pk">joggers</td>
+                      <td>Adicolor Classics Joggers</td>
+                      <td>63.85</td>
+                      <td class="null">NULL</td>
+                    </tr>
+                    <tr data-id="nike-bag">
+                      <td class="pk">nike-bag</td>
+                      <td>Nike Sportswear Futura Luxe</td>
+                      <td>130</td>
+                      <td class="null">NULL</td>
+                    </tr>
+                    <tr data-id="hoodie">
+                      <td class="pk">hoodie</td>
+                      <td>Yellow Reserved Hoodie</td>
+                      <td>155</td>
+                      <td>364</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <p class="note">NULL ≠ 0 ≠ ''. У Joggers скидки нет, у Hoodie — есть старая цена.</p>
+              </div>
+              <div class="panel">
+                <h3>selected_products</h3>
+                <table class="data" id="tbl-selected">
+                  <thead>
+                    <tr>
+                      <th><span class="pk">id</span></th>
+                      <th><span class="fk">user_id FK</span></th>
+                      <th><span class="fk">product_id FK</span></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr data-user="2" data-product="joggers">
+                      <td class="pk">10</td>
+                      <td class="fk">2</td>
+                      <td class="fk">joggers</td>
+                    </tr>
+                    <tr data-user="2" data-product="nike-bag">
+                      <td class="pk">11</td>
+                      <td class="fk">2</td>
+                      <td class="fk">nike-bag</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <p class="note">Связь «Ada выбрала joggers». Не копия email и не цена витрины.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="crud">
+        <div class="wrap">
+          <p class="q">Вопросы 7, 8, 9, 10, 11, 12, 13, 14</p>
+          <h2>SELECT, WHERE, JOIN, ORDER BY, COUNT</h2>
+          <p>
+            Подсветка строк — как живой результат. DELETE удаляет строку, не
+            столбец. COUNT(*) — число строк, не сумма.
+          </p>
+
+          <div class="panel">
+            <div class="btn-row">
+              <button class="btn" type="button" data-query="select">
+                SELECT * FROM products
+              </button>
+              <button class="btn btn-ghost" type="button" data-query="where">
+                WHERE category фильтр
+              </button>
+              <button class="btn btn-ghost" type="button" data-query="join">
+                JOIN выбранные Ada
+              </button>
+              <button class="btn btn-ghost" type="button" data-query="order">
+                ORDER BY price
+              </button>
+              <button class="btn btn-ghost" type="button" data-query="count">
+                COUNT(*)
+              </button>
+            </div>
+            <pre id="sql-snippet" style="margin-top: 16px">SELECT id, title, price FROM products;</pre>
+            <p class="log" id="crud-log">Нажмите кнопку — подсветятся строки таблиц выше.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="tx">
+        <div class="wrap">
+          <p class="q">Вопросы 15, 16, 17, 18, 26, 27, 28, 29, 30</p>
+          <h2>Транзакция, типы SQLite, один файл</h2>
+          <p>
+            Все или ничего. COMMIT фиксирует, ROLLBACK откатывает.
+            <code>coral.db</code> — один файл. AUTOINCREMENT выдаёт id.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel">
+              <h3>Мультфильм: выбрать товар</h3>
+              <div class="cartoon">
+                <div class="box">
+                  <strong>До</strong>
+                  <p id="tx-before">Ada: нет hoodie в selected.</p>
+                </div>
+                <div>→</div>
+                <div class="box">
+                  <strong>После</strong>
+                  <p id="tx-after">Ещё не решили.</p>
+                </div>
+              </div>
+              <div class="btn-row" style="margin-top: 12px">
+                <button class="btn" type="button" id="tx-begin">BEGIN</button>
+                <button class="btn" type="button" id="tx-commit">COMMIT</button>
+                <button class="btn btn-ghost" type="button" id="tx-rollback">
+                  ROLLBACK
+                </button>
+              </div>
+              <p class="log" id="tx-log">Транзакция не начата.</p>
+              <p class="note">
+                SQLite лежит в <code>php/data/coral.db</code> (и аналоги Node/Django).
+                Бэкап — копия файла, когда никто не пишет, или backup API.
+              </p>
+            </div>
+            <div class="panel">
+              <h3>INTEGER · TEXT · REAL</h3>
+              <p>
+                <span class="type-pill">INTEGER 1</span>
+                <span class="type-pill">TEXT admin@coral.local</span>
+                <span class="type-pill">REAL 63.85</span>
+              </p>
+              <pre>id INTEGER PRIMARY KEY AUTOINCREMENT
+email TEXT NOT NULL UNIQUE
+price REAL NOT NULL
+old_price REAL          -- NULL, не 0</pre>
+              <p class="note">
+                REAL — float, не банковский decimal «всегда». Картинка — TEXT с
+                путём, не файл ОС в столбце. Новые id пользователей выдаёт база.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="secure">
+        <div class="wrap">
+          <p class="q">Вопросы 19, 20, 21, 22, 23, 24, 25</p>
+          <h2>3NF, индекс, инъекция, ORM, миграция, seed</h2>
+          <p>
+            Факты в одном месте. Плейсхолдеры, не склейка. Сид — начальные
+            данные, не DROP.
+          </p>
+
+          <div class="grid-2">
+            <div class="panel bad">
+              <h3>Склейка = инъекция</h3>
+              <p>
+                <label for="inj-email">Ввод email</label>
+                <input id="inj-email" value="' OR 1=1 --" />
+              </p>
+              <div class="btn-row">
+                <button class="btn" type="button" id="inj-concat">
+                  Склеить SQL
+                </button>
+                <button class="btn btn-ghost" type="button" id="inj-param">
+                  Плейсхолдер ?
+                </button>
+              </div>
+              <div class="sql-out" id="inj-out">Нажмите кнопку.</div>
+              <p class="note">
+                HTTPS не лечит склейку. WHERE не отключают. Seed тут ни при чём.
+              </p>
+            </div>
+            <div class="panel ok">
+              <h3>Сид и ORM</h3>
+              <pre>INSERT INTO users (name, email, password_hash, is_admin)
+VALUES ('Admin', 'admin@coral.local', '…hash…', 1);
+
+# Django
+class Product(models.Model):
+    title = models.CharField(...)
+    class Meta:
+        db_table = "products"</pre>
+              <p class="note">
+                ORM — объекты ↔ таблицы. Миграция версионирует схему.
+                Индекс на email ускоряет логин, INSERT становится чуть дороже.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="page-foot">
+      <div class="wrap">
+        Курс CORAL ·
+        <a href="lecture.md">текст лекции</a> ·
+        <a href="../../tests/09-database.md">тест этапа 9</a> ·
+        <a href="../../../../stage-09-database/data/schema.sql">schema.sql</a>
+      </div>
+    </footer>
+
+    <script>
+      const users = [
+        { id: 1, name: "Admin", email: "admin@coral.local", is_admin: 1 },
+        { id: 2, name: "Ada", email: "ada@coral.local", is_admin: 0 },
+      ];
+      const products = [
+        {
+          id: "joggers",
+          title: "Adicolor Classics Joggers",
+          category: "Dress",
+          price: 63.85,
+        },
+        {
+          id: "nike-bag",
+          title: "Nike Sportswear Futura Luxe",
+          category: "Bag",
+          price: 130,
+        },
+        {
+          id: "hoodie",
+          title: "Yellow Reserved Hoodie",
+          category: "Dress",
+          price: 155,
+        },
+      ];
+
+      const snippet = document.getElementById("sql-snippet");
+      const crudLog = document.getElementById("crud-log");
+
+      function clearHits() {
+        document.querySelectorAll("table.data tr").forEach((row) => {
+          row.classList.remove("is-hit", "is-dim");
+        });
+      }
+
+      function mark(tableId, test) {
+        const rows = document.querySelectorAll("#" + tableId + " tbody tr");
+        rows.forEach((row) => {
+          const hit = test(row);
+          row.classList.toggle("is-hit", hit);
+          row.classList.toggle("is-dim", !hit);
+        });
+      }
+
+      const queries = {
+        select: {
+          sql: "SELECT id, title, price FROM products;",
+          run() {
+            clearHits();
+            mark("tbl-products", () => true);
+            crudLog.textContent = "SELECT — чтение. Три строки витрины, ничего не удалили.";
+          },
+        },
+        where: {
+          sql: "SELECT * FROM products WHERE category = 'Bag';",
+          run() {
+            clearHits();
+            mark("tbl-products", (row) => row.dataset.id === "nike-bag");
+            crudLog.textContent = "WHERE — фильтр. Bag: только Nike Sportswear Futura Luxe.";
+          },
+        },
+        join: {
+          sql: "SELECT u.email, p.title\nFROM selected_products s\nJOIN users u ON u.id = s.user_id\nJOIN products p ON p.id = s.product_id\nWHERE u.email = 'ada@coral.local';",
+          run() {
+            clearHits();
+            mark("tbl-users", (row) => row.dataset.id === "2");
+            mark("tbl-selected", (row) => row.dataset.user === "2");
+            mark("tbl-products", (row) =>
+              ["joggers", "nike-bag"].includes(row.dataset.id)
+            );
+            crudLog.textContent =
+              "JOIN: Ada → joggers и nike-bag. Связали три таблицы по ключам.";
+          },
+        },
+        order: {
+          sql: "SELECT title, price FROM products ORDER BY price;",
+          run() {
+            clearHits();
+            mark("tbl-products", () => true);
+            const titles = products
+              .slice()
+              .sort((a, b) => a.price - b.price)
+              .map((p) => p.title + " $" + p.price)
+              .join(" → ");
+            crudLog.textContent = "ORDER BY price: " + titles;
+          },
+        },
+        count: {
+          sql: "SELECT COUNT(*) FROM products;\nSELECT COUNT(*) FROM users WHERE is_admin = 1;",
+          run() {
+            clearHits();
+            mark("tbl-products", () => true);
+            mark("tbl-users", (row) => row.querySelector("td:last-child").textContent === "1");
+            crudLog.textContent =
+              "COUNT(*) = " +
+              products.length +
+              " товаров, админов: " +
+              users.filter((u) => u.is_admin === 1).length +
+              ". Это не SUM(price).";
+          },
+        },
+      };
+
+      document.querySelectorAll("[data-query]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const q = queries[btn.dataset.query];
+          snippet.textContent = q.sql;
+          q.run();
+        });
+      });
+
+      let txOpen = false;
+      const txLog = document.getElementById("tx-log");
+      const txAfter = document.getElementById("tx-after");
+
+      document.getElementById("tx-begin").addEventListener("click", () => {
+        txOpen = true;
+        txAfter.textContent = "Черновик: INSERT hoodie для Ada (ещё не COMMIT).";
+        txLog.classList.remove("log-err");
+        txLog.textContent = "BEGIN — транзакция открыта, все или ничего.";
+      });
+
+      document.getElementById("tx-commit").addEventListener("click", () => {
+        if (!txOpen) {
+          txLog.classList.add("log-err");
+          txLog.textContent = "Нечего фиксировать: сначала BEGIN.";
+          return;
+        }
+        txOpen = false;
+        txAfter.textContent = "Зафиксировано: Ada выбрала hoodie.";
+        txLog.classList.remove("log-err");
+        txLog.textContent = "COMMIT — изменения видны всем.";
+      });
+
+      document.getElementById("tx-rollback").addEventListener("click", () => {
+        if (!txOpen) {
+          txLog.classList.add("log-err");
+          txLog.textContent = "Нечего откатывать: нет открытой транзакции.";
+          return;
+        }
+        txOpen = false;
+        txAfter.textContent = "Откат: hoodie не выбран, как до BEGIN.";
+        txLog.classList.remove("log-err");
+        txLog.textContent = "ROLLBACK — незафиксированное исчезло.";
+      });
+
+      const injOut = document.getElementById("inj-out");
+
+      document.getElementById("inj-concat").addEventListener("click", () => {
+        const email = document.getElementById("inj-email").value;
+        injOut.textContent =
+          "SELECT * FROM users WHERE email = '" +
+          email +
+          "';\n-- ввод стал командой: OR 1=1 откроет все строки";
+      });
+
+      document.getElementById("inj-param").addEventListener("click", () => {
+        const email = document.getElementById("inj-email").value;
+        injOut.textContent =
+          "SELECT * FROM users WHERE email = ?\nexecute([" +
+          JSON.stringify(email) +
+          "])\n-- строка осталась данными, не SQL";
+      });
+    </script>
+  </body>
+</html>

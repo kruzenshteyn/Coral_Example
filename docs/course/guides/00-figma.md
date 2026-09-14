@@ -9,6 +9,7 @@
 - `Coral.fig`
 - `design/tokens.md` (после разбора)
 - [Карта блоков](../00-figma.md)
+- [Вводная лекция](../lectures/00-figma/lecture.md) и [живые примеры](../lectures/00-figma/examples.html)
 
 ## Теория
 

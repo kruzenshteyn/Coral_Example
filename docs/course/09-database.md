@@ -1,5 +1,7 @@
 # Этап 9. База данных SQLite
 
+Общие правила SQL и SQLite — во [вводной лекции](lectures/09-database/lecture.md), живые примеры: [lectures/09-database/examples.html](lectures/09-database/examples.html).
+
 Папка: `stage-09-database/`.
 
 Вместо `store.json` — SQLite. Контракт HTTP тот же, что на этапе 6.

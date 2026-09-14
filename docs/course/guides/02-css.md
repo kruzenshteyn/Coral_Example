@@ -8,6 +8,8 @@
 
 `stage-02-css/`
 
+Вводная лекция (разбор теста с примерами): [../lectures/02-css/lecture.md](../lectures/02-css/lecture.md), [живые примеры](../lectures/02-css/examples.html).
+
 ## Теория
 
 - [Как работает CSS](https://developer.mozilla.org/ru/docs/Learn_web_development/Core/Styling_basics/What_is_CSS)

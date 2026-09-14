@@ -1,5 +1,7 @@
 # Этап 7. Адаптив и файловая структура БЭМ
 
+Общие правила адаптива — во [вводной лекции](lectures/07-adaptive/lecture.md), живые примеры: [lectures/07-adaptive/examples.html](lectures/07-adaptive/examples.html).
+
 Папка: `stage-07-adaptive/`.
 
 Цель занятия — не «ещё три @media в одном файле», а две вещи сразу:

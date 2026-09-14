@@ -1,5 +1,7 @@
 # Этап 3. БЭМ
 
+Общие правила БЭМ — во [вводной лекции](lectures/03-bem/lecture.md), живые примеры: [lectures/03-bem/examples.html](lectures/03-bem/examples.html).
+
 Папка: `stage-03-bem/`.
 
 Тот же визуал, что на этапе 2. Классы переименованы:
