@@ -4,8 +4,6 @@
 
   const authModal = document.getElementById("modal-auth");
   const productModal = document.getElementById("modal-product");
-  const menu = document.querySelector(".menu");
-  const burger = document.querySelector(".burger");
   const cartCount = document.querySelector("[data-cart-count]");
   const accountLabel = document.querySelector("[data-account-label]");
 
@@ -210,13 +208,6 @@
       registerForm.querySelector(".form__status").classList.add("is-visible");
       if (accountLabel) accountLabel.textContent = name.value.trim();
       setTimeout(() => closeModal(authModal), 600);
-    });
-  }
-
-  if (burger && menu) {
-    burger.addEventListener("click", () => {
-      const open = menu.classList.toggle("is-open");
-      burger.setAttribute("aria-expanded", String(open));
     });
   }
 

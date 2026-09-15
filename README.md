@@ -21,6 +21,7 @@
 **Начни отсюда (новичок):** [docs/course/kak-sdelat-sajt.md](docs/course/kak-sdelat-sajt.md)
 
 Подробная программа: [docs/course/README.md](docs/course/README.md).  
+Рабочие программы (09.03.02 Web-разработка; 27.03.04 ИСУ) и ФОС: [docs/course/rpd/README.md](docs/course/rpd/README.md).  
 Инструкции по этапам: [docs/course/guides/README.md](docs/course/guides/README.md).  
 Тесты (30 вопросов на раздел): [docs/course/tests/README.md](docs/course/tests/README.md).
 

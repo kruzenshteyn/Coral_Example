@@ -1,8 +1,6 @@
 (function () {
   const authModal = document.getElementById("modal-auth");
   const productModal = document.getElementById("modal-product");
-  const menu = document.querySelector(".menu");
-  const burger = document.querySelector(".burger");
   const cartCount = document.querySelector("[data-cart-count]");
   const accountLabel = document.querySelector("[data-account-label]");
   const logoutButton = document.querySelector("[data-logout]");
@@ -257,13 +255,6 @@
       } catch (error) {
         showError(email, true, error.message);
       }
-    });
-  }
-
-  if (burger && menu) {
-    burger.addEventListener("click", () => {
-      const open = menu.classList.toggle("is-open");
-      burger.setAttribute("aria-expanded", String(open));
     });
   }
 

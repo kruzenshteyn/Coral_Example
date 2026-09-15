@@ -169,13 +169,3 @@
 body.modal-open {
   overflow: hidden;
 }
-
-@media (max-width: 768px) {
-  .modal_type_product .modal__dialog {
-    grid-template-columns: 1fr;
-  }
-
-  .modal__media img {
-    height: 240px;
-  }
-}
